@@ -1,79 +1,93 @@
-<div align="center">
-<img alt="Logo" height="50" src="https://raw.githubusercontent.com/grocy/grocy/master/public/img/grocy_logo.svg?sanitize=true"/>
+<h2>not-grocy</h2>
 <h3>ERP beyond your fridge</h3>
-<h5> grocy is a web-based self-hosted groceries & household management solution for your home</h5>
-</div>
+<h5>not-grocy is not grocy, the web-based self-hosted groceries & household management solution for your home</h5>
 
 -----
 
 ## Give it a try
-- Public demo of the latest stable version (`release` branch) &rarr; [https://demo.grocy.info](https://demo.grocy.info)
-- Public demo of the current development version (`master` branch) &rarr; [https://demo-prerelease.grocy.info](https://demo-prerelease.grocy.info)
+- Unfortunately, public demos are not set up yet.
 
 ## Questions / Help / Bug reporting / Feature requests
 There is the [r/grocy subreddit](https://www.reddit.com/r/grocy) to connect with other grocy users and getting help.
 
-If you've found something that does not work or if you have an idea for an improvement or new things which you would find useful, feel free to open a request on the [issue tracker](https://github.com/grocy/grocy/issues) here.
+If you've found something that does not work or if you have an idea for an improvement or new things which you would find useful, feel free to open a request on the [issue tracker](https://github.com/mistressofjellyfish/not-grocy/issues) here.
 
-Please don't send me private messages regarding grocy help. I check the issue tracker and the subreddit pretty much daily, but don't provide grocy support beyond that.
+## Community plugins
 
-## Community contributions
-See the website for a list of community contributed Add-ons / Tools: [https://grocy.info/addons](https://grocy.info/addons)
+At the moment (June 2021), plugins that work with grocy should work with not-grocy without too much trouble. 
+
+You developed a plugin for grocy and want to migrate? Keep an eye on [the migration docs](https://github.com/mistressofjellyfish/not-grocy/tree/master/docs/migration) to figure out what's changed.
 
 ## Motivation
-A household needs to be managed. I did this so far (almost 10 years) with my first self written software (a C# Windows forms application) and with a bunch of Excel sheets. The software is a pain to use and Excel is Excel. So I searched for and tried different things for a (very) long time, nothing 100 % fitted, so this is my aim for a "complete household management"-thing. ERP your fridge!
+A household needs to be managed. While grocy is a nice tool that helps a lot, it's UI is sluggish, dated and plainly doesn't work on devices with limited hardware. This fork adresses that and focuses on bug fixing and speed improvements
+before adding new features, slowly re-writing the UI in modern technologies that work in your browser, on your desktop or the phone of your choice.
+
+I hope that some day this fork won't be a fork anymore, but until we get there, enjoy the speed.
 
 ## How to install
-> Checkout [grocy-desktop](https://github.com/grocy/grocy-desktop), if you want to run grocy without having to manage a webserver just like a normal (Windows) desktop application.
->
-> Directly download the [latest release](https://releases.grocy.info/latest-desktop) - the installation is nothing more than just clicking 2 times "next".
+Most guides that work with grocy ≥ 3.0 should work to install not-grocy.
 
-See [https://grocy.info/links](https://grocy.info/links) for some installation guides and troubleshooting help.
-
-grocy is technically a pretty simple PHP application, so the basic notes to get it running are:
-- Unpack the [latest release](https://releases.grocy.info/latest)
+not-grocy is technically a pretty simple PHP application, so the basic notes to get it running are:
+- Unpack the [latest release](https://github.com/mistressofjellyfish/not-grocy/releases)
 - Copy `config-dist.php` to `data/config.php` + edit to your needs
 - Ensure that the `data` directory is writable
 - The webserver root should point to the `public` directory
 - Include `try_files $uri /index.php$is_args$query_string;` in your location block if you use nginx
   - Or disable URL rewriting (see the option `DISABLE_URL_REWRITING` in `data/config.php`)
+  - There is a very minimal nginx config that is used for vagrant in `buildfiles/`. You can use it
+    as a starting point for your own.
 - Based on user reports, the minmimum required/working runtime is PHP 7.2 with SQLite 3.9.0
-  - However, I don't really care about supporting old runtime stuff, currently everything is only tested against (means 100 % works with) PHP 7.4 with SQLite 3.27.2
+  - I try to test on the versions that are in debian stable (currently: php 7.3 and 3.27.2),
+    but until some automated tests are set up, my development environment is php 7.4 and whatever sqlite
+    version currently is avaliable on homebrew.
 - &rarr; Default login is user `admin` with password `admin`, please change the password immediately (user menu at the top right corner)
 
-Alternatively clone this repository (the `release` branch always references the latest released version, or checkout the latest tagged revision) and install Composer and Yarn dependencies manually.
+Alternatively, to set up a development environment or run the unstable development version, follow these steps:
+
+1. clone this repository. Optionally check out the tag you are interested in.
+2. install composer & yarn dependencies
+3. run `yarn install`
+4. recompile assets: `npx gulp publish`
+
+   *Important*: This command takes some time (about 3 to 5 minutes), because the site assets
+   will be minified for production, and this is an expensive step that needs to be repeated
+   for a lot of files. node being single-threaded doesn't particularly like this, but there is
+   still significant work to be done to bring down these compile times. Want to help out? Check
+   with Contributing and the Roadmap.
+
+   If you don't care as much about asset size (you should) or want to run a development environment,
+   use `gulp build`, which doesn't minify and runs in well under a minute.
+
+   To recompile assets while developing, use `gulp live`. Changes in files will be detected and
+   dynamically recompiled.
+
+You can also setup a development environment in one line of shell:
+
+```sh
+git pull https://github.com/mistressofjellyfish/not-grocy.git && cd not-grocy && composer install && yarn install && npx gulp build
+```
 
 ## How to run using Docker
 
-See [grocy/grocy-docker](https://github.com/grocy/grocy-docker) or [linuxserver/docker-grocy](https://github.com/linuxserver/docker-grocy) for instructions.
+Unfortunately, there is no `Dockerfile` yet. Contributions are welcome!
 
 ## How to update
 Just overwrite everything with the latest release while keeping the `data` directory, check `config-dist.php` for new configuration options and add them to your `data/config.php` where appropriate (the default values from `config-dist.php` will be used for not in `data/config.php` defined settings). Just to be sure, please empty `data/viewcache`.
 
-If you run grocy on Linux, there is also `update.sh` (remember to make the script executable (`chmod +x update.sh`) and ensure that you have `unzip` installed) which does exactly this and additionally creates a backup (`.tgz` archive) of the current installation in `data/backups` (backups older than 60 days will be deleted during the update).
-
 ## Localization
-grocy is fully localizable - the default language is English (integrated into code), a German localization is always maintained by me.
-You can easily help translating grocy at https://www.transifex.com/grocy/grocy, if your language is incomplete or not available yet.
-(The default language can be set in `data/config.php`, e. g. `Setting('DEFAULT_LOCALE', 'it');` and there is also a user setting (see the user settings page) to set a different language per user).
-
-The [pre-release demo](https://demo-prerelease.grocy.info) is available for any translation which is at least 70 % complete and will pull the translations from Transifex 10 minutes past every hour, so you can have a kind of instant preview of your contributed translations. Thank you!
-
-Also any translation which once reached a completion level of 70 % will be included in releases.
-
-_RTL languages are unfortunately not yet supported._
+not-grocy is fully localizable - the default language is English (integrated into code), a German localization is always maintained by me. As the localization system is currently under active development, things will probably change on how not-grocy is translated and where you can help.
 
 ## Things worth to know
 
 ### REST API & data model documentation
-See the integrated Swagger UI instance on [/api](https://demo.grocy.info/api).
+See the integrated Swagger UI instance on `/api`.
 
 ### Barcode readers & camera scanning
 Some fields (with a barcode icon above) also allow to select a value by scanning a barcode. It works best when your barcode reader prefixes every barcode with a letter which is normally not part of a item name (I use a `$`) and sends a `TAB` after a scan.
 
-Additionally it's also possible to use your device camera to scan a barcode by using the camera button on the right side of the corresponding field (powered by [Quagga2](https://github.com/ericblade/quagga2), totally offline / client-side camera stream processing, please note due to browser security restrictions, this only works when serving grocy via a secure connection (`https://`)). Quick video demo: https://www.youtube.com/watch?v=Y5YH6IJFnfc
+If your grocy instance is served via HTTPS, it's also possible to use your device camera to scan a barcode by using the camera button on the right side of the corresponding field (powered by [Quagga2](https://github.com/ericblade/quagga2), totally offline / client-side camera stream processing.
 
-_My personal recommendation: Use a USB barcode laser scanner. They are cheap and work 1000 % better, faster, under any lighting condition and from any angle._
+_However: We recommend to use a USB barcode laser scanner. They are cheap and work 1000 % better, faster, under any lighting condition and from any angle. You can pick them up cheap on ebay. Make sure they can decode 2D barcodes. Also, reading 2D barcodes and grocycode does not work with Quagga2 at the moment, because there is absolutely no working datamatrix2 reader for javascript. Sorry!_
 
 ### Input shorthands for date fields
 For (productivity) reasons all date (and time) input (and display) fields use the ISO-8601 format regardless of localization.
@@ -111,34 +125,46 @@ If you don't use certain feature sets of grocy (for example if you don't need "C
 - When the file `data/custom_js.html` exists, the contents of the file will be added just before `</body>` (end of body) on every page
 - When the file `data/custom_css.html` exists, the contents of the file will be added just before `</head>` (end of head) on every page
 
+**Important:** The behavior of modals has fundamentally changed since v3.0.1. Your custom javascript and CSS will only
+run *once* per root page and not be re-run when opening subviews. While this is fine for CSS, *it probably breaks your
+ javascript*. For the moment, you can watch bootstraps modal opened event to react to changes.
+
+Please also note that this feature is fundamentally incompatible with what is planned on the roadmap. There
+will be a replacement plugin system, though.
+
 ### Demo mode
 When the `MODE` setting is set to `dev`, `demo` or `prerelease`, the application will work in a demo mode which means authentication is disabled and some demo data will be generated during the database schema migration.
 
 ### Embedded mode
-When the file `embedded.txt` exists, it must contain a valid and writable path which will be used as the data directory instead of `data` and authentication will be disabled (used in [grocy-desktop](https://github.com/grocy/grocy-desktop)).
 
-In embedded mode, settings can be overridden by text files in `data/settingoverrides`, the file name must be `<SettingName>.txt` (e. g. `BASE_URL.txt`) and the content must be the setting value (normally one single line).
+Currently, not-grocy is not available as a desktop application. However, bundling it using electron is on our
+roadmap! Stay tuned for updates. 
 
-## Contributing / Say thanks
-Any help is more than appreciated. Feel free to pick any open unassigned issue and submit a pull request, but please leave a short comment or assign the issue yourself, to avoid working on the same thing.
+## Contributing
 
-See https://grocy.info/#say-thanks for more ideas if you just want to say thanks.
+You want to help make not-grocy faster, better, harder, stronger? Thank you!
+
+- If you encountered a bug, please open an issue.
+- If you happen to know how to code, feel free to open a pull request! If it fixes an existing bug, please leave a note in the corresponding issue.
+- A nice message in the (discussions)[https://github.com/mistressofjellyfish/not-grocy/discussions] also always goes a long way.
+- If none of the above fit's your bill, and you still want to make a contribution, you can always help me out by buying one of my book(s) (which are, unfortunately, written in german).
 
 ## Roadmap
-There is none. The progress of a specific bug/enhancement is always tracked in the corresponding issue, at least by commit comment references.
+
+See [the project page](https://github.com/mistressofjellyfish/not-grocy/projects) for the current roadmap.
 
 ## Screenshots
 #### Stock overview
-![Stock overview](https://github.com/grocy/grocy/raw/master/.github/publication_assets/stock.png "Stock overview")
+![Stock overview](https://github.com/mistressofjellyfish/not-grocy/raw/master/.github/publication_assets/stock.png "Stock overview")
 
 #### Shopping List
-![Shopping List](https://github.com/grocy/grocy/raw/master/.github/publication_assets/shoppinglist.png "Shopping List")
+![Shopping List](https://github.com/mistressofjellyfish/not-grocy/raw/master/.github/publication_assets/shoppinglist.png "Shopping List")
 
 #### Meal Plan
-![Meal Plan](https://github.com/grocy/grocy/raw/master/.github/publication_assets/mealplan.png "Meal Plan")
+![Meal Plan](https://github.com/mistressofjellyfish/not-grocy/raw/master/.github/publication_assets/mealplan.png "Meal Plan")
 
 #### Chores overview
-![Chores overview](https://github.com/grocy/grocy/raw/master/.github/publication_assets/chores.png "Chores overview")
+![Chores overview](https://github.com/mistressofjellyfish/not-grocy/raw/master/.github/publication_assets/chores.png "Chores overview")
 
 ## License
 The MIT License (MIT)

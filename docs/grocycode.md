@@ -1,7 +1,7 @@
 grocycode
 ==========
 
-grocycode is, in essence, a simple way to reference to arbitrary grocy entities.
+grocycode is, in essence, a simple way to reference to arbitrary not-grocy entities.
 Each grocycode includes a magic, an entitiy identifier, an id and an ordered set of extra data.
 It is supported to be entered anywhere grocy expects one to read a barcode, but can also reference
 grocy-internal properties like specific stock entries, or specific batteries.
