@@ -1,4 +1,4 @@
-﻿/* global SwaggerUIBundle, SwaggerUIStandalonePreset */
+/* global SwaggerUIBundle, SwaggerUIStandalonePreset */
 function HideTopbarPlugin()
 {
 	return {

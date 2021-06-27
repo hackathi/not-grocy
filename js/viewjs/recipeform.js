@@ -1,4 +1,4 @@
-﻿import { WindowMessageBag } from '../helpers/messagebag';
+import { WindowMessageBag } from '../helpers/messagebag';
 
 function recipeformView(Grocy, scope = null)
 {

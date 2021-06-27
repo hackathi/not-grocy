@@ -1,4 +1,4 @@
-﻿
+
 // this needs to be explicitly imported for some reason,
 // otherwise rollup complains.
 import bwipjs from '../../node_modules/bwip-js/dist/bwip-js.mjs';

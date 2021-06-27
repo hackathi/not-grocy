@@ -1,4 +1,4 @@
-﻿function loginView(Grocy, scope = null)
+function loginView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

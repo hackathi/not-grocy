@@ -1,4 +1,4 @@
-﻿function recipesView(Grocy, scope = null)
+function recipesView(Grocy, scope = null)
 {
 	var $scope = $;
 	var viewport = scope != null ? $(scope) : $(window);

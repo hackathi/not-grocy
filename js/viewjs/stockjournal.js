@@ -1,4 +1,4 @@
-﻿function stockjournalView(Grocy, scope = null)
+function stockjournalView(Grocy, scope = null)
 {
 	var $scope = $;
 	var top = scope != null ? $(scope) : $(document);

@@ -1,4 +1,4 @@
-﻿import { GrocyApi } from './lib/api';
+import { GrocyApi } from './lib/api';
 import { RefreshContextualTimeago } from "./configs/timeago";
 import { LoadImagesLazy } from "./configs/lazy";
 import { setDatatableDefaults } from "./configs/datatable";

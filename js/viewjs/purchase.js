@@ -1,4 +1,4 @@
-﻿import { BoolVal } from '../helpers/extensions';
+import { BoolVal } from '../helpers/extensions';
 import { WindowMessageBag } from '../helpers/messagebag';
 
 function purchaseView(Grocy, scope = null)

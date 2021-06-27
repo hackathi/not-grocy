@@ -1,4 +1,4 @@
-﻿function userpermissionsView(Grocy, scope = null)
+function userpermissionsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

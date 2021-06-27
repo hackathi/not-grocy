@@ -1,4 +1,4 @@
-﻿function taskcategoriesView(Grocy, scope = null)
+function taskcategoriesView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

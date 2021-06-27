@@ -1,4 +1,4 @@
-﻿function userentitiesView(Grocy, scope = null)
+function userentitiesView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

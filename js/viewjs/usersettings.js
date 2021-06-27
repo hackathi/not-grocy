@@ -1,4 +1,4 @@
-﻿function usersettingsView(Grocy, scope = null)
+function usersettingsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

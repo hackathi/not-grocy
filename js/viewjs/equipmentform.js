@@ -1,4 +1,4 @@
-﻿import { RandomString } from '../helpers/extensions';
+import { RandomString } from '../helpers/extensions';
 import { ResizeResponsiveEmbeds } from '../helpers/embeds';
 
 function equipmentformView(Grocy, scope = null)

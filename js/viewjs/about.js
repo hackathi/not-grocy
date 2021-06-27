@@ -1,4 +1,4 @@
-﻿function aboutView(Grocy, scope = null)
+function aboutView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

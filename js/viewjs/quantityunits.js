@@ -1,4 +1,4 @@
-﻿function quantityunitsView(Grocy, scope = null)
+function quantityunitsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

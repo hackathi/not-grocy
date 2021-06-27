@@ -1,4 +1,4 @@
-﻿function batteriessettingsView(Grocy, scope = null)
+function batteriessettingsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

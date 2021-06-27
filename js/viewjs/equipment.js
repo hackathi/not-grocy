@@ -1,4 +1,4 @@
-﻿import { ResizeResponsiveEmbeds } from "../helpers/embeds";
+import { ResizeResponsiveEmbeds } from "../helpers/embeds";
 
 function equipmentView(Grocy, scope = null)
 {

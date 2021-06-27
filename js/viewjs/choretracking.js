@@ -1,4 +1,4 @@
-﻿function choretrackingView(Grocy, scope = null)
+function choretrackingView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

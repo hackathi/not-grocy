@@ -1,4 +1,4 @@
-﻿function quantityunitpluraltestingView(Grocy, scope = null)
+function quantityunitpluraltestingView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

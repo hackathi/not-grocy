@@ -1,4 +1,4 @@
-﻿function choreformView(Grocy, scope = null)
+function choreformView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

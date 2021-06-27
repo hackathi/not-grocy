@@ -1,4 +1,4 @@
-﻿import { QrCodeImgHtml } from "../helpers/qrcode";
+import { QrCodeImgHtml } from "../helpers/qrcode";
 
 function manageapikeysView(Grocy, scope = null)
 {

@@ -1,4 +1,4 @@
-﻿function batterytrackingView(Grocy, scope = null)
+function batterytrackingView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

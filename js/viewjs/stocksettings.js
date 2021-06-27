@@ -1,4 +1,4 @@
-﻿import { BoolVal } from '../helpers/extensions';
+import { BoolVal } from '../helpers/extensions';
 
 function stocksettingsView(Grocy, scope = null)
 {

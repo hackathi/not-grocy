@@ -1,4 +1,4 @@
-﻿function userformView(Grocy, scope = null)
+function userformView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

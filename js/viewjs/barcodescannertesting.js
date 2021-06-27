@@ -1,4 +1,4 @@
-﻿function barcodescannertestingView(Grocy, scope = null)
+function barcodescannertestingView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

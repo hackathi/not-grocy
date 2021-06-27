@@ -1,4 +1,4 @@
-﻿import { BoolVal } from '../helpers/extensions';
+import { BoolVal } from '../helpers/extensions';
 
 function recipessettingsView(Grocy, scope = null)
 {

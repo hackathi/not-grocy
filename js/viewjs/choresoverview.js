@@ -1,4 +1,4 @@
-﻿function choresoverviewView(Grocy, scope = null)
+function choresoverviewView(Grocy, scope = null)
 {
 	var $scope = $;
 	var top = scope != null ? $(scope) : $(document);

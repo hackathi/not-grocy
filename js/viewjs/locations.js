@@ -1,4 +1,4 @@
-﻿function locationsView(Grocy, scope = null)
+function locationsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

@@ -1,4 +1,4 @@
-﻿function tasksView(Grocy, scope = null)
+function tasksView(Grocy, scope = null)
 {
 	var $scope = $;
 	var top = scope != null ? $(scope) : $(document);

@@ -1,4 +1,4 @@
-﻿function locationcontentsheetView(Grocy, scope = null)
+function locationcontentsheetView(Grocy, scope = null)
 {
 	var $scope = $;
 	var top = scope != null ? $(scope) : $(document);

@@ -1,4 +1,4 @@
-﻿function taskssettingsView(Grocy, scope = null)
+function taskssettingsView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)

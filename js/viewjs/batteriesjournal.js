@@ -1,4 +1,4 @@
-﻿function batteriesjournalView(Grocy, scope = null)
+function batteriesjournalView(Grocy, scope = null)
 {
 	var $scope = $;
 	if (scope != null)
