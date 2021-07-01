@@ -1235,7 +1235,7 @@ __metadata:
 
 "@danielfarrell/bootstrap-combobox@https://github.com/berrnd/bootstrap-combobox.git#master":
   version: 1.1.8
-  resolution: "@danielfarrell/bootstrap-combobox@git+ssh://git@github.com/berrnd/bootstrap-combobox.git#commit=fcf0110146f4daab94888234c57d198b4ca5f129"
+  resolution: "@danielfarrell/bootstrap-combobox@https://github.com/berrnd/bootstrap-combobox.git#commit=fcf0110146f4daab94888234c57d198b4ca5f129"
   checksum: df21b214c3772a45d7f42034b8eaa9bd8407e2c9e18fbdb00acabbc0b2e74efd5a3a7e0ae4b1169b5cb9c079174b61f6e3286c84a9bdd0608e1178bcc180b9c3
   languageName: node
   linkType: hard
@@ -1564,13 +1564,13 @@ __metadata:
   linkType: hard
 
 "@snyk/cloud-config-parser@npm:^1.9.2":
-  version: 1.9.2
-  resolution: "@snyk/cloud-config-parser@npm:1.9.2"
+  version: 1.9.3
+  resolution: "@snyk/cloud-config-parser@npm:1.9.3"
   dependencies:
     esprima: ^4.0.1
     tslib: ^1.10.0
     yaml-js: ^0.3.0
-  checksum: 1af84303bdfdb140391de4e30ccaeb8782e575d52dd468718ce09e674553f1f8f145b9e1387a3bd334ac41af17642a19a11779e85937128c6850dc5b38feaffc
+  checksum: 23992b5300e9fdb78c80ea90278e1ac20027d864025f6601c4918d1e3918391adf53f90fff8fd87ea5f17a59b1ef1d21726d7d0bf33cf7e636356fa0186d4f34
   languageName: node
   linkType: hard
 
@@ -1698,9 +1698,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snyk/fix@npm:1.648.0":
-  version: 1.648.0
-  resolution: "@snyk/fix@npm:1.648.0"
+"@snyk/fix@npm:1.650.0":
+  version: 1.650.0
+  resolution: "@snyk/fix@npm:1.650.0"
   dependencies:
     "@snyk/dep-graph": ^1.21.0
     "@snyk/fix-pipenv-pipfile": 0.5.4
@@ -1715,7 +1715,7 @@ __metadata:
     toml: 3.0.0
   bin:
     snyk-fix: dist/index.js
-  checksum: 9540ba8c0a3f77347e721077e7bdedd090790152cde19e3898d52addf107af3e8939816f9da34f6e75ff094a5dcd644839302b905071c51f983be2965405b2f1
+  checksum: e003a03507df8b854a6e005f65263abec20a830470a93e2e95ab83360080632a0da508ea43f364826fc67506cdd86b6d373edaf13051a0948cdf55c857fb1b03
   languageName: node
   linkType: hard
 
@@ -1942,9 +1942,9 @@ __metadata:
   linkType: hard
 
 "@types/debug@npm:^4.1.4":
-  version: 4.1.5
-  resolution: "@types/debug@npm:4.1.5"
-  checksum: 416ad24bc589be0fb8c78bea972aa7d4ffdf6b136239701b1792674463b2dbf8c6707f6055ec484f79ec1f2b528ffef90c87e55df7e4a0f458184cad5bf0cfc8
+  version: 4.1.6
+  resolution: "@types/debug@npm:4.1.6"
+  checksum: f2816703a81f2cecb9fe575ed73f69378f190f92e49aab01b5b1832166cd89b19d4e85999c955f8993d3dba36e78ffd1ac5f697449eff13a6a13de309dc6e0f5
   languageName: node
   linkType: hard
 
@@ -2055,9 +2055,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 15.12.5
-  resolution: "@types/node@npm:15.12.5"
-  checksum: 42485de7a0b7277ddaae25b36ab4174fc8f23e8a5de9ccaedd002ecec17135c48227a5e09088d181c2bc34fe6b2064feb4a468954372076fd8addac2f72dad7e
+  version: 15.14.0
+  resolution: "@types/node@npm:15.14.0"
+  checksum: b36835ddec52e4aec18dd042b7e960790641e895c3d32d6ed7363bfa33b012b8a41add6a82c5b9f4b83a10f9654b6eb60f5a19f6b648c3a5f4a59e20a36301b6
   languageName: node
   linkType: hard
 
@@ -3879,9 +3879,9 @@ __metadata:
   linkType: hard
 
 "colord@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "colord@npm:2.0.1"
-  checksum: 804a0c28ad58ae98ac36e5e7e903df66562821464189213bbf846499d93a2137e574c13b811dd8507fafa2564abe76ce8cb5e9abba05ebfe853a72371860edd6
+  version: 2.1.0
+  resolution: "colord@npm:2.1.0"
+  checksum: f619c5b431bf69ebfd1750f587de6576bfcdc6cf66fce0ea6e6e82bae9b2be5cb30897e3f5436b01164d0f6a03e43ff1c178f11990590d3939e86e2b3006d776
   languageName: node
   linkType: hard
 
@@ -4804,9 +4804,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.723":
-  version: 1.3.761
-  resolution: "electron-to-chromium@npm:1.3.761"
-  checksum: 4f9e1823d5ef86361ca5f841973a7d9902a6397b35f3e986c2d4e1e2854daf073dde4e1d8c938a80b042630d1f4be3bb502cf2b0e399b2a19d08776c401de312
+  version: 1.3.763
+  resolution: "electron-to-chromium@npm:1.3.763"
+  checksum: 2fae294cc9b7a38629af9d5eaa7b0ad6d4fd5b2691628583c7d5a36a7a2d588018fea6bff6ad862d742c37618cd8daf7b562a119fa4684777db2b2efd93a6e3a
   languageName: node
   linkType: hard
 
@@ -10312,8 +10312,8 @@ fsevents@~2.3.2:
   linkType: hard
 
 "rollup@npm:^2.52.1":
-  version: 2.52.3
-  resolution: "rollup@npm:2.52.3"
+  version: 2.52.6
+  resolution: "rollup@npm:2.52.6"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -10321,7 +10321,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 63113f59a649fb174075e36ea938944a2d9931a55cb763c64c8cdfad9aaf1443461d441129c63abb2ec8207c9a26bfccd174e84616ae8a2bd2d0dcca18407be1
+  checksum: 51a21b72adab22c6727ab25a94b6704595bfac8e49a0fffe71e1bb7d5b91a3e1781bbb7d73cbb2a1eee21574e0007edc63618541bfec9ad6123494c6fa98f228
   languageName: node
   linkType: hard
 
@@ -10907,15 +10907,15 @@ fsevents@~2.3.2:
   linkType: hard
 
 "snyk@npm:^1.518.0":
-  version: 1.650.0
-  resolution: "snyk@npm:1.650.0"
+  version: 1.652.0
+  resolution: "snyk@npm:1.652.0"
   dependencies:
     "@open-policy-agent/opa-wasm": ^1.2.0
     "@snyk/cli-interface": 2.11.0
     "@snyk/cloud-config-parser": ^1.9.2
     "@snyk/code-client": 3.9.0
     "@snyk/dep-graph": ^1.27.1
-    "@snyk/fix": 1.648.0
+    "@snyk/fix": 1.650.0
     "@snyk/gemfile": 1.2.0
     "@snyk/graphlib": ^2.1.9-patch.3
     "@snyk/inquirer": ^7.3.3-patch
@@ -10982,7 +10982,7 @@ fsevents@~2.3.2:
     yaml: ^1.10.2
   bin:
     snyk: dist/cli/index.js
-  checksum: d53dfd0e3cdc133aeb4c23ff5e51980014c63d969d469b15a5e587f1c39439c6dbc545ce1307ea5395b4b612b3d13eab266114fad1c5e03c0c3b6b1b52587d11
+  checksum: 4147a3130a5571d1f10422e4e210c28e347b0f9a9eda1b8eb6bda79d682a6495588527966fbecb4968c8f779bd38d23f7290721a2616ce7143e76d67251d0f6d
   languageName: node
   linkType: hard
 
@@ -11531,9 +11531,9 @@ fsevents@~2.3.2:
   linkType: hard
 
 "swagger-ui-dist@npm:^3.32.1":
-  version: 3.51.0
-  resolution: "swagger-ui-dist@npm:3.51.0"
-  checksum: ebcf47c5c9af520428ef65dcb584b5a26c6b857be384fd61357e084a1e33454de30e7995393114a86252128025b0e9463102e3c3d3567d443dc7d5acb537bdd7
+  version: 3.51.1
+  resolution: "swagger-ui-dist@npm:3.51.1"
+  checksum: e5fbba5345da539c5eea15e2d9ebe1a839cf875e8d3c4ce858ad2c1baf67fa2379c0ac8ff33df316dd3e9208ca72874ca52d8dbf68f859219ecb13485934e38c
   languageName: node
   linkType: hard
 
@@ -11599,7 +11599,7 @@ fsevents@~2.3.2:
 
 "tempusdominus-bootstrap-4@https://github.com/mistressofjellyfish/bootstrap-4.git#master":
   version: 5.39.0
-  resolution: "tempusdominus-bootstrap-4@git+ssh://git@github.com/mistressofjellyfish/bootstrap-4.git#commit=e999546fc96c82640e62521a7efe7b96f47fdac6"
+  resolution: "tempusdominus-bootstrap-4@https://github.com/mistressofjellyfish/bootstrap-4.git#commit=e999546fc96c82640e62521a7efe7b96f47fdac6"
   dependencies:
     bootstrap: ^4.5.2
     jquery: ^3.5.1
