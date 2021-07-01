@@ -93,7 +93,7 @@ publish: build minify
 # https://stackoverflow.com/a/44249374/10045846
 
 yarn.lock: node_modules package.json
-	${YARN} install --check-cache
+	${YARN} install ${YARNFLAGS}
 	@touch -mr $(shell ls -Atd $? | head -1) $@
 
 node_modules:
@@ -199,6 +199,7 @@ run: build
 # This packs a release. Due to the way the data/ folder is structured,
 # we need to be careful to include only the files we need.
 .PHONY=release
+release: YARNFLAGS=--check-cache
 release: publish manifest
 	mkdir -p release
 	tar cvfJ release/not-grocy-$(shell git describe --tags).tar.xz \
