@@ -1,6 +1,9 @@
-﻿
+﻿// This is the main not-grocy stylesheet.
+// Please do not place any CSS directly in here but import from other files.
+
 // import custom variables
 @import "variables";
+
 // import bootstrap (as a whole)
 @import "bootstrap/scss/bootstrap";
 // startbootstrap

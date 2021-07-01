@@ -1,62 +1,60 @@
-import { BoolVal } from '../helpers/extensions';
+//import { $ } from 'jquery';
+import { BoolVal } from '../helpers/extensions'; // this class has side-effects and only works as a singleton. GrocyClass is responsible for handling that.
 
-// this class has side-effects and only works as a singleton. GrocyClass is responsible for handling that.
-class WakeLock
+class WakeLock 
 {
-	constructor(Grocy)
+	constructor(Grocy) 
 	{
 		this.NoSleepJsIntance = null;
 		this.InitDone = false;
 		this.grocy = Grocy;
+		const self = this; // jquery probably overrides this
 
-		var self = this; // jquery probably overrides this
-
-		$("#keep_screen_on").on("change", function()
+		$('#keep_screen_on').on('change', function () 
 		{
-			var value = $(this).is(":checked");
-			if (value)
+			const value = $(this).is(':checked');
+
+			if (value) 
 			{
 				self.Enable();
 			}
-			else
+			else 
 			{
 				self.Disable();
 			}
-		});
+		}); // Handle "Keep screen on while displaying a fullscreen-card" when the body class "fullscreen-card" has changed
 
-		this.observer = // Handle "Keep screen on while displaying a fullscreen-card" when the body class "fullscreen-card" has changed
-			new MutationObserver(function(mutations)
+		this.observer = new MutationObserver(function (mutations) 
+		{
+			if (BoolVal(Grocy.UserSettings.keep_screen_on_when_fullscreen_card) && !BoolVal(Grocy.UserSettings.keep_screen_on)) 
 			{
-				if (BoolVal(Grocy.UserSettings.keep_screen_on_when_fullscreen_card) && !BoolVal(Grocy.UserSettings.keep_screen_on))
+				mutations.forEach(function (mutation) 
 				{
-					mutations.forEach(function(mutation)
+					if (mutation.attributeName === 'class') 
 					{
-						if (mutation.attributeName === "class")
+						const attributeValue = $(mutation.target).prop(mutation.attributeName);
+
+						if (attributeValue.contains('fullscreen-card')) 
 						{
-							var attributeValue = $(mutation.target).prop(mutation.attributeName);
-							if (attributeValue.contains("fullscreen-card"))
-							{
-								self.Enable();
-							}
-							else
-							{
-								self.Disable();
-							}
+							self.Enable();
 						}
-					});
-				}
-			});
+						else 
+						{
+							self.Disable();
+						}
+					}
+				});
+			}
+		});
 		this.observer.observe(document.body, {
 			attributes: true
-		});
-
-		// Enabling NoSleep.Js only works in a user input event handler,
+		}); // Enabling NoSleep.Js only works in a user input event handler,
 		// so if the user wants to keep the screen on always,
 		// do this in on the first click on anything
 
-		$(document).click(function()
+		$(document).click(function () 
 		{
-			if (Grocy.WakeLock.InitDone === false && BoolVal(Grocy.UserSettings.keep_screen_on))
+			if (Grocy.WakeLock.InitDone === false && BoolVal(Grocy.UserSettings.keep_screen_on)) 
 			{
 				self.Enable();
 			}
@@ -65,23 +63,25 @@ class WakeLock
 		});
 	}
 
-	Enable()
+	Enable() 
 	{
-		if (this.NoSleepJsIntance === null)
+		if (this.NoSleepJsIntance === null) 
 		{
 			this.NoSleepJsIntance = new NoSleep();
 		}
+
 		this.NoSleepJsIntance.enable();
 		this.InitDone = true;
 	}
 
-	Disable()
+	Disable() 
 	{
-		if (this.NoSleepJsIntance !== null)
+		if (this.NoSleepJsIntance !== null) 
 		{
 			this.NoSleepJsIntance.disable();
 		}
 	}
+
 }
 
-export { WakeLock }
+export { WakeLock };

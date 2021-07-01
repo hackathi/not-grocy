@@ -1,11 +1,12 @@
 /* eslint-disable global-require, import/no-extraneous-dependencies */
+const atImport = require("postcss-import");
+
 const postcssConfig = {
-	plugins: [require('autoprefixer')], // handle browser-needed prefixes
+	plugins: [atImport(), require('autoprefixer')], // handle browser-needed prefixes
 };
 
 // If we are in production mode, then add cssnano
-if (process.env.NODE_ENV === 'production')
-{
+if (process.env.NODE_ENV === 'production') {
 	postcssConfig.plugins.push(
 		require('cssnano')({
 			// use the safe preset so that it doesn't

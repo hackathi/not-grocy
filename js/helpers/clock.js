@@ -1,51 +1,52 @@
-import { BoolVal } from './extensions'
+//import { $ } from 'jquery';
+import { BoolVal } from './extensions';
 
-class HeaderClock
+class HeaderClock 
 {
-	constructor(Grocy)
+	constructor(Grocy) 
 	{
 		this.Grocy = Grocy;
 		this.HeaderClockInterval = null;
 		this.CheckHeaderClockEnabled();
 
-		if (this.Grocy.UserId !== -1 && BoolVal(this.Grocy.UserSettings.show_clock_in_header))
+		if (this.Grocy.UserId !== -1 && BoolVal(this.Grocy.UserSettings.show_clock_in_header)) 
 		{
-			$("#show-clock-in-header").prop("checked", true);
+			$('#show-clock-in-header').prop('checked', true);
 		}
 	}
 
-	RefreshHeaderClock()
+	RefreshHeaderClock() 
 	{
-		$("#clock-small").text(moment().format("l LT"));
-		$("#clock-big").text(moment().format("LLLL"));
+		$('#clock-small').text(moment().format('l LT'));
+		$('#clock-big').text(moment().format('LLLL'));
 	}
 
-	CheckHeaderClockEnabled()
+	CheckHeaderClockEnabled() 
 	{
-		if (this.Grocy.UserId === -1)
+		if (this.Grocy.UserId === -1) 
 		{
 			return;
-		}
+		} // Refresh the clock in the header every second when enabled
 
-		// Refresh the clock in the header every second when enabled
-		if (BoolVal(this.Grocy.UserSettings.show_clock_in_header))
+
+		if (BoolVal(this.Grocy.UserSettings.show_clock_in_header)) 
 		{
 			this.RefreshHeaderClock();
-			$("#clock-container").removeClass("d-none");
-
+			$('#clock-container').removeClass('d-none');
 			this.HeaderClockInterval = setInterval(this.RefreshHeaderClock, 1000);
 		}
-		else
+		else 
 		{
-			if (this.HeaderClockInterval !== null)
+			if (this.HeaderClockInterval !== null) 
 			{
 				clearInterval(this.HeaderClockInterval);
 				this.HeaderClockInterval = null;
 			}
 
-			$("#clock-container").addClass("d-none");
+			$('#clock-container').addClass('d-none');
 		}
 	}
+
 }
 
-export { HeaderClock }
+export { HeaderClock };

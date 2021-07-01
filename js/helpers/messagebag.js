@@ -1,9 +1,9 @@
-function WindowMessageBag(message, payload = null)
+function WindowMessageBag(message, payload = null) 
 {
-	var obj = {};
+	const obj = {};
 	obj.Message = message;
 	obj.Payload = payload;
 	return obj;
 }
 
-export { WindowMessageBag }
+export { WindowMessageBag };

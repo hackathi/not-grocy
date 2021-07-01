@@ -14,9 +14,6 @@
 	<meta name="format-detection"
 		content="telephone=no">
 
-	<meta name="author"
-		content="Bernd Bestel (bernd@berrnd.de)">
-
 	<link rel="apple-touch-icon"
 		sizes="180x180"
 		href="{{ $U('/img/appicons/apple-touch-icon.png?v=', true) }}{{ $version }}">
@@ -50,7 +47,7 @@
 
 	<link href="{{ $U('/components_unmanaged/noto-sans-v11-latin/noto-sans-v11-latin.min.css?v=', true) }}{{ $version }}"
 		rel="stylesheet">
-	<link href="{{ $U('/css/grocy.css?v=', true) }}{{ $version }}"
+	<link href="{{ $U('/dist/grocy.css?v=', true) }}{{ $version }}"
 		rel="stylesheet">
 	@stack('pageStyles')
 
@@ -71,6 +68,7 @@
 			Locale: '{{ $GrocyLocale }}',
 			GettextPo: {!! $GettextPo !!},
 			FeatureFlags: {!! json_encode($featureFlags) !!},
+			Version: '{{ $version }}',
 			Webhooks: {
 			@if(GROCY_FEATURE_FLAG_LABELPRINTER && !GROCY_LABEL_PRINTER_RUN_SERVER)
 				"labelprinter" : { 
@@ -656,57 +654,15 @@
 			</div>
 		</div>
 	</div>
-	
-	<script src="{{ $U('/js/vendor.js?v=', true) }}{{ $version }}"></script>
 
-	<!-- TODO: what to do with locale detection? (these paths are currently broken) -->
-	<!-- Most probably, they need to go to their own "bundle", which handles configuration and conditional loading (thx webpack) -->
-	<script src="{{ $U('/js/locales/timeago/', true) }}jquery.timeago.{{ $__t('timeago_locale') }}.js?v={{ $version }}"></script>
-	@if(!empty($__t('summernote_locale') && $__t('summernote_locale') != 'x'))<script src="{{ $U('/js/locales/summernote/', true) }}summernote-{{ $__t('summernote_locale') }}.js?v={{ $version }}"></script>@endif
-	@if(!empty($__t('bootstrap-select_locale') && $__t('bootstrap-select_locale') != 'x'))<script src="{{ $U('/js/locales/bootstrap-select/', true) }}defaults-{{ $__t('bootstrap-select_locale') }}.js?v={{ $version }}"></script>@endif
-
-	<script src="{{ $U('/js/grocy.js?v=', true) }}{{ $version }}"></script>
-	@hasSection('viewJsName')<script src="{{ $U('/viewjs', true) }}/@yield('viewJsName').js?v={{ $version }}"></script>@endif
+	<script src="{{ $U('/dist/grocy.js?v=', true) }}{{ $version }}"></script>
 	<script>
 		let viewjsname = null;
 		@hasSection('viewJsName')
 		viewjsname = "@yield('viewJsName')";
 		@endif
 		GrocyClass.createSingleton(GrocyConfig, viewjsname);
-	</script>
-	@stack('pageScripts')
-
-	@php
-	// @stack('componentScripts') maybe contains the components JS file reference multiple times
-	// if the component was included more than once in the view
-	//
-	// So this is a ugly hack to keep only unique JS file references there
-
-	// The property is normally protected, so change that
-	$reflection = new \ReflectionClass($__env);
-	$property = $reflection->getProperty('pushes');
-	$property->setAccessible(true);
-	$env = $property->getValue($__env);
-
-	if (array_key_exists('componentScripts', $env))
-	{
-	// Take every line into a new array, one element per line
-	$filteredStack = array_map(function($value)
-	{
-	return explode("#SEP#", str_replace(array("\n", "\r", "\t"), '#SEP#', trim($value)));
-	}, $env['componentScripts']);
-
-	// Flatten the array into a single one, only keep unique lines, remove empty lines, add a defined new line
-	$filteredStack = preg_filter('/$/', "\n", array_filter(array_unique(array_merge(...$filteredStack))));
-
-	// Write it back
-	$env['componentScripts'] = $filteredStack;
-	$property->setValue($__env, $env);
-	}
-	@endphp
-
-	@stack('componentScripts')
-	
+	</script>	
 
 	@if(file_exists(GROCY_DATAPATH . '/custom_js.html'))
 	@php include GROCY_DATAPATH . '/custom_js.html' @endphp

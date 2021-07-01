@@ -1,16 +1,17 @@
-function usersettingsView(Grocy, scope = null)
+//import { $ } from 'jquery';
+import { RefreshLocaleNumberInput } from '../helpers/numberdisplay';
+
+function usersettingsView(Grocy, scope = null) 
 {
-	var $scope = $;
-	if (scope != null)
+	let $scope = $;
+
+	if (scope != null) 
 	{
-		$scope = (selector) => $(scope).find(selector);
+		$scope = selector => $(scope).find(selector);
 	}
 
-	$scope("#locale").val(Grocy.UserSettings.locale);
-
+	$scope('#locale').val(Grocy.UserSettings.locale);
 	RefreshLocaleNumberInput();
-
 }
 
-
-window.usersettingsView = usersettingsView
+export { usersettingsView };

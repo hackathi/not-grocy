@@ -1,113 +1,102 @@
-function batterytrackingView(Grocy, scope = null)
+import { __t } from '../lib/legacy'; //import { $ } from 'jquery';
+
+function batterytrackingView(Grocy, scope = null) 
 {
-	var $scope = $;
-	if (scope != null)
+	let $scope = $;
+
+	if (scope != null) 
 	{
-		$scope = (selector) => $(scope).find(selector);
+		$scope = selector => $(scope).find(selector);
 	}
 
-	var batterycard = Grocy.Use("batterycard");
-	var datetimepicker = Grocy.Use("datetimepicker");
-
-	$scope('#save-batterytracking-button').on('click', function(e)
+	const batterycard = Grocy.Use('batterycard');
+	const datetimepicker = Grocy.Use('datetimepicker');
+	$scope('#save-batterytracking-button').on('click', function (e) 
 	{
 		e.preventDefault();
 
-		if ($scope(".combobox-menu-visible").length)
+		if ($scope('.combobox-menu-visible').length) 
 		{
 			return;
 		}
 
-		var jsonForm = $scope('#batterytracking-form').serializeJSON();
-		Grocy.FrontendHelpers.BeginUiBusy("batterytracking-form");
-
-		Grocy.Api.Get('batteries/' + jsonForm.battery_id,
-			function(batteryDetails)
+		const jsonForm = $scope('#batterytracking-form').serializeJSON();
+		Grocy.FrontendHelpers.BeginUiBusy('batterytracking-form');
+		Grocy.Api.Get('batteries/' + jsonForm.battery_id, function (batteryDetails) 
+		{
+			Grocy.Api.Post('batteries/' + jsonForm.battery_id + '/charge', {
+				tracked_time: $scope('#tracked_time').find('input').val()
+			}, function (result) 
 			{
-				Grocy.Api.Post('batteries/' + jsonForm.battery_id + '/charge', { 'tracked_time': $scope('#tracked_time').find('input').val() },
-					function(result)
-					{
-						Grocy.FrontendHelpers.EndUiBusy("batterytracking-form");
-						toastr.success(__t('Tracked charge cycle of battery %1$s on %2$s', batteryDetails.battery.name, $scope('#tracked_time').find('input').val()) + '<br><a class="btn btn-secondary btn-sm mt-2" href="#" onclick="Grocy.UndoChargeCycle(' + result.id + ')"><i class="fas fa-undo"></i> ' + __t("Undo") + '</a>');
-						batterycard.Refresh($('#battery_id').val());
-
-						$scope('#battery_id').val('');
-						$scope('#battery_id_text_input').focus();
-						$scope('#battery_id_text_input').val('');
-						$scope('#tracked_time').find('input').val(moment().format('YYYY-MM-DD HH:mm:ss'));
-						$scope('#tracked_time').find('input').trigger('change');
-						$scope('#battery_id_text_input').trigger('change');
-						Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
-					},
-					function(xhr)
-					{
-						Grocy.FrontendHelpers.EndUiBusy("batterytracking-form");
-						console.error(xhr);
-					}
-				);
-			},
-			function(xhr)
+				Grocy.FrontendHelpers.EndUiBusy('batterytracking-form');
+				toastr.success(__t('Tracked charge cycle of battery %1$s on %2$s', batteryDetails.battery.name, $scope('#tracked_time').find('input').val()) + '<br><a class="btn btn-secondary btn-sm mt-2" href="#" onclick="Grocy.UndoChargeCycle(' + result.id + ')"><i class="fas fa-undo"></i> ' + __t('Undo') + '</a>');
+				batterycard.Refresh($('#battery_id').val());
+				$scope('#battery_id').val('');
+				$scope('#battery_id_text_input').focus();
+				$scope('#battery_id_text_input').val('');
+				$scope('#tracked_time').find('input').val(moment().format('YYYY-MM-DD HH:mm:ss'));
+				$scope('#tracked_time').find('input').trigger('change');
+				$scope('#battery_id_text_input').trigger('change');
+				Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
+			}, function (xhr) 
 			{
-				Grocy.FrontendHelpers.EndUiBusy("batterytracking-form");
+				Grocy.FrontendHelpers.EndUiBusy('batterytracking-form');
 				console.error(xhr);
-			}
-		);
+			});
+		}, function (xhr) 
+		{
+			Grocy.FrontendHelpers.EndUiBusy('batterytracking-form');
+			console.error(xhr);
+		});
 	});
-
-	$scope('#battery_id').on('change', function(e)
+	$scope('#battery_id').on('change', function (e) 
 	{
-		var input = $scope('#battery_id_text_input').val().toString();
+		const input = $scope('#battery_id_text_input').val().toString();
 		$scope('#battery_id_text_input').val(input);
 		$scope('#battery_id').data('combobox').refresh();
+		const batteryId = $scope(e.target).val();
 
-		var batteryId = $scope(e.target).val();
-		if (batteryId)
+		if (batteryId) 
 		{
 			batterycard.Refresh(batteryId);
 			$scope('#tracked_time').find('input').focus();
 			Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
 		}
 	});
-
 	$scope('.combobox').combobox({
 		appendId: '_text_input',
 		bsVersion: '4'
 	});
-
 	$scope('#battery_id').val('');
 	$scope('#battery_id_text_input').focus();
 	$scope('#battery_id_text_input').val('');
 	$scope('#battery_id_text_input').trigger('change');
 	datetimepicker.GetInputElement().trigger('input');
 	Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
-
-	$scope('#batterytracking-form input').keyup(function(event)
+	$scope('#batterytracking-form input').keyup(function (event) 
 	{
 		Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
 	});
-
-	$scope('#batterytracking-form input').keydown(function(event)
+	$scope('#batterytracking-form input').keydown(function (event) 
 	{
-		if (event.keyCode === 13) //Enter
+		if (event.keyCode === 13) // Enter
 		{
 			event.preventDefault();
 
-			if ($scope('#batterytracking-form')[0].checkValidity() === false) //There is at least one validation error
+			if ($scope('#batterytracking-form')[0].checkValidity() === false) // There is at least one validation error
 			{
 				return false;
 			}
-			else
+			else 
 			{
 				$scope('#save-batterytracking-button').click();
 			}
 		}
 	});
-
-	$scope('#tracked_time').find('input').on('keypress', function(e)
+	$scope('#tracked_time').find('input').on('keypress', function (e) 
 	{
 		Grocy.FrontendHelpers.ValidateForm('batterytracking-form');
 	});
 }
 
-
-window.batterytrackingView = batterytrackingView
+export { batterytrackingView };

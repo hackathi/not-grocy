@@ -1,22 +1,22 @@
+import { RefreshLocaleNumberInput } from '../helpers/numberdisplay'; //import { $ } from 'jquery';
+
 import { BoolVal } from '../helpers/extensions';
 
-function recipessettingsView(Grocy, scope = null)
+function recipessettingsView(Grocy, scope = null) 
 {
-	var $scope = $;
-	if (scope != null)
+	let $scope = $;
+
+	if (scope != null) 
 	{
-		$scope = (selector) => $(scope).find(selector);
+		$scope = selector => $(scope).find(selector);
 	}
 
-	if (BoolVal(Grocy.UserSettings.recipe_ingredients_group_by_product_group))
+	if (BoolVal(Grocy.UserSettings.recipe_ingredients_group_by_product_group)) 
 	{
-		$scope("#recipe_ingredients_group_by_product_group").prop("checked", true);
+		$scope('#recipe_ingredients_group_by_product_group').prop('checked', true);
 	}
 
 	RefreshLocaleNumberInput();
-
 }
 
-
-
-window.recipessettingsView = recipessettingsView
+export { recipessettingsView };

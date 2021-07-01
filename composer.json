@@ -1,20 +1,29 @@
 {
+	"name": "mistressofjellyfish/not-grocy",
+	"description": "A fork of grocy, the household ERP management – but faster, better, harder, stronger.",
+	"license": "MIT",
 	"require": {
 		"php": ">=7.4",
-		"slim/slim": "^4.0",
-		"slim/psr7": "^1.0",
-		"slim/http": "^1.0",
-		"php-di/php-di": "^6.0",
-		"rubellum/slim-blade-view": "^0.1.1",
-		"morris/lessql": "^0.4.1",
-		"gettext/gettext": "^4.8",
 		"eluceo/ical": "^0.16.0",
 		"erusev/parsedown": "^1.7",
-		"gumlet/php-image-resize": "^1.9",
 		"ezyang/htmlpurifier": "^4.13",
-		"jucksearm/php-barcode": "^1.0",
+		"gettext/gettext": "^4.8",
+		"gumlet/php-image-resize": "^1.9",
 		"guzzlehttp/guzzle": "^7.0",
-    "mike42/escpos-php": "^3.0"
+		"jucksearm/php-barcode": "^1.0",
+		"mike42/escpos-php": "^3.0",
+		"morris/lessql": "^0.4.1",
+		"php-di/php-di": "^6.0",
+		"rubellum/slim-blade-view": "^0.1.1",
+		"slim/http": "^1.0",
+		"slim/psr7": "^1.0",
+		"slim/slim": "^4.0"
+	},
+	"require-dev": {
+		"ergebnis/composer-normalize": "^2.15"
+	},
+	"config": {
+		"platform-check": false
 	},
 	"autoload": {
 		"psr-4": {
@@ -26,8 +35,5 @@
 		"files": [
 			"helpers/extensions.php"
 		]
-	},
-	"config": {
-		"platform-check": false
 	}
 }

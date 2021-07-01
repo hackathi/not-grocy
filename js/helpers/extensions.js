@@ -1,81 +1,80 @@
-function EmptyElementWhenMatches(selector, text)
+//import { $ } from 'jquery';
+function EmptyElementWhenMatches(selector, text) 
 {
-	if ($(selector).text() === text)
+	if ($(selector).text() === text) 
 	{
 		$(selector).text('');
 	}
 }
 
-
-
-function BoolVal(test)
+function BoolVal(test) 
 {
-	if (!test)
+	if (!test) 
 	{
 		return false;
 	}
 
-	var anything = test.toString().toLowerCase();
-	if (anything === true || anything === "true" || anything === "1" || anything === "on")
+	const anything = test.toString().toLowerCase();
+
+	if (anything === true || anything === 'true' || anything === '1' || anything === 'on') 
 	{
 		return true;
 	}
-	else
+	else 
 	{
 		return false;
 	}
 }
 
-function GetFileNameFromPath(path)
+function GetFileNameFromPath(path) 
 {
-	return path.split("/").pop().split("\\").pop();
+	return path.split('/').pop().split('\\').pop();
 }
 
-$.extend($.expr[":"],
+$.extend($.expr[':'], {
+	contains_case_insensitive: function (elem, i, match, array) 
 	{
-		"contains_case_insensitive": function(elem, i, match, array)
-		{
-			return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
-		}
-	});
+		return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+	}
+});
 
-
-$.fn.hasAttr = function(name)
+$.fn.hasAttr = function (name) 
 {
 	return this.attr(name) !== undefined;
 };
 
-function IsJsonString(text)
+function IsJsonString(text) 
 {
-	try
+	try 
 	{
 		JSON.parse(text);
-	} catch (e)
+	}
+	catch (e) 
 	{
 		return false;
 	}
+
 	return true;
 }
 
-$.fn.isVisibleInViewport = function(extraHeightPadding = 0)
+$.fn.isVisibleInViewport = function (extraHeightPadding = 0) 
 {
-	var elementTop = $(this).offset().top;
-	var viewportTop = $(window).scrollTop() - extraHeightPadding;
-
+	const elementTop = $(this).offset().top;
+	const viewportTop = $(window).scrollTop() - extraHeightPadding;
 	return elementTop + $(this).outerHeight() > viewportTop && elementTop < viewportTop + $(window).height();
 };
 
-function animateCSS(selector, animationName, callback, speed = "faster")
+function animateCSS(selector, animationName, callback, speed = 'faster') 
 {
-	var nodes = $(selector);
+	const nodes = $(selector);
 	nodes.addClass('animated').addClass(speed).addClass(animationName);
 
-	function handleAnimationEnd()
+	function handleAnimationEnd() 
 	{
 		nodes.removeClass('animated').removeClass(speed).removeClass(animationName);
 		nodes.unbind('animationend', handleAnimationEnd);
 
-		if (typeof callback === 'function')
+		if (typeof callback === 'function') 
 		{
 			callback();
 		}
@@ -84,17 +83,9 @@ function animateCSS(selector, animationName, callback, speed = "faster")
 	nodes.on('animationend', handleAnimationEnd);
 }
 
-function RandomString()
+function RandomString() 
 {
 	return Math.random().toString(36).substring(2, 100) + Math.random().toString(36).substring(2, 100);
 }
 
-export
-{
-	RandomString,
-	animateCSS,
-	IsJsonString,
-	BoolVal,
-	GetFileNameFromPath,
-	EmptyElementWhenMatches
-}
+export { RandomString, animateCSS, IsJsonString, BoolVal, GetFileNameFromPath, EmptyElementWhenMatches };

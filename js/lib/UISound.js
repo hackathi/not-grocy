@@ -1,35 +1,37 @@
-class UISound
+class UISound 
 {
-	constructor(Grocy)
+	constructor(Grocy) 
 	{
 		this.grocy = Grocy;
+
 		this.U = path => this.grocy.FormatUrl(path);
 	}
 
-	Play(url)
+	Play(url) 
 	{
 		new Audio(url).play();
 	}
 
-	AskForPermission()
+	AskForPermission() 
 	{
-		this.Play(this.U("/uisounds/silence.mp3"));
+		this.Play(this.U('/uisounds/silence.mp3'));
 	}
 
-	Success()
+	Success() 
 	{
-		this.Play(this.U("/uisounds/success.mp3"));
+		this.Play(this.U('/uisounds/success.mp3'));
 	}
 
-	Error()
+	Error() 
 	{
-		this.Play(this.U("/uisounds/error.mp3"));
+		this.Play(this.U('/uisounds/error.mp3'));
 	}
 
-	BarcodeScannerBeep()
+	BarcodeScannerBeep() 
 	{
-		this.Play(this.U("/uisounds/barcodescannerbeep.mp3"));
+		this.Play(this.U('/uisounds/barcodescannerbeep.mp3'));
 	}
+
 }
 
-export { UISound }
+export { UISound };

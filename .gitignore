@@ -2,7 +2,7 @@
 node_modules
 .vagrant
 /vendor
-/.release
+release
 embedded.txt
 
 # all yarn 2 stuff

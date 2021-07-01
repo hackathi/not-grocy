@@ -1,45 +1,45 @@
+import * as timeago from 'timeago.js';
 /* global __t */
 
-function RefreshContextualTimeago(rootSelector = "#page-content")
+function RefreshContextualTimeago(rootSelector = '#page-content') 
 {
-	$.timeago.settings.allowFuture = true;
-	$(rootSelector + " time.timeago").each(function()
+	$(rootSelector + ' time.timeago').each(function () 
 	{
-		var element = $(this);
+		const element = $(this);
 
-		if (!element.hasAttr("datetime"))
+		if (!element.hasAttr('datetime')) 
 		{
-			element.text("")
-			return
+			element.text('');
+			return;
 		}
 
-		var timestamp = element.attr("datetime");
+		const timestamp = element.attr('datetime');
 
-		if (timestamp.isEmpty())
+		if (timestamp.isEmpty()) 
 		{
-			element.text("")
-			return
+			element.text('');
+			return;
 		}
 
-		var isNever = timestamp && timestamp.substring(0, 10) == "2999-12-31";
-		var isToday = timestamp && timestamp.substring(0, 10) == moment().format("YYYY-MM-DD");
-		var isDateWithoutTime = element.hasClass("timeago-date-only");
+		const isNever = timestamp && timestamp.substring(0, 10) == '2999-12-31';
+		const isToday = timestamp && timestamp.substring(0, 10) == moment().format('YYYY-MM-DD');
+		const isDateWithoutTime = element.hasClass('timeago-date-only');
 
-		if (isNever)
+		if (isNever) 
 		{
-			element.prev().text(__t("Never"));
-			element.text("");
+			element.prev().text(__t('Never'));
+			element.text('');
 		}
-		else if (isToday)
+		else if (isToday) 
 		{
-			element.text(__t("Today"));
+			element.text(__t('Today'));
 		}
-		else
+		else 
 		{
-			element.timeago("update", timestamp);
+			element.text(timeago.format(timestamp, __t("timeago_locale")));
 		}
 
-		if (isDateWithoutTime)
+		if (isDateWithoutTime) 
 		{
 			element.prev().text(element.prev().text().substring(0, 10));
 		}

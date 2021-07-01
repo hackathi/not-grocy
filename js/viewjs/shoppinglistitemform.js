@@ -1,287 +1,268 @@
+import { RefreshLocaleNumberInput } from '../helpers/numberdisplay';
+import { __t, __n, U } from '../lib/legacy'; //import { $ } from 'jquery';
+
 import { WindowMessageBag } from '../helpers/messagebag';
 
-function shoppinglistitemformView(Grocy, scope = null)
+function shoppinglistitemformView(Grocy, scope = null) 
 {
-	var $scope = $;
-	if (scope != null)
+	let $scope = $;
+
+	if (scope != null) 
 	{
-		$scope = (selector) => $(scope).find(selector);
+		$scope = selector => $(scope).find(selector);
 	}
 
-	var productamountpicker = Grocy.Use("productamountpicker");
-	var userfields = Grocy.Use("userfieldsform");
-	var productpicker = Grocy.Use("productpicker");
-
+	const productamountpicker = Grocy.Use('productamountpicker');
+	const userfields = Grocy.Use('userfieldsform');
+	const productpicker = Grocy.Use('productpicker');
 	Grocy.ShoppingListItemFormInitialLoadDone = false;
-
-	$scope('#save-shoppinglist-button').on('click', function(e)
+	$scope('#save-shoppinglist-button').on('click', function (e) 
 	{
 		e.preventDefault();
 
-		if ($scope(".combobox-menu-visible").length)
+		if ($scope('.combobox-menu-visible').length) 
 		{
 			return;
 		}
 
-		var jsonData = $scope('#shoppinglist-form').serializeJSON();
-		if (!jsonData.product_id)
+		const jsonData = $scope('#shoppinglist-form').serializeJSON();
+
+		if (!jsonData.product_id) 
 		{
 			jsonData.amount = jsonData.display_amount;
 		}
+
 		delete jsonData.display_amount;
+		Grocy.FrontendHelpers.BeginUiBusy('shoppinglist-form');
 
-		Grocy.FrontendHelpers.BeginUiBusy("shoppinglist-form");
-
-		if (Grocy.GetUriParam("updateexistingproduct") !== undefined)
+		if (Grocy.GetUriParam('updateexistingproduct') !== undefined) 
 		{
 			jsonData.product_amount = jsonData.amount;
 			delete jsonData.amount;
+			Grocy.Api.Post('stock/shoppinglist/add-product', jsonData, function (result) 
+			{
+				Grocy.EditObjectId = result.created_object_id;
+				userfields.Save();
 
-			Grocy.Api.Post('stock/shoppinglist/add-product', jsonData,
-				function(result)
+				if (Grocy.GetUriParam('embedded') !== undefined) 
 				{
-					Grocy.EditObjectId = result.created_object_id;
-					userfields.Save();
-
-					if (Grocy.GetUriParam("embedded") !== undefined)
+					Grocy.Api.Get('stock/products/' + jsonData.product_id, function (productDetails) 
 					{
-						Grocy.Api.Get('stock/products/' + jsonData.product_id,
-							function(productDetails)
-							{
-								window.parent.postMessage(WindowMessageBag("ShowSuccessMessage", __t("Added %1$s of %2$s to the shopping list \"%3$s\"", parseFloat(jsonData.product_amount).toLocaleString({ minimumFractionDigits: 0, maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts }) + " " + __n(jsonData.product_amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope("#shopping_list_id option:selected").text())), Grocy.BaseUrl);
-								window.parent.postMessage(WindowMessageBag("ShoppingListChanged", $scope("#shopping_list_id").val().toString()), Grocy.BaseUrl);
-								window.parent.postMessage(WindowMessageBag("CloseAllModals"), Grocy.BaseUrl);
-							},
-							function(xhr)
-							{
-								console.error(xhr);
-							}
-						);
-					}
-					else
+						window.parent.postMessage(WindowMessageBag('ShowSuccessMessage', __t('Added %1$s of %2$s to the shopping list "%3$s"', parseFloat(jsonData.product_amount).toLocaleString({
+							minimumFractionDigits: 0,
+							maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts
+						}) + ' ' + __n(jsonData.product_amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope('#shopping_list_id option:selected').text())), Grocy.BaseUrl);
+						window.parent.postMessage(WindowMessageBag('ShoppingListChanged', $scope('#shopping_list_id').val().toString()), Grocy.BaseUrl);
+						window.parent.postMessage(WindowMessageBag('CloseAllModals'), Grocy.BaseUrl);
+					}, function (xhr) 
 					{
-						window.location.href = U('/shoppinglist?list=' + $scope("#shopping_list_id").val().toString());
-					}
-				},
-				function(xhr)
-				{
-					Grocy.FrontendHelpers.EndUiBusy("shoppinglist-form");
-					console.error(xhr);
+						console.error(xhr);
+					});
 				}
-			);
+				else 
+				{
+					window.location.href = U('/shoppinglist?list=' + $scope('#shopping_list_id').val().toString());
+				}
+			}, function (xhr) 
+			{
+				Grocy.FrontendHelpers.EndUiBusy('shoppinglist-form');
+				console.error(xhr);
+			});
 		}
-		else if (Grocy.EditMode === 'create')
+		else if (Grocy.EditMode === 'create') 
 		{
-			Grocy.Api.Post('objects/shopping_list', jsonData,
-				function(result)
-				{
-					Grocy.EditObjectId = result.created_object_id;
-					userfields.Save();
+			Grocy.Api.Post('objects/shopping_list', jsonData, function (result) 
+			{
+				Grocy.EditObjectId = result.created_object_id;
+				userfields.Save();
 
-					if (Grocy.GetUriParam("embedded") !== undefined)
-					{
-						if (jsonData.product_id)
-						{
-							Grocy.Api.Get('stock/products/' + jsonData.product_id,
-								function(productDetails)
-								{
-									window.parent.postMessage(WindowMessageBag("ShowSuccessMessage", __t("Added %1$s of %2$s to the shopping list \"%3$s\"", parseFloat(jsonData.amount).toLocaleString({ minimumFractionDigits: 0, maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts }) + " " + __n(jsonData.amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope("#shopping_list_id option:selected").text())), Grocy.BaseUrl);
-									window.parent.postMessage(WindowMessageBag("ShoppingListChanged", $scope("#shopping_list_id").val().toString()), Grocy.BaseUrl);
-									window.parent.postMessage(WindowMessageBag("CloseAllModals"), Grocy.BaseUrl);
-								},
-								function(xhr)
-								{
-									console.error(xhr);
-								}
-							);
-						}
-						else
-						{
-							window.parent.postMessage(WindowMessageBag("ShoppingListChanged", $scope("#shopping_list_id").val().toString()), Grocy.BaseUrl);
-							window.parent.postMessage(WindowMessageBag("CloseAllModals"), Grocy.BaseUrl);
-						}
-					}
-					else
-					{
-						window.location.href = U('/shoppinglist?list=' + $scope("#shopping_list_id").val().toString());
-					}
-				},
-				function(xhr)
+				if (Grocy.GetUriParam('embedded') !== undefined) 
 				{
-					Grocy.FrontendHelpers.EndUiBusy("shoppinglist-form");
-					console.error(xhr);
+					if (jsonData.product_id) 
+					{
+						Grocy.Api.Get('stock/products/' + jsonData.product_id, function (productDetails) 
+						{
+							window.parent.postMessage(WindowMessageBag('ShowSuccessMessage', __t('Added %1$s of %2$s to the shopping list "%3$s"', parseFloat(jsonData.amount).toLocaleString({
+								minimumFractionDigits: 0,
+								maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts
+							}) + ' ' + __n(jsonData.amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope('#shopping_list_id option:selected').text())), Grocy.BaseUrl);
+							window.parent.postMessage(WindowMessageBag('ShoppingListChanged', $scope('#shopping_list_id').val().toString()), Grocy.BaseUrl);
+							window.parent.postMessage(WindowMessageBag('CloseAllModals'), Grocy.BaseUrl);
+						}, function (xhr) 
+						{
+							console.error(xhr);
+						});
+					}
+					else 
+					{
+						window.parent.postMessage(WindowMessageBag('ShoppingListChanged', $scope('#shopping_list_id').val().toString()), Grocy.BaseUrl);
+						window.parent.postMessage(WindowMessageBag('CloseAllModals'), Grocy.BaseUrl);
+					}
 				}
-			);
+				else 
+				{
+					window.location.href = U('/shoppinglist?list=' + $scope('#shopping_list_id').val().toString());
+				}
+			}, function (xhr) 
+			{
+				Grocy.FrontendHelpers.EndUiBusy('shoppinglist-form');
+				console.error(xhr);
+			});
 		}
-		else
+		else 
 		{
-			Grocy.Api.Put('objects/shopping_list/' + Grocy.EditObjectId, jsonData,
-				function(result)
-				{
-					userfields.Save();
+			Grocy.Api.Put('objects/shopping_list/' + Grocy.EditObjectId, jsonData, function (result) 
+			{
+				userfields.Save();
 
-					if (Grocy.GetUriParam("embedded") !== undefined)
-					{
-						if (jsonData.product_id)
-						{
-							Grocy.Api.Get('stock/products/' + jsonData.product_id,
-								function(productDetails)
-								{
-									window.parent.postMessage(WindowMessageBag("ShowSuccessMessage", __t("Added %1$s of %2$s to the shopping list \"%3$s\"", parseFloat(jsonData.amount).toLocaleString({ minimumFractionDigits: 0, maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts }) + " " + __n(jsonData.amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope("#shopping_list_id option:selected").text())), Grocy.BaseUrl);
-									window.parent.postMessage(WindowMessageBag("ShoppingListChanged", $scope("#shopping_list_id").val().toString()), Grocy.BaseUrl);
-									window.parent.postMessage(WindowMessageBag("CloseAllModals"), Grocy.BaseUrl);
-								},
-								function(xhr)
-								{
-									console.error(xhr);
-								}
-							);
-						}
-						else
-						{
-							window.parent.postMessage(WindowMessageBag("ShoppingListChanged", $scope("#shopping_list_id").val().toString()), Grocy.BaseUrl);
-							window.parent.postMessage(WindowMessageBag("CloseAllModals"), Grocy.BaseUrl);
-						}
-					}
-					else
-					{
-						window.location.href = U('/shoppinglist?list=' + $scope("#shopping_list_id").val().toString());
-					}
-				},
-				function(xhr)
+				if (Grocy.GetUriParam('embedded') !== undefined) 
 				{
-					Grocy.FrontendHelpers.EndUiBusy("shoppinglist-form");
-					console.error(xhr);
+					if (jsonData.product_id) 
+					{
+						Grocy.Api.Get('stock/products/' + jsonData.product_id, function (productDetails) 
+						{
+							window.parent.postMessage(WindowMessageBag('ShowSuccessMessage', __t('Added %1$s of %2$s to the shopping list "%3$s"', parseFloat(jsonData.amount).toLocaleString({
+								minimumFractionDigits: 0,
+								maximumFractionDigits: Grocy.UserSettings.stock_decimal_places_amounts
+							}) + ' ' + __n(jsonData.amount, productDetails.default_quantity_unit_purchase.name, productDetails.default_quantity_unit_purchase.name_plural), productDetails.product.name, $scope('#shopping_list_id option:selected').text())), Grocy.BaseUrl);
+							window.parent.postMessage(WindowMessageBag('ShoppingListChanged', $scope('#shopping_list_id').val().toString()), Grocy.BaseUrl);
+							window.parent.postMessage(WindowMessageBag('CloseAllModals'), Grocy.BaseUrl);
+						}, function (xhr) 
+						{
+							console.error(xhr);
+						});
+					}
+					else 
+					{
+						window.parent.postMessage(WindowMessageBag('ShoppingListChanged', $scope('#shopping_list_id').val().toString()), Grocy.BaseUrl);
+						window.parent.postMessage(WindowMessageBag('CloseAllModals'), Grocy.BaseUrl);
+					}
 				}
-			);
+				else 
+				{
+					window.location.href = U('/shoppinglist?list=' + $scope('#shopping_list_id').val().toString());
+				}
+			}, function (xhr) 
+			{
+				Grocy.FrontendHelpers.EndUiBusy('shoppinglist-form');
+				console.error(xhr);
+			});
 		}
 	});
-
-	productpicker.GetPicker().on('change', function(e)
+	productpicker.GetPicker().on('change', function (e) 
 	{
-		var productId = $scope(e.target).val();
+		const productId = $scope(e.target).val();
 
-		if (productId)
+		if (productId) 
 		{
-			Grocy.Api.Get('stock/products/' + productId,
-				function(productDetails)
+			Grocy.Api.Get('stock/products/' + productId, function (productDetails) 
+			{
+				if (!Grocy.ShoppingListItemFormInitialLoadDone) 
 				{
-					if (!Grocy.ShoppingListItemFormInitialLoadDone)
-					{
-						productamountpicker.Reload(productDetails.product.id, productDetails.quantity_unit_stock.id, true);
-					}
-					else
-					{
-						productamountpicker.Reload(productDetails.product.id, productDetails.quantity_unit_stock.id);
-						productamountpicker.SetQuantityUnit(productDetails.default_quantity_unit_purchase.id);
-					}
-
-					if ($scope("#display_amount").val().toString().isEmpty())
-					{
-						$scope("#display_amount").val(1);
-						$scope("#display_amount").trigger("change");
-					}
-
-					$scope('#display_amount').focus();
-					Grocy.FrontendHelpers.ValidateForm('shoppinglist-form');
-					Grocy.ShoppingListItemFormInitialLoadDone = true;
-				},
-				function(xhr)
-				{
-					console.error(xhr);
+					productamountpicker.Reload(productDetails.product.id, productDetails.quantity_unit_stock.id, true);
 				}
-			);
+				else 
+				{
+					productamountpicker.Reload(productDetails.product.id, productDetails.quantity_unit_stock.id);
+					productamountpicker.SetQuantityUnit(productDetails.default_quantity_unit_purchase.id);
+				}
+
+				if ($scope('#display_amount').val().toString().isEmpty()) 
+				{
+					$scope('#display_amount').val(1);
+					$scope('#display_amount').trigger('change');
+				}
+
+				$scope('#display_amount').focus();
+				Grocy.FrontendHelpers.ValidateForm('shoppinglist-form');
+				Grocy.ShoppingListItemFormInitialLoadDone = true;
+			}, function (xhr) 
+			{
+				console.error(xhr);
+			});
 		}
 
-		$scope("#note").trigger("input");
-		$scope("#product_id").trigger("input");
+		$scope('#note').trigger('input');
+		$scope('#product_id').trigger('input');
 	});
-
 	Grocy.FrontendHelpers.ValidateForm('shoppinglist-form');
 	productpicker.GetInputElement().focus();
 
-	if (Grocy.EditMode === "edit")
+	if (Grocy.EditMode === 'edit') 
 	{
 		productpicker.GetPicker().trigger('change');
 	}
 
-	if (Grocy.EditMode == "create")
+	if (Grocy.EditMode == 'create') 
 	{
 		Grocy.ShoppingListItemFormInitialLoadDone = true;
 	}
 
-	$scope('#display_amount').on('focus', function(e)
+	$scope('#display_amount').on('focus', function (e) 
 	{
 		$(this).select();
 	});
-
-	$scope('#shoppinglist-form input').keyup(function(event)
+	$scope('#shoppinglist-form input').keyup(function (event) 
 	{
 		Grocy.FrontendHelpers.ValidateForm('shoppinglist-form');
 	});
-
-	$scope('#shoppinglist-form input').keydown(function(event)
+	$scope('#shoppinglist-form input').keydown(function (event) 
 	{
-		if (event.keyCode === 13) //Enter
+		if (event.keyCode === 13) // Enter
 		{
 			event.preventDefault();
 
-			if ($scope('#shoppinglist-form')[0].checkValidity() === false) //There is at least one validation error
+			if ($scope('#shoppinglist-form')[0].checkValidity() === false) // There is at least one validation error
 			{
 				return false;
 			}
-			else
+			else 
 			{
 				$scope('#save-shoppinglist-button').click();
 			}
 		}
 	});
 
-	if (Grocy.GetUriParam("list") !== undefined)
+	if (Grocy.GetUriParam('list') !== undefined) 
 	{
-		$scope("#shopping_list_id").val(Grocy.GetUriParam("list"));
+		$scope('#shopping_list_id').val(Grocy.GetUriParam('list'));
 	}
 
-	if (Grocy.GetUriParam("amount") !== undefined)
+	if (Grocy.GetUriParam('amount') !== undefined) 
 	{
-		$scope("#display_amount").val(parseFloat(Grocy.GetUriParam("amount")));
+		$scope('#display_amount').val(parseFloat(Grocy.GetUriParam('amount')));
 		RefreshLocaleNumberInput();
-		$scope(".input-group-productamountpicker").trigger("change");
+		$scope('.input-group-productamountpicker').trigger('change');
 		Grocy.FrontendHelpers.ValidateForm('shoppinglist-form');
 	}
 
-	if (Grocy.GetUriParam("embedded") !== undefined)
+	if (Grocy.GetUriParam('embedded') !== undefined) 
 	{
-		if (Grocy.GetUriParam("product") !== undefined)
+		if (Grocy.GetUriParam('product') !== undefined) 
 		{
 			productpicker.GetPicker().trigger('change');
-			$scope("#display_amount").focus();
+			$scope('#display_amount').focus();
 		}
-		else
+		else 
 		{
 			productpicker.GetInputElement().focus();
 		}
 	}
 
-	var eitherRequiredFields = $scope("#product_id,#product_id_text_input,#note");
-	eitherRequiredFields.prop('required', "");
-	eitherRequiredFields.on('input', function()
+	const eitherRequiredFields = $scope('#product_id,#product_id_text_input,#note');
+	eitherRequiredFields.prop('required', '');
+	eitherRequiredFields.on('input', function () 
 	{
 		eitherRequiredFields.not(this).prop('required', !$(this).val().length);
 		Grocy.FrontendHelpers.ValidateForm('shoppinglist-form', $scope);
 	});
 
-
-	if (Grocy.GetUriParam("product-name") != null)
+	if (Grocy.GetUriParam('product-name') != null) 
 	{
 		productpicker.GetPicker().trigger('change');
 	}
 
 	userfields.Load();
-
 }
 
-
-
-
-window.shoppinglistitemformView = shoppinglistitemformView
+export { shoppinglistitemformView };

@@ -1,11 +1,12 @@
-import { datetimepicker } from './datetimepicker'
+import { datetimepicker } from './datetimepicker';
 
-class datetimepicker2 extends datetimepicker
+class datetimepicker2 extends datetimepicker 
 {
-	constructor(Grocy, scopeSelector = null)
+	constructor(Grocy, scopeSelector = null) 
 	{
-		super(Grocy, scopeSelector, "datetimepicker2");
+		super(Grocy, scopeSelector, 'datetimepicker2');
 	}
+
 }
 
-export { datetimepicker2 }
+export { datetimepicker2 };

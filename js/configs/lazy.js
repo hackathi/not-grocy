@@ -1,9 +1,10 @@
-function LoadImagesLazy()
+//import { $ } from 'jquery';
+function LoadImagesLazy() 
 {
-	$(".lazy").Lazy({
+	$('.lazy').Lazy({
 		enableThrottle: true,
 		throttle: 500
 	});
 }
 
-export { LoadImagesLazy }
+export { LoadImagesLazy };

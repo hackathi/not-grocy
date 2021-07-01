@@ -1,5 +1,5 @@
-import Popper from "popper.js";
-
+//import { $ } from 'jquery';
+import Popper from 'popper.js';
 /* this is basically a 1 on 1 port of Bootstraps'
    DropdownMenu plug-in, but has its Elements detached.
    And pobably triggers an event or two less.
@@ -16,27 +16,35 @@ import Popper from "popper.js";
    which is available under the MIT License.
 */
 
-const ESCAPE_KEYCODE = 27 // KeyboardEvent.which value for Escape (Esc) key
-const SPACE_KEYCODE = 32 // KeyboardEvent.which value for space key
-const TAB_KEYCODE = 9 // KeyboardEvent.which value for tab key
-const ARROW_UP_KEYCODE = 38 // KeyboardEvent.which value for up arrow key
-const ARROW_DOWN_KEYCODE = 40 // KeyboardEvent.which value for down arrow key
-const RIGHT_MOUSE_BUTTON_WHICH = 3 // MouseEvent.which value for the right button (assuming a right-handed mouse)
-const REGEXP_KEYDOWN = new RegExp(`${ARROW_UP_KEYCODE}|${ARROW_DOWN_KEYCODE}|${ESCAPE_KEYCODE}`)
-const SELECTOR_VISIBLE_ITEMS = '.dropdown-item:not(.disabled):not(:disabled)'
+const ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
 
-class DetachedDropdown
+const SPACE_KEYCODE = 32; // KeyboardEvent.which value for space key
+
+const TAB_KEYCODE = 9; // KeyboardEvent.which value for tab key
+
+const ARROW_UP_KEYCODE = 38; // KeyboardEvent.which value for up arrow key
+
+const ARROW_DOWN_KEYCODE = 40; // KeyboardEvent.which value for down arrow key
+
+const RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseEvent.which value for the right button (assuming a right-handed mouse)
+
+const REGEXP_KEYDOWN = new RegExp(`${ARROW_UP_KEYCODE}|${ARROW_DOWN_KEYCODE}|${ESCAPE_KEYCODE}`);
+const SELECTOR_VISIBLE_ITEMS = '.dropdown-item:not(.disabled):not(:disabled)';
+
+class DetachedDropdown 
 {
-	constructor(target, menuElement = null, scope = null)
+	constructor(target, menuElement = null, scope = null) 
 	{
 		this.scopeSelector = scope;
-		if (scope != null)
+
+		if (scope != null) 
 		{
 			this.scope = $(scope);
-			var jScope = this.scope;
-			this.$scope = (selector) => jScope.find(selector);
+			const jScope = this.scope;
+
+			this.$scope = selector => jScope.find(selector);
 		}
-		else
+		else 
 		{
 			this.$scope = $;
 			this.scope = $(document);
@@ -46,194 +54,191 @@ class DetachedDropdown
 		this.target = this.$target[0];
 		this.menu = menuElement != null ? this.$scope(menuElement) : this.$scope(this.$target.data('target'));
 		this._popper = null;
-		var self = this;
-
-		$(document).on('keydown', (event) => self.keydownHandler(event));
-		this.menu.on("click", "form", e =>
+		const self = this;
+		$(document).on('keydown', event => self.keydownHandler(event));
+		this.menu.on('click', 'form', e => 
 		{
-			e.stopPropagation()
-		})
-
-		this.scope.on("click keyup", (event) => self.clear(event));
+			e.stopPropagation();
+		});
+		this.scope.on('click keyup', event => self.clear(event));
 	}
 
-	toggle()
+	toggle() 
 	{
-		if (this.menu.parent().hasClass('show'))
+		if (this.menu.parent().hasClass('show')) 
+		{
 			this.hide();
-
-		else
+		}
+		else 
+		{
 			this.show();
+		}
 	}
 
-	show()
+	show() 
 	{
 		// show always re-shows.
-		this.hide()
-
-
-		this._popper = new Popper(this.target, this.menu, this._getPopperConfig())
-
-		// If this is a touch-enabled device we add extra
+		this.hide();
+		this._popper = new Popper(this.target, this.menu, this._getPopperConfig()); // If this is a touch-enabled device we add extra
 		// empty mouseover listeners to the body's immediate children;
 		// only needed because of broken event delegation on iOS
 		// https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-		if ('ontouchstart' in document.documentElement)
+
+		if ('ontouchstart' in document.documentElement) 
 		{
-			$(document.body).children().on('mouseover', null, $.noop)
+			$(document.body).children().on('mouseover', null, $.noop);
 		}
 
 		this.menu.trigger('focus');
-		this.menu.attr('aria-expanded', true)
-
-		this.menu.toggleClass('show')
-		this.menu.parent().toggleClass('show')
+		this.menu.attr('aria-expanded', true);
+		this.menu.toggleClass('show');
+		this.menu.parent().toggleClass('show');
 	}
 
-	hide()
+	hide() 
 	{
-		if (this.isDisabled() || !this.menu.parent().hasClass('show'))
+		if (this.isDisabled() || !this.menu.parent().hasClass('show')) 
+		{
 			return;
-
-		// If this is a touch-enabled device we remove the extra
+		} // If this is a touch-enabled device we remove the extra
 		// empty mouseover listeners we added for iOS support
-		if ('ontouchstart' in document.documentElement)
+
+
+		if ('ontouchstart' in document.documentElement) 
 		{
-			$(document.body).children().off('mouseover', null, $.noop)
+			$(document.body).children().off('mouseover', null, $.noop);
 		}
 
-		if (this._popper)
+		if (this._popper) 
 		{
-			this._popper.destroy()
+			this._popper.destroy();
 		}
-
 
 		this.menu.removeClass('show');
 		this.menu.parent().removeClass('show');
-		this.menu.attr('aria-expanded', false)
+		this.menu.attr('aria-expanded', false);
 	}
 
-	isDisabled()
+	isDisabled() 
 	{
-		return this.target.disabled || this.$target.hasClass("disabled");
+		return this.target.disabled || this.$target.hasClass('disabled');
 	}
 
-	_getPopperConfig()
+	_getPopperConfig() 
 	{
 		return {
 			placement: 'right',
 			modifiers: {
 				offset: '50px',
 				flip: {
-					enabled: true,
+					enabled: true
 				},
 				preventOverflow: {
 					boundariesElement: 'viewport'
 				}
 			}
-		}
+		};
 	}
 
-	keydownHandler(event)
+	keydownHandler(event) 
 	{
-		if (!this.isActive() && event.target.id != this.target.id)
+		if (!this.isActive() && event.target.id != this.target.id) 
+		{
 			return;
-		// If not input/textarea:
+		} // If not input/textarea:
 		//  - And not a key in REGEXP_KEYDOWN => not a dropdown command
 		// If input/textarea:
 		//  - If space key => not a dropdown command
 		//  - If key is other than escape
 		//    - If key is not up or down => not a dropdown command
 		//    - If trigger inside the menu => not a dropdown command
-		if (/input|textarea/i.test(event.target.tagName) ?
-			event.which === SPACE_KEYCODE || event.which !== ESCAPE_KEYCODE &&
-			(event.which !== ARROW_DOWN_KEYCODE && event.which !== ARROW_UP_KEYCODE ||
-				this.menu.length) : !REGEXP_KEYDOWN.test(event.which))
+
+
+		if (/input|textarea/i.test(event.target.tagName) ? event.which === SPACE_KEYCODE || event.which !== ESCAPE_KEYCODE && (event.which !== ARROW_DOWN_KEYCODE && event.which !== ARROW_UP_KEYCODE || this.menu.length) : !REGEXP_KEYDOWN.test(event.which)) 
 		{
-			return
+			return;
 		}
 
-		if (this.isDisabled())
+		if (this.isDisabled()) 
 		{
-			return
+			return;
 		}
 
-		if (!this.isActive() && event.which === ESCAPE_KEYCODE)
+		if (!this.isActive() && event.which === ESCAPE_KEYCODE) 
 		{
-			return
+			return;
 		}
 
-		event.preventDefault()
-		event.stopPropagation()
+		event.preventDefault();
+		event.stopPropagation();
 
-		if (!this.isActive() || (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE))
+		if (!this.isActive() || event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE) 
 		{
-			if (event.which === ESCAPE_KEYCODE)
+			if (event.which === ESCAPE_KEYCODE) 
 			{
-				this.menu.trigger('focus')
+				this.menu.trigger('focus');
 			}
 
-			this.$target.trigger('click')
-			return
+			this.$target.trigger('click');
+			return;
 		}
 
-		const items = [].slice.call(this.menu[0].querySelectorAll(SELECTOR_VISIBLE_ITEMS))
-			.filter(item => $(item).is(':visible'))
+		const items = [].slice.call(this.menu[0].querySelectorAll(SELECTOR_VISIBLE_ITEMS)).filter(item => $(item).is(':visible'));
 
-		if (items.length === 0)
+		if (items.length === 0) 
 		{
-			return
+			return;
 		}
 
-		let index = items.indexOf(event.target)
+		let index = items.indexOf(event.target);
 
-		if (event.which === ARROW_UP_KEYCODE && index > 0)
-		{ // Up
-			index--
-		}
-
-		if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1)
-		{ // Down
-			index++
-		}
-
-		if (index < 0)
+		if (event.which === ARROW_UP_KEYCODE && index > 0) 
 		{
-			index = 0
+			// Up
+			index--;
 		}
 
-		items[index].focus()
+		if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) 
+		{
+			// Down
+			index++;
+		}
 
+		if (index < 0) 
+		{
+			index = 0;
+		}
+
+		items[index].focus();
 	}
 
-	isActive()
+	isActive() 
 	{
 		return this.menu.parent().hasClass('show');
 	}
 
-	clear(event)
+	clear(event) 
 	{
-		if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH ||
-			(event.type === 'keyup' && event.which !== TAB_KEYCODE)))
+		if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) 
 		{
-			return
+			return;
 		}
 
-		if (!this.menu.parent().hasClass('show'))
+		if (!this.menu.parent().hasClass('show')) 
 		{
-			return
+			return;
 		}
-		let parent = this.menu.parent()[0];
 
-		if (event && (event.type === 'click' &&
-			/input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) &&
-			$.contains(parent, event.target))
+		const parent = this.menu.parent()[0];
+
+		if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) && $.contains(parent, event.target)) 
 		{
-			return
+			return;
 		}
 
 		this.hide();
-
 	}
+
 }
-export { DetachedDropdown }
+
+export { DetachedDropdown };

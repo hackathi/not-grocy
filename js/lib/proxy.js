@@ -1,14 +1,12 @@
-
 import { GrocyFrontendHelpers } from '../helpers/frontend';
-import * as components from '../components';
+import * as components from '../components'; //import { $ } from 'jquery';
 
-class GrocyProxy
+class GrocyProxy 
 {
-	constructor(RootGrocy, scopeSelector, config, url)
+	constructor(RootGrocy, scopeSelector, config, url) 
 	{
-		this.RootGrocy = RootGrocy;
+		this.RootGrocy = RootGrocy; // proxy-local members, because they might not be set globally.
 
-		// proxy-local members, because they might not be set globally.
 		this.QuantityUnits = config.QuantityUnits;
 		this.QuantityUnitConversionsResolved = config.QuantityUnitConversionsResolved;
 		this.QuantityUnitEditFormRedirectUri = config.QuantityUnitEditFormRedirectUri;
@@ -23,26 +21,24 @@ class GrocyProxy
 		this.EditObjectProduct = config.EditObjectProduct;
 		this.EditObjectProductId = config.EditObjectProductId;
 		this.RecipePictureFileName = config.RecipePictureFileName;
-		this.InstructionManualFileNameName = config.InstructionManualFileNameName;
+		this.InstructionManualFileNameName = config.InstructionManualFileNameName; // components are always local
 
-		// components are always local
 		this.Components = {};
-		this.initComponents = [];
+		this.initComponents = []; // scoping
 
-		// scoping
 		this.scopeSelector = scopeSelector;
 		this.scope = null;
 		this.$scope = null;
-
-		var queryString = url.split('?', 2);
-		this.virtualUrl = queryString.length == 2 ? queryString[1] : ""; // maximum two parts
+		const queryString = url.split('?', 2);
+		this.virtualUrl = queryString.length == 2 ? queryString[1] : ''; // maximum two parts
 
 		this.config = config;
-		if (Object.prototype.hasOwnProperty.call(this.config, "UserSettings"))
+
+		if (Object.prototype.hasOwnProperty.call(this.config, 'UserSettings')) 
 		{
 			// if we need to override UserSettings, we need to copy the object.
 			// not great, but eh.
-			let tempUs = {}
+			const tempUs = {};
 			Object.assign(tempUs, this.config.UserSettings);
 			Object.assign(this.config.UserSettings, RootGrocy.UserSettings);
 			Object.assign(this.config.UserSettings, tempUs);
@@ -52,135 +48,148 @@ class GrocyProxy
 		this.unloaders = [];
 	}
 
-	Initialize(proxy)
+	Initialize(proxy) 
 	{
 		this.proxy = proxy;
 		this.scope = $(this.scopeSelector);
-		var jScope = this.scope;
-		this.$scope = (selector) => jScope.find(selector);
+		const jScope = this.scope;
+
+		this.$scope = selector => jScope.find(selector);
+
 		this.FrontendHelpers = new GrocyFrontendHelpers(proxy, this.RootGrocy.Api, this.scopeSelector);
 	}
 
-	RegisterUnload(cb)
+	RegisterUnload(cb) 
 	{
 		this.unloaders.push(cb);
 	}
 
-	Unload()
+	Unload() 
 	{
-		for (let component in this.Components)
+		for (const component in this.Components) 
 		{
-			var comp = this.Components[component];
-			if (Object.prototype.hasOwnProperty.call(comp, "Unload"))
+			const comp = this.Components[component];
+
+			if (Object.prototype.hasOwnProperty.call(comp, 'Unload')) 
 			{
 				comp.Unload();
 			}
 		}
 
 		let unloader = this.unloaders.pop();
-		while (unloader !== undefined)
+
+		while (unloader !== undefined) 
 		{
 			unloader();
 			unloader = this.unloaders.pop();
 		}
 	}
 
-	Use(componentName, scope = null)
+	Use(componentName, scope = null) 
 	{
-		let scopeName = scope || this.scopeSelector;
-		// initialize Components only once per scope
-		if (this.initComponents.find(elem => elem == componentName + scopeName))
-			return this.Components[componentName + scopeName];
+		const scopeName = scope || this.scopeSelector; // initialize Components only once per scope
 
-		if (Object.prototype.hasOwnProperty.call(components, componentName))
+		if (this.initComponents.find(elem => elem == componentName + scopeName)) 
+		{
+			return this.Components[componentName + scopeName];
+		}
+
+		if (Object.prototype.hasOwnProperty.call(components, componentName)) 
 		{
 			// add-then-init to resolve circular dependencies
 			this.initComponents.push(componentName + scopeName);
-			var component = new components[componentName](this.proxy, scopeName);
+			const component = new components[componentName](this.proxy, scopeName);
 			this.Components[componentName + scopeName] = component;
 			return component;
 		}
-		else
+		else 
 		{
-			console.error("Unable to find component " + componentName);
+			console.error('Unable to find component ' + componentName);
 		}
-	}
-
-	// URI params on integrated components don't work because they
+	} // URI params on integrated components don't work because they
 	// don't have an URL. So let's fake it.
-	GetUriParam(key)
+
+
+	GetUriParam(key) 
 	{
-		var currentUri = this.virtualUrl;
-		var vars = currentUri.split('&');
+		const currentUri = this.virtualUrl;
+		const vars = currentUri.split('&');
 
-		for (var i = 0; i < vars.length; i++)
+		for (let i = 0; i < vars.length; i++) 
 		{
-			var currentParam = vars[i].split('=');
+			const currentParam = vars[i].split('=');
 
-			if (currentParam[0] === key)
+			if (currentParam[0] === key) 
 			{
 				return currentParam[1] === undefined ? true : decodeURIComponent(currentParam[1]);
 			}
 		}
+
 		return undefined;
 	}
 
-	UpdateUriParam(key, value)
+	UpdateUriParam(key, value) 
 	{
-		var params = {}
-		var vars = this.virtualUrl.split("&");
+		const params = {};
+		const vars = this.virtualUrl.split('&');
 
-		for (let part of vars)
+		for (const part of vars) 
 		{
 			var lkey, lvalue;
 			[lkey, lvalue = null] = part.split('=');
-
 			params[lkey] = lvalue;
 		}
 
 		params[key] = value;
+		let vurl = '';
 
-		var vurl = ""
-
-		for ([key, value] of params)
+		for ([key, value] of params) 
 		{
-			vurl += "&" + key
-			if (value != null)
+			vurl += '&' + key;
+
+			if (value != null) 
 			{
 				vurl += '=' + encodeURIComponent(value);
 			}
 		}
+
 		this.virtualUrl = vurl.substring(1); // remove leading &
 	}
 
-	RemoveUriParam(key)
+	RemoveUriParam(key) 
 	{
-		var params = {}
-		var vars = this.virtualUrl.split("&");
+		const params = {};
+		const vars = this.virtualUrl.split('&');
 
-		for (let part of vars)
+		for (const part of vars) 
 		{
 			var lkey, lvalue;
 			[lkey, lvalue = null] = part.split('=');
 
-			if (lkey == key)
+			if (lkey == key) 
+			{
 				continue;
+			}
 
 			params[lkey] = lvalue;
 		}
 
-		var vurl = ""
+		let vurl = '';
 		let value;
-		for ([key, value] of params)
+
+		for ([key, value] of params) 
 		{
-			vurl += "&" + key
-			if (value != null)
+			vurl += '&' + key;
+
+			if (value != null) 
 			{
 				vurl += '=' + encodeURIComponent(value);
 			}
 		}
+
 		this.virtualUrl = vurl.substring(1); // remove leading &
 	}
+
 }
 
-export { GrocyProxy }
+export { GrocyProxy };
