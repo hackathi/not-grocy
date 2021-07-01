@@ -45,26 +45,25 @@ not-grocy is technically a pretty simple PHP application, so the basic notes to 
 Alternatively, to set up a development environment or run the unstable development version, follow these steps:
 
 1. clone this repository. Optionally check out the tag you are interested in.
-2. install composer & yarn dependencies
-3. run `yarn install`
-4. recompile assets: `npx gulp publish`
+2. ensure that both `composer` and `yarn` are available in your `PATH`.
+3. `make manifest publish` ensures that all dependencies are up-to-date, builds and minifies
+   not-grocys frontend assets.
 
-   *Important*: This command takes some time (about 3 to 5 minutes), because the site assets
-   will be minified for production, and this is an expensive step that needs to be repeated
-   for a lot of files. node being single-threaded doesn't particularly like this, but there is
-   still significant work to be done to bring down these compile times. Want to help out? Check
-   with Contributing and the Roadmap.
+   *Important*: This command takes some time (about 2 minutes), because the site assets
+   will be minified for production, and this is an expensive step. node being single-threaded 
+   doesn't particularly like this. To achieve some speedup and use your system efficiently, use 
+   `make`s `-j [jobs]` flag (see `man make` for more information)
 
    If you don't care as much about asset size (you should) or want to run a development environment,
-   use `gulp build`, which doesn't minify and runs in well under a minute.
+   use `make build`, which doesn't minify and runs in well under a minute.
 
-   To recompile assets while developing, use `gulp live`. Changes in files will be detected and
-   dynamically recompiled.
+   To start a dynamic development environment, use `make watch`. It starts a php development webserver
+   for you. Changes in files will be detected and dynamically recompiled.
 
 You can also setup a development environment in one line of shell:
 
 ```sh
-git pull https://github.com/mistressofjellyfish/not-grocy.git && cd not-grocy && composer install && yarn install && npx gulp build
+git pull https://github.com/mistressofjellyfish/not-grocy.git && cd not-grocy && make -j4 build
 ```
 
 ## How to run using Docker
@@ -148,6 +147,8 @@ You want to help make not-grocy faster, better, harder, stronger? Thank you!
 - If you happen to know how to code, feel free to open a pull request! If it fixes an existing bug, please leave a note in the corresponding issue.
 - A nice message in the (discussions)[https://github.com/mistressofjellyfish/not-grocy/discussions] also always goes a long way.
 - If none of the above fit's your bill, and you still want to make a contribution, you can always help me out by buying one of my book(s) (which are, unfortunately, written in german).
+
+If you like to contribute code, you are very welcome! Please read `docs/contributing.md`.
 
 ## Roadmap
 
