@@ -27,13 +27,10 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Grocy\\Services\\": "services/",
-			"Grocy\\Controllers\\": "controllers/",
-			"Grocy\\Middleware\\": "middleware/",
-			"Grocy\\Helpers\\": "helpers/"
+			"Grocy\\": "php/"
 		},
 		"files": [
-			"helpers/extensions.php"
+			"php/Helpers/extensions.php"
 		]
 	}
 }

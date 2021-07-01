@@ -31,7 +31,7 @@ else
 	define('GROCY_DATAPATH', $datapath);
 }
 
-require_once __DIR__ . '/../helpers/PrerequisiteChecker.php';
+require_once __DIR__ . '/../php/Helpers/PrerequisiteChecker.php';
 
 try
 {
@@ -42,4 +42,4 @@ catch (ERequirementNotMet $ex)
 	exit('Unable to run grocy: ' . $ex->getMessage());
 }
 
-require_once __DIR__ . '/../app.php';
+require_once __DIR__ . '/../php/app.php';

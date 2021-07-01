@@ -7,12 +7,12 @@ use Psr\Container\ContainerInterface as Container;
 use Slim\Factory\AppFactory;
 
 // Load composer dependencies
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Load config files
 require_once GROCY_DATAPATH . '/config.php';
 require_once __DIR__ . '/config-dist.php'; // For not in own config defined values we use the default ones
-require_once __DIR__ . '/helpers/ConfigurationValidator.php';
+require_once __DIR__ . '/Helpers/ConfigurationValidator.php';
 
 // Definitions for dev/demo/prerelease mode
 if ((GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease') && !defined('GROCY_USER_ID'))
