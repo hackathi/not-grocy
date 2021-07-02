@@ -1,19 +1,16 @@
 <?php
 
-return PhpCsFixer\Config::create()
-    ->setRules(array(
+$config = new PhpCsFixer\Config();
+return $config->setRules(array(
         '@PSR2' => true,
         'array_indentation' => true,
         'array_syntax' => array('syntax' => 'short'),
         'combine_consecutive_unsets' => true,
-        'method_separation' => true,
-        'no_multiline_whitespace_before_semicolons' => true,
+        'phpdoc_separation' => true,
+        'multiline_whitespace_before_semicolons' => false,
         'single_quote' => true,
 
-        'binary_operator_spaces' => array(
-            'align_double_arrow' => false,
-            'align_equals' => false,
-        ),
+        
         // 'blank_line_after_opening_tag' => true,
         // 'blank_line_before_return' => true,
         'braces' => array(
@@ -27,7 +24,6 @@ return PhpCsFixer\Config::create()
         'concat_space' => array('spacing' => 'one'),
         'declare_equal_normalize' => true,
         'function_typehint_space' => true,
-        'hash_to_slash_comment' => true,
         'include' => true,
         'lowercase_cast' => true,
         // 'native_function_casing' => true,
@@ -37,13 +33,6 @@ return PhpCsFixer\Config::create()
         // 'no_empty_comment' => true,
         // 'no_empty_phpdoc' => true,
         // 'no_empty_statement' => true,
-        'no_extra_consecutive_blank_lines' => array(
-            'extra',
-            'parenthesis_brace_block',
-            'square_brace_block',
-            'throw',
-            'use',
-        ),
         'no_leading_import_slash' => true,
         'no_leading_namespace_whitespace' => true,
         // 'no_mixed_echo_print' => array('use' => 'echo'),
@@ -93,5 +82,4 @@ return PhpCsFixer\Config::create()
         'whitespace_after_comma_in_array' => true,
     ))
     ->setIndent("\t")
-    ->setLineEnding("\n")
-;
+    ->setLineEnding("\n");
