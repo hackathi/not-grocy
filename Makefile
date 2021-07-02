@@ -205,7 +205,6 @@ release:
 	${MAKE} pack
 
 .PHONY=pack
-pack: YARNFLAGS=--check-cache
 pack: publish manifest
 	mkdir -p release
 	tar cvfJ release/not-grocy-$(shell git describe --tags).tar.xz \
