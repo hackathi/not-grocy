@@ -38,7 +38,7 @@ class PrerequisiteChecker
 	{
 		if (!file_exists(GROCY_DATAPATH . '/config.php'))
 		{
-			throw new ERequirementNotMet('config.php in data directory (' . GROCY_DATAPATH . ') not found. Have you copied config-dist.php to the data directory and renamed it to config.php?');
+			throw new ERequirementNotMet('config.php in data directory (' . GROCY_DATAPATH . ') not found. Have you copied php/config-dist.php to the data directory and renamed it to config.php?');
 		}
 	}
 
