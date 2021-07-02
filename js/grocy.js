@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 // todo: axe some stuff from here for better tree-shaking. also brr, side effects.
 import './legacy/vendor';
 import { GrocyApi } from './legacy/lib/api';

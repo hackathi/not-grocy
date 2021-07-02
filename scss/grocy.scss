@@ -62,3 +62,15 @@
 
 // TODO: does it need to be at the end?
 @import "night-mode";
+
+// now comes the fun part, because whatever is set above, primeVue will now override.
+.theme-day {
+	@import 'primevue/resources/themes/saga-green/theme.css';    // this will be the day theme.
+}
+.theme-night {
+	@import 'primevue/resources/themes/arya-green/theme.css';    // this will be the night theme.
+}
+
+@import 'primevue/resources/primevue.css';                  // core css
+@import 'primeicons/primeicons.css';                        // icons
+

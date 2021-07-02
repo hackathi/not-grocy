@@ -32,7 +32,9 @@ class SystemController extends BaseController
 			$demoDataGeneratorService->PopulateDemoData();
 		}
 
-		return $response->withRedirect($this->AppContainer->get('UrlManager')->ConstructUrl($this->GetEntryPageRelative()));
+		// yolo, this is a SPA now.
+		return $this->render($request, $response, 'vue');
+		//return $response->withRedirect($this->AppContainer->get('UrlManager')->ConstructUrl($this->GetEntryPageRelative()));
 	}
 
 	public function __construct(\DI\Container $container)

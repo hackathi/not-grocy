@@ -124,6 +124,7 @@ watch:
 	${SASS} ${SASSFLAGS} --watch ${SASS_INPUT} ${TMPSASS} & \
 	${POSTCSS} ${TMPSASS} --config . -o ${SASS_OUTPUT} --watch & \
 	${ROLLUP} --watch --no-watch.clearScreen --config ${RFLAGS} & \
+	${ROLLUP} --watch --no-watch-clearScreen --config rollup.vue.js ${RFLAGS} & \
 	${PHP} ${RUNFLAGS} & \
 	trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT & \
 	wait
@@ -140,6 +141,10 @@ js: yarn.lock | $(OBJDIRS)
 css: yarn.lock | $(OBJDIRS)
 	${SASS} ${SASSFLAGS} ${SASS_INPUT} ${SASS_OUTPUT}
 	${POSTCSS} --config . ${SASS_OUTPUT} -r
+
+.PHONY=frontend
+frontend:
+	${ROLLUP} --config rollup.vue.js ${RFLAGS}
 
 
 # To bundle all resources, there are a few prerequisites:
