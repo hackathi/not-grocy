@@ -3,7 +3,7 @@
 	"description": "A fork of grocy, the household ERP management – but faster, better, harder, stronger.",
 	"license": "MIT",
 	"require": {
-		"php": ">=7.4",
+		"php": ">=7.3",
 		"eluceo/ical": "^0.16.0",
 		"erusev/parsedown": "^1.7",
 		"ezyang/htmlpurifier": "^4.13",
