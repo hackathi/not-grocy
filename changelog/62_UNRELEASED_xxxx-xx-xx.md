@@ -1,5 +1,11 @@
 > ⚠️ The following PHP extensions are now additionally required: `json`, `intl`, `zlib`
 
+### Project was forked
+
+In between grocy v3.0.1 and this version, we forked the project to not-grocy. This moved a lot of code around.
+
+- Made not-grocy much faster.
+
 ### New feature: (Own) Product and stock entry labels/barcodes ("grocycode")
 - Print own labels/barcodes for products and/or every stock entry and then scan that code on every place a product or stock entry can be selected
 - Can be printed (or downloaded) via
@@ -29,6 +35,8 @@
 - Fixed that consuming with Scan Mode was not possible
 - Fixed that the current stock total value (header of the stock overview page) didn't include decimal amounts (thanks @Ape)
 - Fixed that the transfer page was not fully populated when opening it from the stock entries page
+- Fixed that the Consume button was not greyed out if the product was not in stock
+- Undo "Consume this stockentry" in toastr notification from stockentries view doesn't undo
 
 ### Shopping list improvements/fixes
 - The amount now defaults to `1` for adding items quicker
