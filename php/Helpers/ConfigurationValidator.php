@@ -28,7 +28,7 @@ class ConfigurationValidator
 
 	private function checkDefaultLocale()
 	{
-		if (!file_exists(__DIR__ . '/../localization/' . GROCY_DEFAULT_LOCALE))
+		if (!file_exists(REPO_BASE . '/localization/' . GROCY_DEFAULT_LOCALE))
 		{
 			throw new EInvalidConfig('Invalid locale "' . GROCY_DEFAULT_LOCALE . '" set, locale needs to exist in folder localization');
 		}

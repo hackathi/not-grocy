@@ -10,7 +10,7 @@ class ApplicationService extends BaseService
 	{
 		$changelogItems = [];
 
-		foreach (glob(__DIR__ . '/../changelog/*.md') as $file)
+		foreach (glob(REPO_BASE . '/changelog/*.md') as $file)
 		{
 			$fileName = basename($file);
 			$fileNameParts = explode('_', $fileName);
@@ -48,7 +48,7 @@ class ApplicationService extends BaseService
 	{
 		if ($this->InstalledVersion == null)
 		{
-			$this->InstalledVersion = json_decode(file_get_contents(__DIR__ . '/../version.json'));
+			$this->InstalledVersion = json_decode(file_get_contents(REPO_BASE . '/version.json'));
 
 			if (GROCY_MODE === 'prerelease')
 			{
