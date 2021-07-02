@@ -138,7 +138,7 @@ class BaseApiController extends BaseController
 	{
 		if ($this->OpenApiSpec == null)
 		{
-			$this->OpenApiSpec = json_decode(file_get_contents(__DIR__ . '/../grocy.openapi.json'));
+			$this->OpenApiSpec = json_decode(file_get_contents(REPO_BASE . '/grocy.openapi.json'));
 		}
 
 		return $this->OpenApiSpec;
