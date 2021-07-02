@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+        php-version: [7.3]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: Use PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@e02a1810e66ae357773a8f82626c7965d13ca75c # pinned 2.11.0
+        with:
+          php-version: ${{ matrix.php-version }}
+      - run: make release
+      - name: Release
+        uses: softprops/action-gh-release@9729932bfb75c05ad1f6e3a729294e05abaa7001 # 2021-05-03
+        with:
+          files: release/not-grocy-*.tar.xz
+          # body_path: changelog/${{ github.ref }}.md
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
