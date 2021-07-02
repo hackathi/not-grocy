@@ -2,10 +2,12 @@
 
 // Definitions for embedded mode
 
-if (file_exists(__DIR__ . '/../embedded.txt'))
+const REPO_BASE = __DIR__ . '/..';
+
+if (file_exists(REPO_BASE . '/embedded.txt'))
 {
 	define('GROCY_IS_EMBEDDED_INSTALL', true);
-	define('GROCY_DATAPATH', file_get_contents(__DIR__ . '/../embedded.txt'));
+	define('GROCY_DATAPATH', file_get_contents(REPO_BASE . '/embedded.txt'));
 	define('GROCY_USER_ID', 1);
 }
 else
@@ -25,13 +27,13 @@ else
 
 	if ($datapath[0] != '/')
 	{
-		$datapath = __DIR__ . '/../' . $datapath;
+		$datapath = REPO_BASE . '/' . $datapath;
 	}
 
 	define('GROCY_DATAPATH', $datapath);
 }
 
-require_once __DIR__ . '/../php/Helpers/PrerequisiteChecker.php';
+require_once REPO_BASE . '/php/Helpers/PrerequisiteChecker.php';
 
 try
 {
@@ -42,4 +44,4 @@ catch (ERequirementNotMet $ex)
 	exit('Unable to run grocy: ' . $ex->getMessage());
 }
 
-require_once __DIR__ . '/../php/app.php';
+require_once REPO_BASE . '/php/app.php';

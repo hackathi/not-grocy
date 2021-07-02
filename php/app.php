@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface as Container;
 use Slim\Factory\AppFactory;
 
 // Load composer dependencies
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once REPO_BASE .'/vendor/autoload.php';
 
 // Load config files
 require_once GROCY_DATAPATH . '/config.php';
@@ -54,7 +54,7 @@ $app = AppFactory::create();
 
 $container = $app->getContainer();
 $container->set('view', function (Container $container) {
-	return new Slim\Views\Blade(__DIR__ . '/views', GROCY_DATAPATH . '/viewcache');
+	return new Slim\Views\Blade(__DIR__ . '/Views', GROCY_DATAPATH . '/viewcache');
 });
 $container->set('UrlManager', function (Container $container) {
 	return new UrlManager(GROCY_BASE_URL);

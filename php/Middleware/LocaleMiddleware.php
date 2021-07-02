@@ -24,7 +24,7 @@ class LocaleMiddleware extends BaseMiddleware
 
 			if (isset($locale) && !empty($locale))
 			{
-				if (in_array($locale, scandir(__DIR__ . '/../localization')))
+				if (in_array($locale, scandir(REPO_BASE . '/localization')))
 				{
 					return $locale;
 				}
@@ -45,7 +45,7 @@ class LocaleMiddleware extends BaseMiddleware
 		);
 		arsort($prefLocales);
 
-		$availableLocales = scandir(__DIR__ . '/../localization');
+		$availableLocales = scandir(REPO_BASE . '/localization');
 
 		foreach ($prefLocales as $locale => $q)
 		{

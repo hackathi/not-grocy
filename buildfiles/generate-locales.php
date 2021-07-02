@@ -12,7 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 if(file_exists(GROCY_DATAPATH . '/config.php')) {
 	require_once GROCY_DATAPATH . '/config.php';
 }
-require_once __DIR__ . '/../config-dist.php'; // For not in own config defined values we use the default ones
+require_once __DIR__ . '/../php/config-dist.php'; // For not in own config defined values we use the default ones
 
 echo "Searching for localizations in " . __DIR__ . '/../localization/* \n';
 
