@@ -161,28 +161,29 @@ public/css:
 public/js/locales:
 	mkdir -p public/js/locales
 
-public/webfonts: | $(OBJDIRS)
+public/webfonts: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/@fortawesome/fontawesome-free/webfonts public/webfonts
 
-public/dist/font: | $(OBJDIRS)
+public/dist/font: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/font public/dist/font
 
-public/js/locales/summernote: | $(OBJDIRS)
+public/js/locales/summernote: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/lang public/js/locales/summernote
 
-public/js/locales/bootstrap-select: | $(OBJDIRS)
+public/js/locales/bootstrap-select: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/bootstrap-select/dist/js/i18n public/js/locales/bootstrap-select 
 
-public/js/locales/fullcalendar: | $(OBJDIRS)
+public/js/locales/fullcalendar: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/fullcalendar/dist/locale public/js/locales/fullcalendar 
 
-public/js/locales/fullcalendar-core: | $(OBJDIRS)
+public/js/locales/fullcalendar-core: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/@fullcalendar/core/locales public/js/locales/fullcalendar-core
 
-public/js/swagger-ui.js: node_modules/swagger-ui-dist/swagger-ui.js | $(OBJDIRS)
+public/js/swagger-ui.js: node_modules/swagger-ui-dist/swagger-ui.js | yarn.lock $(OBJDIRS)
 	cp -r node_modules/swagger-ui-dist/*.js node_modules/swagger-ui-dist/*.js.map public/js
 	cp -r node_modules/swagger-ui-dist/*.css node_modules/swagger-ui-dist/*.css.map public/css
 
+node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 
 # This doesn't just generate en.json, but all locale files.
 # However, as they are updated all at the same time, en.json
@@ -199,8 +200,13 @@ run: build
 # This packs a release. Due to the way the data/ folder is structured,
 # we need to be careful to include only the files we need.
 .PHONY=release
-release: YARNFLAGS=--check-cache
-release: publish manifest
+release:
+	${MAKE} clean
+	${MAKE} pack
+
+.PHONY=pack
+pack: YARNFLAGS=--check-cache
+pack: publish manifest
 	mkdir -p release
 	tar cvfJ release/not-grocy-$(shell git describe --tags).tar.xz \
 		changelog \
