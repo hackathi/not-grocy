@@ -150,6 +150,8 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->get('/system/time', '\Grocy\Controllers\SystemApiController:GetSystemTime');
 	$group->get('/system/db-changed-time', '\Grocy\Controllers\SystemApiController:GetDbChangedTime');
 	$group->get('/system/config', '\Grocy\Controllers\SystemApiController:GetConfig');
+	$group->get('/system/config/grocy', '\Grocy\Controllers\SystemApiController:GetGrocyConfig');
+	$group->get('/system/config/units', '\Grocy\Controllers\SystemApiController:GetQuantitiyUnitConfig');
 	$group->post('/system/log-missing-localization', '\Grocy\Controllers\SystemApiController:LogMissingLocalization');
 
 	// Generic entity interaction
