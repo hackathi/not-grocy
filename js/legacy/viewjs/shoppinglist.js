@@ -2,7 +2,7 @@ import { animateCSS } from '../helpers/extensions';
 import { __t, U } from '../lib/legacy'; //import { $ } from 'jquery'; // this needs to be explicitly imported for some reason,
 // otherwise rollup complains.
 
-import bwipjs from '../../node_modules/bwip-js/dist/bwip-js.mjs';
+import bwipjs from '../../../node_modules/bwip-js/dist/bwip-js.mjs';
 import { WindowMessageBag } from '../helpers/messagebag';
 
 function shoppinglistView(Grocy, scope = null) 

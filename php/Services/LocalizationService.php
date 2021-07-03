@@ -63,6 +63,9 @@ class LocalizationService
 
 	public function GetPoAsJsonString()
 	{
+		// Shame.
+		if($this->Po == null) return '{}';
+
 		return $this->Po->toJsonString();
 	}
 

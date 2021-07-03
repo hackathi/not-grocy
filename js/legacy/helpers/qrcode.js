@@ -1,5 +1,5 @@
 // bwipjs is broken, needs to be explicitly imported.
-import bwipJs from '../../node_modules/bwip-js/dist/bwip-js.mjs';
+import bwipJs from '../../../node_modules/bwip-js/dist/bwip-js.mjs';
 
 function QrCodeImgHtml(text) 
 {
