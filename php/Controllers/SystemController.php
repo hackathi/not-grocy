@@ -4,6 +4,7 @@ namespace Grocy\Controllers;
 
 use Grocy\Services\DatabaseMigrationService;
 use Grocy\Services\DemoDataGeneratorService;
+use Grocy\Services\SessionService;
 
 class SystemController extends BaseController
 {
