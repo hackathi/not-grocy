@@ -9,7 +9,7 @@ use Gettext\Translator;
 class LocalizationService
 {
 	const DOMAIN = 'grocy/userstrings';
-	const LOCALE_BASE = __DIR__ . '/../../localization';
+	const LOCALE_BASE = REPO_BASE . '/localization';
 
 	protected $Po;
 

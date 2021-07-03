@@ -10,7 +10,7 @@ class DatabaseMigrationService extends BaseService
 
 		$migrationFiles = [];
 
-		foreach (new \FilesystemIterator(__DIR__ . '/../migrations') as $file)
+		foreach (new \FilesystemIterator(REPO_BASE . '/php/Migrations') as $file)
 		{
 			$migrationFiles[$file->getBasename()] = $file;
 		}
