@@ -28,15 +28,6 @@ abstract class AuthMiddleware extends BaseMiddleware
 
 		if ($routeName === 'root')
 		{
-			if (GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease' || GROCY_IS_EMBEDDED_INSTALL || GROCY_DISABLE_AUTH)
-			{
-				$sessionService = SessionService::getInstance();
-				$user = $sessionService->GetDefaultUser();
-
-				define('GROCY_AUTHENTICATED', true);
-				define('GROCY_USER_USERNAME', $user->username);
-				define('GROCY_USER_PICTURE_FILE_NAME', $user->picture_file_name);
-			}
 			return $handler->handle($request);
 		}
 		elseif ($routeName === 'login')
