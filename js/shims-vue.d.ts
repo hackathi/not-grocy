@@ -5,3 +5,8 @@ declare module '*.vue' {
 	const component: DefineComponent<{}, {}, any>;
 	export default component;
 }
+
+declare module 'primevue/toastservice/toastservice.esm' {
+	import { Plugin } from 'vue';
+	export const install: Plugin;
+}

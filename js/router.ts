@@ -12,8 +12,3 @@ const router = createRouter({
 	routes
 });
 export default router;
-//# sourceMappingURL=router.js.map
-//# sourceMappingURL=router.js.map
-//# sourceMappingURL=router.js.map
-//# sourceMappingURL=router.js.map
-//# sourceMappingURL=router.js.map

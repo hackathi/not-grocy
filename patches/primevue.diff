@@ -1,0 +1,26 @@
+diff --git a/confirmationservice/ConfirmationService.d.ts b/confirmationservice/ConfirmationService.d.ts
+index de2ab1d8b4c83981eeb146e56a960816452e4fa6..cd921ea8c9d5f74dec8f7a1af5c48d5adf0de7a4 100644
+--- a/confirmationservice/ConfirmationService.d.ts
++++ b/confirmationservice/ConfirmationService.d.ts
+@@ -1,6 +1,7 @@
+ import Vue, { PluginFunction } from 'vue';
+ 
+-export const install: PluginFunction<{}>;
++declare const install: PluginFunction<{}>;
++export default install;
+ 
+ interface ConfirmationServiceMethods {
+     require(options: any): any;
+diff --git a/toastservice/ToastService.d.ts b/toastservice/ToastService.d.ts
+index 88a375aa3847a56796e586ec6c6cd1d527da0b67..8459f689a4265528e4ccaf917bf43c7e61835bbd 100755
+--- a/toastservice/ToastService.d.ts
++++ b/toastservice/ToastService.d.ts
+@@ -1,6 +1,7 @@
+ import Vue, { PluginFunction } from 'vue';
+ 
+-export const install: PluginFunction<{}>;
++declare const install: PluginFunction<{}>;
++export default install;
+ 
+ interface ToastServiceMethods {
+     add(message: any): any;

@@ -59,6 +59,8 @@ UGLIFY_INPUT=public/dist/grocy.js
 UGLIFY_OUTPUT=public/dist/grocy.min.js
 OBJDIRS := public/dist public/js public/css public/js/locales
 TMPSASS=public/dist/grocy.tmp.css
+ARTSOURCES := $(wildcard artwork/*.svg)
+ARTOBJS := $(addprefix public/img/, $(notdir $(ARTSOURCES)))
 
 .DEFAULT_GOAL := build
 # disable default suffixes
@@ -123,8 +125,8 @@ watch:
 	touch ${TMPSASS}
 	${SASS} ${SASSFLAGS} --watch ${SASS_INPUT} ${TMPSASS} & \
 	${POSTCSS} ${TMPSASS} --config . -o ${SASS_OUTPUT} --watch & \
-	${ROLLUP} --watch --no-watch.clearScreen --config ${RFLAGS} & \
-	${ROLLUP} --watch --no-watch-clearScreen --config rollup.vue.js ${RFLAGS} & \
+	${ROLLUP} --watch --no-watch.clearScreen --config rollup.config.js ${RFLAGS} & \
+	${ROLLUP} --watch --no-watch.clearScreen --config rollup.vue.js ${RFLAGS} & \
 	${PHP} ${RUNFLAGS} & \
 	trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT & \
 	wait
@@ -138,9 +140,22 @@ js: yarn.lock | $(OBJDIRS)
 
 # build and bundle SASS files.
 .PHONY=css
-css: yarn.lock | $(OBJDIRS)
+css: scss/sigma/_day.scss scss/sigma/_night.scss yarn.lock | $(OBJDIRS)
 	${SASS} ${SASSFLAGS} ${SASS_INPUT} ${SASS_OUTPUT}
 	${POSTCSS} --config . ${SASS_OUTPUT} -r
+
+# Both themes need to be wrapped for now (makes changing easier...)
+# CSS is perfectly fine SCSS with a different file ending.
+# So copy files, and .gitignore them, so that scoped @use works.
+scss/sigma/_day.scss: node_modules/primevue/resources/themes/saga-green/theme.css
+	cp node_modules/primevue/resources/themes/saga-green/theme.css scss/sigma/_day.scss
+
+scss/sigma/_night.scss: node_modules/primevue/resources/themes/arya-green/theme.css
+	cp node_modules/primevue/resources/themes/arya-green/theme.css scss/sigma/_night.scss
+
+node_modules/primevue/resources/themes/saga-green/theme.css: yarn.lock
+
+node_modules/primevue/resources/themes/arya-green/theme.css: yarn.lock
 
 .PHONY=frontend
 frontend:
@@ -154,8 +169,9 @@ frontend:
 #
 # The resources target depends on all i18n copy targets
 # defined below, which do the actual magic.
+# TODO: better dependency expression.
 .PHONY=resources
-resources: public/webfonts public/dist/font public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js
+resources: public/webfonts public/dist/font public/dist/fonts public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js $(ARTOBJS)
 
 public/dist:
 	mkdir -p public/dist
@@ -172,6 +188,9 @@ public/webfonts: | yarn.lock $(OBJDIRS)
 public/dist/font: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/font public/dist/font
 
+public/dist/fonts: | yarn.lock $(OBJDIRS)
+	cp -r node_modules/primeicons/fonts public/dist/fonts
+
 public/js/locales/summernote: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/lang public/js/locales/summernote
 
@@ -187,6 +206,10 @@ public/js/locales/fullcalendar-core: | yarn.lock $(OBJDIRS)
 public/js/swagger-ui.js: node_modules/swagger-ui-dist/swagger-ui.js | yarn.lock $(OBJDIRS)
 	cp -r node_modules/swagger-ui-dist/*.js node_modules/swagger-ui-dist/*.js.map public/js
 	cp -r node_modules/swagger-ui-dist/*.css node_modules/swagger-ui-dist/*.css.map public/css
+
+public/img/%.svg: artwork/%.svg
+	cp $< $@
+
 
 node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 

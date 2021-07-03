@@ -29,7 +29,7 @@
 	<link href="{{ $U('/dist/grocy.css?v=', true) }}{{ $version }}"	rel="stylesheet">
 </head>
 
-<body>
+<body class="theme-day">
 	<div id="app"></div>
 
 	<script src="{{ $U('/dist/main.js?v=', true) }}{{ $version }}"></script>

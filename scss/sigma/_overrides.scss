@@ -1,0 +1,140 @@
+body {
+	transition: background-color .2s ease;
+	
+	&.theme-night {
+		color: rgba(255, 255, 255, 0.87); // text-color
+		background-color: #121212; // surface-b
+
+		.layout-footer {
+			background-color: #1e1e1e; // surface-a
+		}
+
+		.user-settings-menu {
+			> li {
+				> a {
+					border-top: 1px solid $menuitemDarkBorderColor;
+				}
+
+				&:last-child {
+					> a {
+						border-bottom: 1px solid $menuitemDarkBorderColor;
+					}
+				}
+
+				ul {
+					background-color: $menuitemDarkActiveBgColor;
+				}
+			}
+
+			li {
+				a {
+					color: $menuitemDarkColor;
+
+					&.router-link-active {
+						color: $menuitemDarkActiveColor;
+					}
+
+					&:hover {
+						color: $menuitemDarkHoverColor;
+					}
+				}
+
+				&.active-menuitem {
+					> a {
+						background-color: $menuitemDarkActiveBgColor;
+						color: $menuitemDarkActiveColor;
+					}
+				}
+			}
+		}
+	}
+
+	&.theme-day {
+		.user-settings-menu {
+			> li {
+				> a {
+					border-top: 1px solid $menuitemBorderColor;
+				}
+
+				&:last-child {
+					> a {
+						border-bottom: 1px solid $menuitemBorderColor;
+					}
+				}
+
+				ul {
+					background-color: $menuitemActiveBgColor;
+				}
+			}
+
+			li {
+				a {
+					color: $menuitemColor;
+
+					&.router-link-active {
+						color: $menuitemActiveColor;
+					}
+
+					&:hover {
+						color: $menuitemHoverColor;
+					}
+				}
+
+				&.active-menuitem {
+					> a {
+						background-color: $menuitemActiveBgColor;
+						color: $menuitemActiveColor;
+					}
+				}
+			}
+		}
+	}
+}
+
+.layout-logo img {
+	max-width: 80%;
+	max-height: 7.5rem;
+}
+
+.p-text-help {
+	color: $textSecondaryColor;
+}
+
+#userSettingsDropDown {
+	width: 100%;
+	@media screen and (min-width: $md) {
+		width: 370px;
+	}
+}
+
+
+.layout-menu-button {
+	&:focus {
+		@include focused-inset();
+	}
+	img {
+		max-width: 100px;
+		float: left;
+		margin-top: -50px;
+		margin-left: 20px;
+		transition: opacity .2s ease-out;
+    	opacity: 0;
+
+		&.showing {
+			opacity: 1;
+		}
+	}
+	span {
+		display: block;
+		float: left;
+	}
+	
+	width: 80px;
+	clear: left;
+}
+
+.layout-topbar-icons .p-link {
+	&:focus {
+		@include focused-inset();
+	}
+}
