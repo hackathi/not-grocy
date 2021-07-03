@@ -1,8 +1,11 @@
 <template>
 	<div class="layout-footer">
 		<span class="footer-text" style="margin-right: 5px">
-			<a href="https://github.com/mistressofjellyfish/not-grocy"><i class="pi pi-github"></i> not-grocy</a> 
-			made with ❤️&nbsp;&nbsp;and ☕&nbsp;&nbsp;by <a href="https://github.com/mistressofjellyfish/not-grocy/graphs/contributors">many awesome people.</a></span>
+			<i18n-t keypath='{project_link} made with ❤️ and ☕ by {contributors}' tag="span">
+				<template v-slot:project_link><a href="https://github.com/mistressofjellyfish/not-grocy"><i class="pi pi-github"></i> not-grocy</a> </template>
+				<template v-slot:contributors> <a href="https://github.com/mistressofjellyfish/not-grocy/graphs/contributors">{{ $t('many awesome people.') }}</a></template>
+			</i18n-t>
+		</span>
 	</div>
 </template>
 

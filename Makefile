@@ -43,6 +43,7 @@ YARN=yarn
 PHP=php
 COMPOSER=composer
 POSTCSS=npx postcss
+I18NEXTRACT=yarn run vue-i18n-extract
 
 # Configure some default flags for the tooling. Set include paths.
 SASSFLAGS=-I node_modules/ --color --quiet-deps
@@ -57,10 +58,12 @@ SASS_INPUT=scss/grocy.scss
 SASS_OUTPUT=public/dist/grocy.css
 UGLIFY_INPUT=public/dist/grocy.js
 UGLIFY_OUTPUT=public/dist/grocy.min.js
-OBJDIRS := public/dist public/js public/css public/js/locales
+OBJDIRS := public/dist public/js public/css public/js/locales public/locale
 TMPSASS=public/dist/grocy.tmp.css
 ARTSOURCES := $(wildcard artwork/*.svg)
 ARTOBJS := $(addprefix public/img/, $(notdir $(ARTSOURCES)))
+LANGS := $(wildcard locale/*.json)
+LANGOBJS := $(addprefix public/locale/, $(notdir $(LANGS)))
 
 .DEFAULT_GOAL := build
 # disable default suffixes
@@ -171,7 +174,7 @@ frontend:
 # defined below, which do the actual magic.
 # TODO: better dependency expression.
 .PHONY=resources
-resources: public/webfonts public/dist/font public/dist/fonts public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js $(ARTOBJS)
+resources: public/webfonts public/dist/font public/dist/fonts public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js $(ARTOBJS) $(LANGOBJS)
 
 public/dist:
 	mkdir -p public/dist
@@ -181,6 +184,8 @@ public/css:
 	mkdir -p public/css
 public/js/locales:
 	mkdir -p public/js/locales
+public/locale:
+	mkdir -p public/locale
 
 public/webfonts: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/@fortawesome/fontawesome-free/webfonts public/webfonts
@@ -210,6 +215,8 @@ public/js/swagger-ui.js: node_modules/swagger-ui-dist/swagger-ui.js | yarn.lock 
 public/img/%.svg: artwork/%.svg
 	cp $< $@
 
+public/locale/%.json: locale/%.json | $(OBJDIRS)
+	cp $< $@
 
 node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 
@@ -220,6 +227,10 @@ node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 # This is not ideal, but works for now.
 public/js/locales/grocy/en.json: vendor localization/strings.pot | $(OBJDIRS)
 	${PHP} buildfiles/generate-locales.php
+
+.PHONY=extract
+extract:
+	${I18NEXTRACT} report -v './js/**/*.?(js|vue|ts)' --languageFiles './locale/*.json' -a
 
 .PHONY=run
 run: build
@@ -268,6 +279,7 @@ clean:
 	-rm -rf public/js
 	-rm -rf public/css
 	-rm -rf public/js/locales
+	-rm -rf public/locale
 	-rm -rf release/
 	-rm -rf vendor/
 	-rm -rf node_modules

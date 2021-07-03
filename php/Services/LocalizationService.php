@@ -11,7 +11,8 @@ class LocalizationService
 	const DOMAIN = 'grocy/userstrings';
 	const LOCALE_BASE = REPO_BASE . '/localization';
 
-	protected $Po;
+	// Shame.
+	public $Po;
 
 	protected $PoUserStrings;
 

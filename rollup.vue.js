@@ -6,6 +6,7 @@ import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import typescript from 'rollup-plugin-typescript2';
+import json from '@rollup/plugin-json';
 
 import path from 'path';
 
@@ -24,6 +25,7 @@ export default {
 	},
 	plugins: [
 		resolve({ browser: true, preferBuiltins: true }),
+		json(),
 		vue({
 			target: "browser"
 		}),

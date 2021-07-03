@@ -2,54 +2,63 @@
 		<OverlayPanel ref="quickUserSettings" id="userSettingsDropDown">
 			<div class="p-field p-grid p-ai-center">
 				<InputSwitch v-model="autoReload" id="userSettingsAutoReload" class="p-col-fixed" /> 
-				<div class="p-col"><label for="userSettingsAutoReload">Automatically reload data</label></div>
+				<div class="p-col"><label for="userSettingsAutoReload">{{ $t('Automatically reload data') }}</label></div>
 			</div>
 			<div class="p-field p-grid p-ai-center">
 				<InputSwitch v-model="headerClock" id="userSettingsHeaderClock" class="p-col-fixed" /> 
-				<div class="p-col"><label for="userSettingsHeaderClock">Show clock in header</label></div>
+				<div class="p-col"><label for="userSettingsHeaderClock">{{ $t('Show clock in header') }}</label></div>
 			</div>
 			<hr>
 			<div class="p-grid p-field p-ai-center nested-grid">
-				<div class="p-md-9">
+				<div class="p-md-8">
 					<div class="p-grid p-ai-center">
 						<InputSwitch v-model="nightMode" id="userSettingsNightMode" class="p-col-fixed" /> 
-						<div class="p-col"><label for="userSettingsNightMode">Night mode</label></div>
+						<div class="p-col"><label for="userSettingsNightMode">{{ $t('Night mode') }}</label></div>
 					</div>
 				</div>
-				<div class="p-md-3">
+				<div class="p-md-4">
 					<div class="p-grid p-ai-center">
 						<CheckBox v-model="autoNightMode" :binary="true" id="userSettingsAutoNightMode" />
-						<div class="p-col"><label for="userSettingsAutoNightMode">Auto</label></div>
+						<div class="p-col"><label for="userSettingsAutoNightMode">{{ $t('Auto') }}</label></div>
 					</div>
 				</div>
 			</div>
 			<div class="p-fluid">
 				<div class="p-field">
 					<div class="p-grid p-ai-center nested-grid">
-						<div class="p-col-9">
+						<div class="p-col-8">
 							<div class="p-grid p-ai-center">
-								<div class="p-col"><label for="userSettingsAutoNightModeRange">Automatic night mode range</label></div>
+								<div class="p-col"><label for="userSettingsAutoNightModeRange">{{ $t('Automatic night mode range') }}</label></div>
 							</div>
 						</div>
-						<div class="p-col-3">
+						<div class="p-col-4">
 							<div class="p-grid p-ai-center">
 								<CheckBox v-model="flipNightModeRange" :binary="true" id="userSettingsAutoNightModeRangeFlipped" />
-								<div class="p-col"><label for="userSettingsAutoNightModeRangeFlipped">Invert</label></div>
+								<div class="p-col"><label for="userSettingsAutoNightModeRangeFlipped">{{ $t('Invert') }}</label></div>
 							</div>
 						</div>
 					</div>
 					<Slider v-model="autoNightModeTimeRange" :range="true" :step="0.25" :min="0" :max="24" id="userSettingsAutoNightModeRange" />
-					<div class="p-mt-3 p-text-help" style="height: 3em;">This activates night mode between {{ nightModeStart }} and {{ nightModeEnd }} the <span v-if="flipNightModeRange">next</span><span v-else>same</span> day.</div>
+					<div class="p-mt-3 p-text-help" style="height: 3em;">
+						<i18n-t keypath='This activates night mode between {start} and {end} the next day.' v-if="flipNightModeRange" tag="span">
+							<template v-slot:start><span>{{ nightModeStart }}</span></template>
+							<template v-slot:end><span>{{ nightModeEnd }}</span></template>
+						</i18n-t>
+						<i18n-t keypath='This activates night mode between {start} and {end} the same day.' v-else tag="span">
+							<template v-slot:start><span>{{ nightModeStart }}</span></template>
+							<template v-slot:end><span>{{ nightModeEnd }}</span></template>
+						</i18n-t>
+					</div>
 				</div>
 			</div>
 			<hr>
 			<div class="p-field p-grid p-ai-center">
 				<InputSwitch v-model="keepScreenOn" class="p-col-fixed" />
-				<div class="p-col"><label for="userSettingsKeepScreenOn">Keep screen on</label></div>
+				<div class="p-col"><label for="userSettingsKeepScreenOn">{{ $t('Keep screen on') }}</label></div>
 			</div>
 			<div class="p-field p-grid p-ai-center">
 				<InputSwitch v-model="fullscreenScreenLock" :class="{ 'p-col-fixed': true, 'p-disabled': keepScreenOn }" />
-				<div class="p-col"><label for="userSettingsKeepScreenOn">Keep screen on while displaying fullscreen content</label></div>
+				<div class="p-col"><label for="userSettingsKeepScreenOn">{{ $t('Keep screen on while displaying fullscreen content') }}</label></div>
 			</div>
 		</OverlayPanel>
 </template>

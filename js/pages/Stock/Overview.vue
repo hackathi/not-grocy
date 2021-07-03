@@ -1,5 +1,5 @@
 <template>
-	<p> Hi! </p>
+	<p> {{ $t("Stock overview") }} </p>
 </template>
 
 <script lang="ts">

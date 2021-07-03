@@ -31,7 +31,6 @@ import AppProfile from './components/App/Profile.vue';
 import AppMenu from './components/App/Menu.vue';
 import AppFooter from './components/App/Footer.vue';
 import ScrollPanel from 'primevue/scrollpanel';
-
 import { MenuItem, MenuItemClickEvent } from './types/Menu';
 
 import { defineComponent } from 'vue';
@@ -48,7 +47,7 @@ export default defineComponent({
 			menuActive: false,
 			menuClick: false,
 			menu : <Array<MenuItem>> [
-				{ label: 'Stockoverview', icon: 'fas fa-box', to: '/'},
+				{ label: 'Stock overview', icon: 'fas fa-box', to: '/'},
 				{ label: 'Shopping list', icon: 'fas fa-shopping-cart', to: '/shoppinglist'},
 				{ label: 'Recipes', icon: 'fas fa-pizza-slice', to: '/recipes'},
 				{ label: 'Meal plan', icon: 'fas fa-map', to: '/mealplan'},
