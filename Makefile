@@ -207,23 +207,23 @@ release:
 .PHONY=pack
 pack: publish manifest
 	mkdir -p release
-	tar cvfJ release/not-grocy-$(shell git describe --tags).tar.xz \
+	tar cfJ release/not-grocy-$(shell git describe --tags).tar.xz \
 		changelog \
-		controllers \
+		php/Controllers \
 		data/.htaccess \
 		data/plugins \
-		helpers \
+		php/Helpers \
 		localization \
-		middleware \
-		migrations \
+		php/Middleware \
+		php/Migrations \
 		public \
-		services \
+		php/Services \
 		vendor \
-		views \
-		app.php \
-		config-dist.php \
+		php/Views \
+		php/app.php \
+		php/config-dist.php \
 		grocy.openapi.json \
-		routes.php \
+		php/routes.php \
 		version.json
 
 # this will error if the working tree is dirty (git diff-index will return a non-zero status code)

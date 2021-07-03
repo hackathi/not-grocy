@@ -1,0 +1,34 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 16.x] # 10.x from debian buster
+        php-version: [7.3, 7.4]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@e02a1810e66ae357773a8f82626c7965d13ca75c # pinned 2.11.0
+      with:
+        php-version: ${{ matrix.php-version }}
+    - run: make build
+    - run: cp php/config-dist.php data/config.php
+    - run: GROCY_MODE=dev php -S localhost:8000 -t public &
+    - run: curl http://localhost:8000/ # setup database
+    - run: curl http://localhost:8000/api/stock | jq | grep "best_before_date"
