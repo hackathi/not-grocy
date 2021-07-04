@@ -585,27 +585,23 @@
   "Polish": "Polish",
   "DemoSupermarket1": "Walmart",
   "DemoSupermarket2": "Kroger",
+  "many awesome people": {
+    "": ""
+  },
+  "{project_link} made with ❤️ and ☕ by {contributors}": "",
   "Automatically reload data": "",
   "Night mode": "",
   "Auto": "",
   "Automatic night mode range": "",
   "Invert": "",
-  "This activates night mode between {nightModeStart} and {nightModeEnd} the next day": {
-    "": ""
-  },
-  "This activates night mode between {nightModeStart} and {nightModeEnd} the same day": {
-    "": ""
-  },
   "Keep screen on": "",
   "Keep screen on while displaying fullscreen content": "",
-  "many awesome people": {
-    "": ""
-  },
-  "{project_link} made with ❤️ and ☕ by {contributors}": "",
   "This activates night mode between {start} and {end} the next day": {
     "": ""
   },
   "This activates night mode between {start} and {end} the same day": {
     "": ""
-  }
+  },
+  "{count} Product | {count} Products": "",
+  "{string0} total value": ""
 }

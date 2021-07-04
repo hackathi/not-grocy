@@ -186,6 +186,7 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 
 	// Stock
 	$group->get('/stock', '\Grocy\Controllers\StockApiController:CurrentStock');
+	$group->get('/stock/overview', '\Grocy\Controllers\StockApiController:StockOverview');
 	$group->get('/stock/entry/{entryId}', '\Grocy\Controllers\StockApiController:StockEntry');
 	$group->put('/stock/entry/{entryId}', '\Grocy\Controllers\StockApiController:EditStockEntry');
 	$group->get('/stock/volatile', '\Grocy\Controllers\StockApiController:CurrentVolatileStock');

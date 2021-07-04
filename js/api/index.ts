@@ -1,12 +1,14 @@
 import BaseApi from './BaseApi';
 import SettingsApi from './SettingsApi';
 import SystemApi from './SystemApi';
+import StockApi from './StockApi';
 
 class GrocyApi extends BaseApi
 {
 	fetchOptions: RequestInit;
 	Settings: SettingsApi;
 	System: SystemApi;
+	Stock: StockApi;
 
 	constructor(baseUrl: string)
 	{
@@ -24,6 +26,7 @@ class GrocyApi extends BaseApi
 
 		this.Settings = new SettingsApi(baseUrl);
 		this.System = new SystemApi(baseUrl);
+		this.Stock = new StockApi(baseUrl);
 	}
 
 	SetBase(newBase: string) : void
@@ -31,6 +34,7 @@ class GrocyApi extends BaseApi
 		super.SetBase(newBase);
 		this.Settings.SetBase(newBase);
 		this.System.SetBase(newBase);
+		this.Stock.SetBase(newBase);
 	}
 }
 

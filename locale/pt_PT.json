@@ -1,11 +1,11 @@
 {
   "Stock overview": "Visão geral do Stock",
-  "{string0} product expires | {string0} products expiring": "{string0} produto expira | {string0} produtos a expirar",
-  "within the next day | within the next {string0} days": "no próximo dia | nos próximos {string0} dias",
-  "{string0} product is already expired | {string0} products are already expired": "{string0} produto já expirou | {string0} produtos já expiraram",
-  "{string0} product is below defined min. stock amount | {string0} products are below defined min. stock amount": "{string0} produto está abaixo da quantidade min. de stock | {string0} produtos estão abaixo da quantidade min. de stock",
+  "{count} product expires | {count} products expiring": "{count} produto expira | {count} produtos a expirar",
+  "within the next day | within the next {count} days": "no próximo dia | nos próximos {count} dias",
+  "{count} product is already expired | {count} products are already expired": "{count} produto já expirou | {count} produtos já expiraram",
+  "{count} product is below defined min. stock amount | {count} products are below defined min. stock amount": "{count} produto está abaixo da quantidade min. de stock | {count} produtos estão abaixo da quantidade min. de stock",
   "Product": "Produto",
-  "{string0} Product | {string0} Products": "{string0} Produto | {string0} Produtos",
+  "{count} Product | {count} Products": "{count} Produto | {count} Produtos",
   "Amount": "Quantidade",
   "Next best before date": "Próxima data de validade a expirar",
   "Logout": "Logout",
@@ -153,7 +153,7 @@
   "Requirements fulfilled": "Requisitos cumpridos",
   "Put missing products on shopping list": "Colocar produtos em falta na lista de compras",
   "Enough in stock": "Suficiente em stock",
-  "Not enough in stock, {string0} ingredient missing but already on the shopping list | Not enough in stock, {string0} ingredients missing but already on the shopping list": "Não existe suficiente em stock, {string0} ingrediente em falta mas já na lista de compras | Não existe suficiente em stock, {string0} ingredientes em falta mas já na lista de compras",
+  "Not enough in stock, {count} ingredient missing but already on the shopping list | Not enough in stock, {count} ingredients missing but already on the shopping list": "Não existe suficiente em stock, {count} ingrediente em falta mas já na lista de compras | Não existe suficiente em stock, {count} ingredientes em falta mas já na lista de compras",
   "Expand to fullscreen": "Expandir para ecrã inteiro",
   "Ingredients": "Ingredientes",
   "Preparation": "Preparação",
@@ -189,11 +189,11 @@
   "in {string0} per purchase quantity unit": "em {string0} por unidade de medida de compra",
   "The price cannot be lower than {string0}": "O preço não pode ser inferior a {string0}",
   "Unit": "Unidade",
-  "{string0} Unit | {string0} Units": "{string0} Unidade | {string0} Unidades",
-  "{string0} chore is due to be done | {string0} chores are due to be done": "{string0} tarefa está agendada | {string0} tarefas estão agendadas ",
-  "{string0} chore is overdue to be done | {string0} chores are overdue to be done": "{string0} tarefa já ultrapassou o prazo | {string0} tarefas já ultrapassaram o prazo",
-  "{string0} battery is due to be charged | {string0} batteries are due to be charged": "{string0} pilha precisa ser carregada | {string0} pilhas precisam ser carregadas",
-  "{string0} battery is overdue to be charged | {string0} batteries are overdue to be charged": "{string0} pilha ultrapassou o prazo para ser carregada | {string0} pilhas ultrapassaram o prazo para serem carregadas",
+  "{count} Unit | {count} Units": "{count} Unidade | {count} Unidades",
+  "{count} chore is due to be done | {count} chores are due to be done": "{count} tarefa está agendada | {count} tarefas estão agendadas ",
+  "{count} chore is overdue to be done | {count} chores are overdue to be done": "{count} tarefa já ultrapassou o prazo | {count} tarefas já ultrapassaram o prazo",
+  "{count} battery is due to be charged | {count} batteries are due to be charged": "{count} pilha precisa ser carregada | {count} pilhas precisam ser carregadas",
+  "{count} battery is overdue to be charged | {count} batteries are overdue to be charged": "{count} pilha ultrapassou o prazo para ser carregada | {count} pilhas ultrapassaram o prazo para serem carregadas",
   "in singular form": "no singular",
   "Never expires": "Nunca expira",
   "This cannot be lower than {string0}": "Não pode ser mais baixo do que {string0}",
@@ -219,8 +219,8 @@
   "Category": "Categoria",
   "Edit task": "Editar tarefa",
   "Are you sure to delete task \"{string0}\"?": "Pretende eliminar a tarefa \"{string0}\"?",
-  "{string0} task is due to be done | {string0} tasks are due to be done": "{string0} tarefa agendada | {string0} tarefas agendadas",
-  "{string0} task is overdue to be done | {string0} tasks are overdue to be done": "{string0} tarefas pendentes de execução | {string0}taferas pendentes de realização",
+  "{count} task is due to be done | {count} tasks are due to be done": "{count} tarefa agendada | {count} tarefas agendadas",
+  "{count} task is overdue to be done | {count} tasks are overdue to be done": "{count} tarefas pendentes de execução | {count}taferas pendentes de realização",
   "Edit task category": "Editar categoria da tarefa",
   "Create task category": "Criar categoria da tarefa",
   "Product groups": "Grupos de produto",
@@ -387,7 +387,7 @@
   "Plural count": "Contagem plural",
   "Plural rule": "Regra plural",
   "in plural form": "no plural",
-  "Not enough in stock, {string0} ingredient missing | Not enough in stock, {string0} ingredients missing": "Sem stock suficiente, {string0} ingredientes faltando | Sem stock suficiente, {string0} ingredientes faltando",
+  "Not enough in stock, {count} ingredient missing | Not enough in stock, {count} ingredients missing": "Sem stock suficiente, {count} ingredientes faltando | Sem stock suficiente, {count} ingredientes faltando",
   "The amount cannot be lower than {string1} or equal {string2}": "A quantidade não pode ser menor que {string1} ou igual a {string2}",
   "Not enough in stock, but already on the shopping list": "Stock insuficiente, mas já na lista de compras",
   "Not enough in stock": "Não há stock suficiente",
@@ -402,7 +402,7 @@
   "Consume {string1} of {string2}": "Consumir {string1} de {string2}",
   "Meal plan": "Plano de refeições",
   "Add recipe on {string0}": "Adicionar receita em {string0}",
-  "{string0} serving | {string0} servings": "{string0} porções | {string0} porções",
+  "{count} serving | {count} servings": "{count} porções | {count} porções",
   "Week costs": "Custo por semana",
   "Configuration": "Configuração",
   "A predefined list of values, one per line": "Uma lista pré-definida de valores, um por linha",
@@ -457,7 +457,7 @@
   "This means the next execution of this chore will be assigned to the next one in alphabetical order": "Isto significa que a próxima execução desta tarefa será atribuída ao seguinte por ordem alfabética",
   "Assign to": "Atribuí a",
   "This assignment type requires that at least one is assigned": "",
-  "{string0} chore is assigned to me | {string0} chores are assigned to me": " | ",
+  "{count} chore is assigned to me | {count} chores are assigned to me": " | ",
   "Assigned to me": "Atribuído a mim",
   "assigned to {string0}": "atribuído a {string0}",
   "Assignment": "",
@@ -743,26 +743,21 @@
   "Hebrew (Israel)": "",
   "Tamil": "",
   "Finnish": "",
+  "many awesome people": {
+    "": ""
+  },
+  "{project_link} made with ❤️ and ☕ by {contributors}": "",
   "Automatically reload data": "",
   "Night mode": "",
   "Auto": "",
   "Automatic night mode range": "",
   "Invert": "",
-  "This activates night mode between {nightModeStart} and {nightModeEnd} the next day": {
-    "": ""
-  },
-  "This activates night mode between {nightModeStart} and {nightModeEnd} the same day": {
-    "": ""
-  },
   "Keep screen on while displaying fullscreen content": "",
-  "many awesome people": {
-    "": ""
-  },
-  "{project_link} made with ❤️ and ☕ by {contributors}": "",
   "This activates night mode between {start} and {end} the next day": {
     "": ""
   },
   "This activates night mode between {start} and {end} the same day": {
     "": ""
-  }
+  },
+  "{string0} total value": ""
 }

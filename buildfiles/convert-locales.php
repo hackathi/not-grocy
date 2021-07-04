@@ -1,12 +1,14 @@
 <?php
 use Grocy\Services\LocalizationService;
 
-function clean($in) {
+function clean($in, $pluralMode) {
 	$out = $in;
-	$out = str_replace("%s", "{string0}", $out);
+	$varname = $pluralMode ? "{count}" : "{string0}";
+
+	$out = str_replace("%s", $varname, $out);
 	$out = preg_replace('/%([0-9])\$s/', '{string${1}}', $out);
 	$out = str_replace('"', '\"', $out);
-	$out = str_replace("%d", "{num0}", $out);
+	$out = str_replace("%d", $varname, $out);
 	$out = str_replace("\n", "", $out);
 	return $out;
 }
@@ -43,21 +45,21 @@ foreach($translations as $lang) {
 	
 	$isFirst = true;
 	foreach($ls->Po as $translation) {
+		$hasPlural = $translation->hasPlural();
 		if(!$isFirst) {
 			fwrite($lf, ",\n");
 		}
 		$isFirst = false;
-		$orig = clean($translation->getOriginal());
-		$hasPlural = $translation->hasPlural();
+		$orig = clean($translation->getOriginal(), $hasPlural);
 		if($hasPlural) {
-			$orig .= ' | ' . clean($translation->getPlural());
+			$orig .= ' | ' . clean($translation->getPlural(), $hasPlural);
 		}
 
-		$trans = clean($translation->getTranslation());
+		$trans = clean($translation->getTranslation(), $hasPlural);
 		if($hasPlural) {
 			$plTrans = $translation->getPluralTranslations();
 			foreach($plTrans as $pTrans) {
-				$trans .= ' | ' . clean($pTrans);
+				$trans .= ' | ' . clean($pTrans, $hasPlural);
 			}
 		}
 

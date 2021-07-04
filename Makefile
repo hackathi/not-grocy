@@ -83,7 +83,7 @@ help:
 
 # Install all dependencies, then build the public/ folder.
 .PHONY=build
-build: vendor js css public/js/locales/grocy/en.json resources
+build: vendor js css $(LANGOBJS) public/js/locales/grocy/en.json resources
 
 .PHONY=minify
 minify: build

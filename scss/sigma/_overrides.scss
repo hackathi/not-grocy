@@ -5,6 +5,28 @@ body {
 		color: rgba(255, 255, 255, 0.87); // text-color
 		background-color: #121212; // surface-b
 
+		.stock-table tr {
+			&.row-due-soon {
+				background-color: #FFE082 !important; 
+				color: #121212;
+			}
+
+			&.row-expired {
+				background-color: #F48FB1 !important;
+				color: #121212;
+			}
+
+			&.row-overdue {
+				background-color: #78909C !important;
+				color: #fff;
+			}
+
+			&.row-on-shoppinglist {
+				background-color: #81D4FA !important;
+				color: #121212;
+			}
+		}
+
 		.layout-footer {
 			background-color: #1e1e1e; // surface-a
 		}
@@ -50,6 +72,24 @@ body {
 	}
 
 	&.theme-day {
+		.stock-table tr {
+			&.row-due-soon {
+				background-color: adjust-color(#fbc02d, $lightness: 30%) !important; // yellow 500
+			}
+
+			&.row-expired {
+				background-color: adjust-color(#D32F2F, $lightness: 30%) !important;
+			}
+
+			&.row-overdue {
+				background-color: adjust-color(#607D8B, $lightness: 30%) !important;
+			}
+
+			&.row-on-shoppinglist {
+				background-color: adjust-color(#0288D1, $lightness: 50%) !important;
+			}
+		}
+
 		.user-settings-menu {
 			> li {
 				> a {
@@ -142,4 +182,22 @@ body {
 .layout-headerclock {
 	float: left;
 	font-size: 20px;
+}
+
+.p-card.with-title-addon .p-card-title span {
+	font-size: 80%;
+    color: #777;
+}
+
+.filter-buttons button {
+	margin-right: .5rem;
+}
+
+.product-context-menu {
+	width: 22rem !important;
+}
+
+.row-due-soon {
+	background-color: #fbc02d; // yellow 500
+	color: #212529;
 }

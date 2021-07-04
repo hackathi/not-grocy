@@ -329,6 +329,16 @@ class StockApiController extends BaseApiController
 		return $this->ApiResponse($response, $this->getStockService()->GetCurrentStock());
 	}
 
+	public function StockOverview(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
+	{
+		$usersService = $this->getUsersService();
+
+		return $this->ApiResponse($response, [
+			'currentStock' => $this->getStockService()->GetCurrentStockOverview(),
+			'currentStockLocations' => $this->getStockService()->GetCurrentStockLocations(),
+		]);
+	}
+
 	public function CurrentVolatileStock(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
 	{
 		$nextXDays = 5;
