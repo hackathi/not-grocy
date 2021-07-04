@@ -2382,7 +2382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/devtools-api@npm:^6.0.0-beta.14, @vue/devtools-api@npm:^6.0.0-beta.7":
+"@vue/devtools-api@npm:^6.0.0-beta.11, @vue/devtools-api@npm:^6.0.0-beta.14, @vue/devtools-api@npm:^6.0.0-beta.7":
   version: 6.0.0-beta.15
   resolution: "@vue/devtools-api@npm:6.0.0-beta.15"
   checksum: 6e76f02a9aa34cd8712c4897569ebf69f6ddb387e44d5162a98a1b5dc4528c655689eade4453b88f2479ba75e58fb10aa7333c8bb6f4f6e0e9e91fe6f8b780eb
@@ -6482,6 +6482,7 @@ fsevents@~2.3.2:
     vue-i18n: next
     vue-i18n-extract: ^1.2.3
     vue-router: 4
+    vuex: next
   languageName: unknown
   linkType: soft
 
@@ -12815,6 +12816,17 @@ typescript@^4.3.5:
     "@vue/runtime-dom": 3.1.4
     "@vue/shared": 3.1.4
   checksum: 5b256d788c12cbd74ba3ca7a83456696cbacc2b7ef02e54a9f587c7bf5c42d7892e8d896aac96554056263c87f21e956a9636696bbd0843b05a92bc040fe3ffa
+  languageName: node
+  linkType: hard
+
+"vuex@npm:next":
+  version: 4.0.2
+  resolution: "vuex@npm:4.0.2"
+  dependencies:
+    "@vue/devtools-api": ^6.0.0-beta.11
+  peerDependencies:
+    vue: ^3.0.2
+  checksum: cb98e64928a9da876e4df12e0aaa92a70e93a391356c8a9458fd8380b8ed6a850991cc78888535a77724062d5ced38e5a2d0e50278abb56a8b9b076b173187c1
   languageName: node
   linkType: hard
 

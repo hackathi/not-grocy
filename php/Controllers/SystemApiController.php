@@ -75,7 +75,9 @@ class SystemApiController extends BaseApiController
 		if(GROCY_AUTHENTICATED) {
 			$user = $this->getSessionService()->GetDefaultUser();
 			$GrocyConfig["User"]["Settings"] = array_merge($GrocyConfig["User"]["Settings"], $this->getUsersService()->GetUserSettings($user->id));
-			$GrocyConfig["User"]["Permissions"] = array_merge($GrocyConfig["User"]["Permissions"], User::PermissionList());
+			$perms = User::PermissionList();
+			foreach($perms as $value)
+				$GrocyConfig["User"]["Permissions"][$value->permission_name] = $value->has_permission;
 
 			
 			$GrocyConfig["User"]["Id"] = $user->id;

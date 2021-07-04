@@ -1,6 +1,6 @@
 import { computed, onMounted, onUnmounted, ref, ComputedRef } from "vue";
 
-interface ViewportSize { width: ComputedRef<number>, height: ComputedRef<number>, breakpoint: ComputedRef<"xs" | "md" | "lg" | "unknown"> }
+interface ViewportSize { width: ComputedRef<number>, height: ComputedRef<number>, breakpoint: ComputedRef<"xs" | "sm" | "md" | "lg" | "xl"> }
 
 export default function () : ViewportSize
 {
@@ -19,10 +19,11 @@ export default function () : ViewportSize
 	// TODO: check breakpoints
 	const breakpoint = computed(() => 
 	{
-		if (windowWidth.value < 550) return 'xs';
-		if (windowWidth.value > 549 && windowWidth.value < 1200) return 'md';
-		if (windowWidth.value > 1199) return 'lg';
-		return 'unknown';
+		if (windowWidth.value > 576 && windowWidth.value <= 768) return 'sm';
+		if (windowWidth.value > 768 && windowWidth.value <= 992) return 'md';
+		if (windowWidth.value > 992 && windowWidth.value <= 1200) return 'lg';
+		if (windowWidth.value > 1200) return 'xl';
+		return 'xs';
 	});
 
 	const width = computed(() => windowWidth.value);

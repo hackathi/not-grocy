@@ -1,6 +1,6 @@
 <template>
 	<div :class="containerClass" @click="onWrapperClick">
-		<AppTopBar @menu-toggle="onMenuToggle" @menuitem-click="onMenuItemClick"  />
+		<AppTopBar @menu-toggle="onMenuToggle" @menuitem-click="onMenuItemClick" @check-nightmode="checkNightmode" />
 
         <transition name="layout-sidebar">
             <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
@@ -32,8 +32,10 @@ import AppMenu from './components/App/Menu.vue';
 import AppFooter from './components/App/Footer.vue';
 import ScrollPanel from 'primevue/scrollpanel';
 import { MenuItem, MenuItemClickEvent } from './types/Menu';
+import { useStore } from './store';
 
 import { defineComponent } from 'vue';
+import { DateTime, Interval, Duration } from "luxon";
 
 export default defineComponent({
 	data() 
@@ -46,6 +48,8 @@ export default defineComponent({
 			mobileMenuActive: false,
 			menuActive: false,
 			menuClick: false,
+			autoNightModeOn: false,
+			toggleNightModeTimer: <any> null,
 			menu : <Array<MenuItem>> [
 				{ label: 'Stock overview', icon: 'fas fa-box', to: '/'},
 				{ label: 'Shopping list', icon: 'fas fa-shopping-cart', to: '/shoppinglist'},
@@ -61,7 +65,7 @@ export default defineComponent({
 				{ label: 'Transfer', icon: 'fas fa-exchange-alt', to: '/transfer'},
 				{ label: 'Inventory', icon: 'fas fa-list', to: '/inventory'},
 				{ label: 'Chore tracking', icon: 'fas fa-play', to: '/choretracking'},
-				{ label: 'Battrery tracking', icon: 'fas fa-car-battery', to: '/batterytracking'},
+				{ label: 'Battery tracking', icon: 'fas fa-car-battery', to: '/batterytracking'},
 				{ label: 'Manage master data', icon: 'fas fa-database', items: [
 					{ label: 'Products', icon: 'fas fa-boxes' , to: '/products' },
 					{ label: 'Locations', icon: 'fas fa-boxes' , to: '/locations' },
@@ -84,7 +88,70 @@ export default defineComponent({
 			this.$toast.removeAllGroups();
 		}
 	},
+	mounted() 
+	{
+		this.checkNightmode();
+	},
 	methods: {
+		checkNightmode() 
+		{
+			if(this.store.state.Settings.User == null)
+				return false;
+	
+			if(this.store.state.Settings.User.NightMode || this.isAutoNightModeActive()) 
+			{
+				document.body.classList.add("theme-night");
+				document.body.classList.remove("theme-day");
+			}
+			else
+			{
+				document.body.classList.remove("theme-night");
+				document.body.classList.add("theme-day");
+			}
+			if(this.toggleNightModeTimer != null)
+			{
+				clearTimeout(this.toggleNightModeTimer);
+			}
+
+			const now = DateTime.now();
+			const sod = now.startOf('day');
+			let start = sod.plus(Duration.fromMillis(this.store.state.Settings.User.AutoNightModeRange[0] * 60 * 60 * 60 * 1000));
+			const end = sod.plus(Duration.fromMillis(this.store.state.Settings.User.AutoNightModeRange[0] * 60 * 60 * 60 * 1000));
+
+			let timeout = start.toMillis() - now.toMillis();
+			// trigger on the next event
+			if(timeout <= 0)
+				timeout = start.toMillis() - end.toMillis();
+
+			// if it's still not valid, wrap around day.
+			if(timeout <= 0)
+			{
+				start = start.plus(Duration.fromObject({ days: 1 }));
+				timeout = start.toMillis() - now.toMillis();
+			}
+
+			this.toggleNightModeTimer = setTimeout(() => this.checkNightmode(), timeout);
+		},
+		isAutoNightModeActive() : boolean
+		{
+			if(this.store.state.Settings.User == null)
+				return false;
+			
+
+			const now = DateTime.now();
+			const sod = now.startOf('day');
+			const start = sod.plus(Duration.fromMillis(this.store.state.Settings.User.AutoNightModeRange[0] * 60 * 60 * 60 * 1000));
+			const end = sod.plus(Duration.fromMillis(this.store.state.Settings.User.AutoNightModeRange[0] * 60 * 60 * 60 * 1000));
+
+			let isInRange = Interval.fromDateTimes(start, end).contains(now);
+
+			if(!this.store.state.Settings.User.AutoNightModeInvert) 
+			{
+				isInRange = !isInRange;
+			}
+
+			return this.autoNightModeOn = this.store.state.Settings.User.AutoNightMode && isInRange;
+		},
 		onWrapperClick() 
 		{
 			if (!this.menuClick) 
@@ -203,6 +270,12 @@ export default defineComponent({
 			this.addClass(document.body, 'body-overflow-hidden');
 		else
 			this.removeClass(document.body, 'body-overflow-hidden');
+	},
+	setup()
+	{
+		const store = useStore();
+
+		return { store };
 	},
 	components: {
 		'AppTopBar': AppTopBar,

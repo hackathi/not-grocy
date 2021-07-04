@@ -138,3 +138,8 @@ body {
 		@include focused-inset();
 	}
 }
+
+.layout-headerclock {
+	float: left;
+	font-size: 20px;
+}

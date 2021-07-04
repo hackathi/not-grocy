@@ -7,6 +7,7 @@
 				</div>
 			</button>
 			<div class="layout-topbar-icons">
+				<HeaderClock v-if="showHeaderClock" />
 				<button class="p-link" @click="toggleUserSettings">
 					<span class="layout-topbar-item-text">User Settings</span>
 					<span class="layout-topbar-icon pi pi-sliders-h"></span><span class="pi pi-angle-down"></span>
@@ -16,7 +17,7 @@
 					<span class="layout-topbar-icon pi pi-cog"></span><span class="pi pi-angle-down"></span>
 				</button>
 			</div>
-			<QuickUserSettings ref="userSettings" />
+			<QuickUserSettings ref="userSettings" @check-nightmode="onCheckNightmode" />
 			<UserSettingsMenu ref="userSettingsMenu" :model="menu" @menuitem-click="onMenuItemClick" />
 		</div>
 </template>
@@ -25,8 +26,11 @@
 import { defineComponent, ref } from 'vue';
 import QuickUserSettings from './QuickUserSettings.vue';
 import UserSettingsMenu from './UserSettingsMenu.vue';
+import HeaderClock from './HeaderClock.vue';
 
 import { MenuItem } from '../../types/Menu';
+import { useStore } from '../../store';
+import ViewportSize from '../../lib/breakpoints';
 
 export default defineComponent({
 	data() 
@@ -58,6 +62,10 @@ export default defineComponent({
 		onMenuItemClick(event: Event) : void
 		{
 			this.$emit('menuitem-click', event);
+		},
+		onCheckNightmode() : void
+		{
+			this.$emit('check-nightmode');
 		}
 	},
 	setup() 
@@ -68,11 +76,23 @@ export default defineComponent({
 		const userSettingsMenu = ref<InstanceType<typeof UserSettingsMenu>>();
 		const toggleUserSettingsMenu = (event: Event) : void => { userSettingsMenu.value?.toggle(event) } ;
 
-		return { userSettings, userSettingsMenu, toggleUserSettings, toggleUserSettingsMenu };
+		const store = useStore();
+
+		return { store, userSettings, userSettingsMenu, toggleUserSettings, toggleUserSettingsMenu };
+	},
+	computed: {
+		showHeaderClock() : boolean | undefined
+		{
+			// Don't mount that on small screens.
+			// TODO: doesn't reevaluate correctly when viewportsize changes.
+			const { breakpoint } = ViewportSize();
+			return this.store.state.Settings.User?.HeaderClock && breakpoint.value != "sm" && breakpoint.value != "xs";
+		}
 	},
 	components: {
 		'QuickUserSettings': QuickUserSettings,
 		'UserSettingsMenu' : UserSettingsMenu,
+		'HeaderClock': HeaderClock
 	}
 });
 </script>

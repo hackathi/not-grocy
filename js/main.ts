@@ -1,7 +1,10 @@
 import { createApp } from 'vue';
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from './locale';
 import router from './router';
+import { store, key } from './store';
+import { LOAD_CONFIG } from './store/mutations';
 import App from './App.vue';
+import api from './api';
 
 // PrimeVue components
 import PrimeVue from 'primevue/config';
@@ -22,6 +25,7 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(router);
 app.use(i18n);
+app.use(store, key);
 
 app.component('InputText', InputText);
 app.component('RadioButton', RadioButton);
@@ -29,7 +33,12 @@ app.component('ToggleButton', ToggleButton);
 app.component('InputSwitch', InputSwitch);
 app.component('CheckBox', CheckBox);
 
-// test!
-loadLocaleMessages(i18n, "de").then(() => setI18nLanguage(i18n, "de"));
+// load configs
+api.System.GetConfig().then((config) =>
+{
+	store.commit(LOAD_CONFIG, config);
 
-app.mount("#app");
+	loadLocaleMessages(i18n, store.state.Settings.Locale).then(() => setI18nLanguage(i18n, store.state.Settings.Locale));
+
+	app.mount("#app");
+});
