@@ -8,12 +8,20 @@ export const ALL_LANGS = ['cs', 'da', 'de', 'el_GR', 'en', 'en_GB', 'es', 'fi', 
 export function setupI18n(options: any = { locale: 'en' }): I18n<unknown, unknown, unknown, false>
 {
 	// force "format fallback messages"
-	options.formatFallbackMessages = true;
+	options.fallbackFormat = true;
 	options.legacy = false;
 	options.globalInjection = true;
+	options.fallbackLocale = "root";
+	options.fallbackWarn = false;
+	options.missing = (locale :string, key :string) =>
+	{
+		// en is integrated into code.
+		if (locale == "en" || locale == "root") return;
+
+		console.warn(`i18n: (${locale}) Missing key '${key}'.`);
+	};
 
 	const i18n = createI18n(options);
-	setI18nLanguage(i18n, options.locale);
 	return i18n;
 }
 

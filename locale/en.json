@@ -585,9 +585,7 @@
   "Polish": "Polish",
   "DemoSupermarket1": "Walmart",
   "DemoSupermarket2": "Kroger",
-  "many awesome people": {
-    "": ""
-  },
+  "many awesome people.": "",
   "{project_link} made with ❤️ and ☕ by {contributors}": "",
   "Automatically reload data": "",
   "Night mode": "",
@@ -596,12 +594,8 @@
   "Invert": "",
   "Keep screen on": "",
   "Keep screen on while displaying fullscreen content": "",
-  "This activates night mode between {start} and {end} the next day": {
-    "": ""
-  },
-  "This activates night mode between {start} and {end} the same day": {
-    "": ""
-  },
+  "This activates night mode between {start} and {end} the next day.": "",
+  "This activates night mode between {start} and {end} the same day.": "",
   "{count} Product | {count} Products": "",
   "{string0} total value": ""
 }

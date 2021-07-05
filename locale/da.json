@@ -3,7 +3,7 @@
   "{count} product expires | {count} products expiring": "{count} produkt udløber | {count} varer udløber",
   "within the next day | within the next {count} days": "indenfor den næstkommende dag | indenfor de næste {count} dage",
   "{count} product is already expired | {count} products are already expired": "{count} vare er allerede udløbet | {count} varer er allerede udløbet",
-  "{count} product is overdue | {count} products are overdue": " | ",
+  "{count} product is overdue | {count} products are overdue": "{count} vare er allerede udløbet | {count} varer er allerede udløbet",
   "{count} product is below defined min. stock amount | {count} products are below defined min. stock amount": "{count} vare er under den definerede minimumsbeholdning | {count} varer er under den definerede minimumsbeholdning",
   "Product": "Vare",
   "{count} Product | {count} Products": "{count} Vare | {count} Varer",
@@ -829,21 +829,5 @@
   "Chinese (China)": "",
   "Hebrew (Israel)": "",
   "Tamil": "",
-  "Finnish": "",
-  "many awesome people": {
-    "": ""
-  },
-  "{project_link} made with ❤️ and ☕ by {contributors}": "",
-  "Automatically reload data": "",
-  "Night mode": "",
-  "Auto": "",
-  "Automatic night mode range": "",
-  "Invert": "",
-  "Keep screen on while displaying fullscreen content": "",
-  "This activates night mode between {start} and {end} the next day": {
-    "": ""
-  },
-  "This activates night mode between {start} and {end} the same day": {
-    "": ""
-  }
+  "Finnish": ""
 }

@@ -25,6 +25,7 @@
 			:value="stock" 
 			:scrollable="true"
 			scrollDirection="horizontal"
+			responsiveLayout="scroll"
 			class="stock-table p-mt-2 p-shadow-1 p-datatable-sm" 
 			contextMenu 
 			v-model:contextMenuSelection="selectedProduct" 
@@ -104,8 +105,13 @@
 		</DataTable>
 		<ContextMenu :model="menuModel" ref="cm" class="product-context-menu">
 			<template #item="{item}">
-				<a :class="{'p-menuitem-link' : true, 'p-disabled' : checkDisabled(item) }" :aria-haspopup="item.items != null" :aria-expanded="item === activeItem" role="menuitem" :tabindex="item.disabled ? null : '0'" :target="item.target">
-					<span :href="item.url" :class="['p-menuitem-icon', item.icon]"></span><span class="p-menuitem-text">{{ $t(item.label, { string1: this.selectedProduct.quickConsumeAmount, string2: this.selectedProduct.name}) }}</span>
+				<a :class="{'p-menuitem-link' : true, 'p-disabled' : checkDisabled(item) }" :aria-haspopup="item.items != null" :aria-expanded="item === selectedProduct" role="menuitem" :tabindex="item.disabled ? null : '0'" :target="item.target">
+					<span :href="item.url" :class="['p-menuitem-icon', item.icon]"></span><span class="p-menuitem-text">
+						<i18n-t :keypath="item.label">
+							<template #string1>{{ this.selectedProduct.quick_consume_amount }}</template>
+							<template #string2>{{ this.selectedProduct.product_name }}</template>
+						</i18n-t>
+					</span>
 				</a>
 			</template>
 		</ContextMenu>
@@ -145,7 +151,7 @@ export default defineComponent({
 				{label: 'Stock entries', command: () => {}},
 				{label: 'Stock journal', command: () => {}},
 				{label: 'Stock journal summary', command: () => {}},
-				{label: 'Edit Product', command: () => {}},
+				{label: 'Edit product', command: () => {}},
 				{ separator: true },
 				{label: 'Download product grocycode', command: () => {}},
 			]
@@ -182,8 +188,8 @@ export default defineComponent({
 		{
 			if(item.disabledKey !== undefined && this.selectedProduct !== null)
 			{
-				if(item.disabledKey == "consume") return parseFloat(item.amount_aggregated) > 0;
-				if(item.disabledKey == "transfer") return parseFloat(item.amount) > 0;
+				if(item.disabledKey == "consume") return parseFloat(item.amount_aggregated) == 0;
+				if(item.disabledKey == "transfer") return parseFloat(item.amount) == 0;
 			}
 			return false;
 		},
