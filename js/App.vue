@@ -31,8 +31,10 @@ import AppProfile from './components/App/Profile.vue';
 import AppMenu from './components/App/Menu.vue';
 import AppFooter from './components/App/Footer.vue';
 import ScrollPanel from 'primevue/scrollpanel';
+import { usePrimeVue } from 'primevue/config';
 import { MenuItem, MenuItemClickEvent } from './types/Menu';
 import { useStore } from './store';
+import { useI18n } from 'vue-i18n';
 
 import { defineComponent } from 'vue';
 import { DateTime, Interval, Duration } from "luxon";
@@ -91,6 +93,17 @@ export default defineComponent({
 	mounted() 
 	{
 		this.checkNightmode();
+		// *sigh* this breaks dynamic language resetting somewhat,
+		// because we now need to bubble up an event to this view.
+		// primevue does primevue things.
+		const whateverThisTypeIs : any = this.i18n.messages.value;
+		const messages = whateverThisTypeIs[this.$i18n.locale].primevue;
+		if (messages !== undefined)
+		{
+			// This is a bug in primevue, giving me a wrong type here.
+			const pv :any = this.primevue;
+			Object.assign(pv.config.locale, messages);
+		}
 	},
 	methods: {
 		checkNightmode() 
@@ -274,8 +287,10 @@ export default defineComponent({
 	setup()
 	{
 		const store = useStore();
+		const primevue = usePrimeVue();
+		const i18n = useI18n();
 
-		return { store };
+		return { store, primevue, i18n };
 	},
 	components: {
 		'AppTopBar': AppTopBar,

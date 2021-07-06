@@ -829,5 +829,41 @@
   "Chinese (China)": "",
   "Hebrew (Israel)": "",
   "Tamil": "",
-  "Finnish": ""
+  "Finnish": "",
+  "many awesome people": {
+    "": ""
+  },
+  "{project_link} made with ❤️ and ☕ by {contributors}": "",
+  "Automatically reload data": "",
+  "Night mode": "",
+  "Auto": "",
+  "Automatic night mode range": "",
+  "Invert": "",
+  "Keep screen on while displaying fullscreen content": "",
+  "This activates night mode between {start} and {end} the next day": {
+    "": ""
+  },
+  "This activates night mode between {start} and {end} the same day": {
+    "": ""
+  },
+  "Starts With": "",
+  "Ends With": "",
+  "Equals": "",
+  "Not Equals": "",
+  "Contains": "",
+  "Not Contains": "",
+  "Less Than": "",
+  "Less Than Or Equal": "",
+  "Equal": "",
+  "Greater Than Or Equal": "",
+  "Greater Than": "",
+  "Before": "",
+  "Before Or On": "",
+  "On Day": "",
+  "Not On Day": "",
+  "After Or On": "",
+  "After": "",
+  "item": {
+    "label": ""
+  }
 }

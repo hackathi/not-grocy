@@ -1,9 +1,9 @@
 {
   "Stock overview": "Stock overview",
-  "{count} product expires | {count} products expiring": "{count} product expires | {count} products expiring",
-  "within the next day | within the next {count} days": "within the next day | within the next {count} days",
+  "{count} product expires | {count} products expiring": "",
+  "within the next day | within the next {count} days": "",
   "{count} product is already expired | {count} products are already expired": "{count} product is already expired | {count} products are already expired",
-  "{count} product is overdue | {count} products are overdue": " | ",
+  "{count} product is overdue | {count} products are overdue": "",
   "{count} product is below defined min. stock amount | {count} products are below defined min. stock amount": "{count} product is below defined min. stock amount | {count} products are below defined min. stock amount",
   "Product": "Product",
   "{count} Product | {count} Products": "",
@@ -380,7 +380,7 @@
   "Undo task": "",
   "Due date rollover": "Due date rollover",
   "When enabled the chore can never be overdue, the due date will shift forward each day when due": "When enabled the chore can never be overdue, the due date will shift forward each day when due",
-  "Location Content Sheet": "Location Content Sheet",
+  "Location Content Sheet": "",
   "Print": "Print",
   "all locations": "all locations",
   "Here you can print a page per location with the current stock, maybe to hang it there and note the consumed things on it": "",
@@ -446,7 +446,7 @@
   "Added {string1} of {string2} to the shopping list \"{string3}\"": "Added {string1} of {string2} to the shopping list \"{string3}\"",
   "Output": "Output",
   "Energy (kcal)": "Energy (kcal)",
-  "Per stock quantity unit": "Per stock quantity unit",
+  "Per stock quantity unit": "",
   "Barcode scanner testing": "Barcode scanner testing",
   "Expected barcode": "Expected barcode",
   "Scan field": "Scan field",
@@ -475,7 +475,7 @@
   "There are no units available at this location": "There are no units available at this location",
   "Amount: {string1}; Due on {string2}; Bought on {string3}": "",
   "Transfered {string1} of {string2} from {string3} to {string4}": "Transfered {string1} of {string2} from {string3} to {string4}",
-  "Stock entries": "Stock entries",
+  "Stock entries": "",
   "Best before date": "Best before date",
   "Purchased date": "Purchased date",
   "Consume all {string0} for this stock entry": "Consume all {string0} for this stock entry",
@@ -531,7 +531,7 @@
   "Edit this item": "Edit this item",
   "Delete this item": "Delete this item",
   "Show an icon if the product is already on the shopping list": "Show an icon if the product is already on the shopping list",
-  "Calories": "Calories",
+  "Calories": "",
   "means {string1} per {string2}": "means {string1} per {string2}",
   "Create inverse QU conversion": "Create inverse QU conversion",
   "Create recipe": "Create recipe",
@@ -628,7 +628,7 @@
   "{count} product is due | {count} products are due": " | ",
   "Due date": "",
   "Never overdue": "",
-  "{count} product is expired | {count} products are expired": " | ",
+  "{count} product is expired | {count} products are expired": "",
   "Expired": "",
   "Due soon days": "",
   "Add overdue/expired products": "",
@@ -901,5 +901,30 @@
   },
   "This activates night mode between {start} and {end} the same day": {
     "": ""
+  },
+  "Starts With": "",
+  "Ends With": "",
+  "Equals": "",
+  "Not Equals": "",
+  "Contains": "",
+  "Not Contains": "",
+  "Less Than": "",
+  "Less Than Or Equal": "",
+  "Equal": "",
+  "Greater Than Or Equal": "",
+  "Greater Than": "",
+  "Before": "",
+  "Before Or On": "",
+  "On Day": "",
+  "Not On Day": "",
+  "After Or On": "",
+  "After": "",
+  "item": {
+    "label": ""
+  },
+  "{count} product is below defined min": {
+    " stock amount | {count} products are below defined min": {
+      " stock amount": ""
+    }
   }
 }

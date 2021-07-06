@@ -836,5 +836,25 @@
   },
   "This activates night mode between {start} and {end} the same day": {
     "": ""
+  },
+  "Starts With": "",
+  "Ends With": "",
+  "Equals": "",
+  "Not Equals": "",
+  "Contains": "",
+  "Not Contains": "",
+  "Less Than": "",
+  "Less Than Or Equal": "",
+  "Equal": "",
+  "Greater Than Or Equal": "",
+  "Greater Than": "",
+  "Before": "",
+  "Before Or On": "",
+  "On Day": "",
+  "Not On Day": "",
+  "After Or On": "",
+  "After": "",
+  "item": {
+    "label": ""
   }
 }

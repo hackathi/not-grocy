@@ -44,6 +44,7 @@ PHP=php
 COMPOSER=composer
 POSTCSS=npx postcss
 I18NEXTRACT=yarn run vue-i18n-extract
+LOCALEMAKE=php buildfiles/make-locales.php
 
 # Configure some default flags for the tooling. Set include paths.
 SASSFLAGS=-I node_modules/ --color --quiet-deps
@@ -216,7 +217,7 @@ public/img/%.svg: artwork/%.svg
 	cp $< $@
 
 public/locale/%.json: locale/%.json | $(OBJDIRS)
-	cp $< $@
+	$(LOCALEMAKE) $< $@
 
 node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 
