@@ -1,10 +1,10 @@
 import BaseApi from "./BaseApi";
 
-class StockApi extends BaseApi
+class RecipesApi extends BaseApi 
 {
 	fetchOptions: RequestInit;
 
-	constructor(baseUrl: string)
+	constructor(baseUrl: string) 
 	{
 		super(baseUrl);
 		this.fetchOptions = {
@@ -20,7 +20,7 @@ class StockApi extends BaseApi
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	async GetAll(): Promise<any>
+	async GetAll(): Promise<any> 
 	{
 		// I'm sure there is a way, I just don't know it.
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,13 +28,13 @@ class StockApi extends BaseApi
 		Object.assign(options, this.fetchOptions);
 		options.method = "GET";
 
-		const endpoint = this.baseUrl + '/stock';
+		const endpoint = this.baseUrl + '/recipes';
 
 		return this.execute(endpoint, options);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	async Overview(): Promise<any>
+	async Get(id: number): Promise<any>
 	{
 		// I'm sure there is a way, I just don't know it.
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,23 +42,24 @@ class StockApi extends BaseApi
 		Object.assign(options, this.fetchOptions);
 		options.method = "GET";
 
-		const endpoint = this.baseUrl + '/stock/overview';
+		const endpoint = this.baseUrl + `/recipes/${id}/get`;
 
 		return this.execute(endpoint, options);
 	}
 
-	async GetQuantityUnits(): Promise<any>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async UpdateRecipe(id: number, fields: unknown): Promise<any>
 	{
-		// I'm sure there is a way, I just don't know it.
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const options = <any>{};
 		Object.assign(options, this.fetchOptions);
-		options.method = "GET";
+		options.method = "PUT";
+		options.body = JSON.stringify(fields);
 
-		const endpoint = this.baseUrl + '/objects/quantity_units';
+		const endpoint = this.baseUrl + `/objects/recipes/${id}`;
 
 		return this.execute(endpoint, options);
 	}
 }
 
-export default StockApi;
+export default RecipesApi;

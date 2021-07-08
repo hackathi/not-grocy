@@ -50,18 +50,18 @@ export async function loadLocaleMessages(i18n : I18n<unknown, unknown, unknown, 
 	{
 		if (messages.numberFormats.currency !== undefined)
 		{
-			messages.numberFormats.currency.currency = store.state.Settings.Currency;
-			messages.numberFormats.currency.maximumFractionDigits = store.state.Settings.User?.DecimalPlacesPrices || 2;
-			messages.numberFormats.currency.manimumFractionDigits = store.state.Settings.User?.DecimalPlacesPrices || 2;
+			messages.numberFormats.currency.currency = store.state.Settings?.Currency;
+			messages.numberFormats.currency.maximumFractionDigits = store.state.Settings?.User?.DecimalPlacesPrices || 2;
+			messages.numberFormats.currency.manimumFractionDigits = store.state.Settings?.User?.DecimalPlacesPrices || 2;
 		}
 		if (messages.numberFormats["avoid-decimal"] !== undefined)
 		{
-			messages.numberFormats["avoid-decimal"].maximumFractionDigits = store.state.Settings.User?.DecimalPlacesAmount || 4;
+			messages.numberFormats["avoid-decimal"].maximumFractionDigits = store.state.Settings?.User?.DecimalPlacesAmount || 4;
 		}
 		if (messages.numberFormats["decimal"] !== undefined)
 		{
-			messages.numberFormats["decimal"].maximumFractionDigits = store.state.Settings.User?.DecimalPlacesAmount || 4;
-			messages.numberFormats["decimal"].minimumFractionDigits = store.state.Settings.User?.DecimalPlacesAmount || 4;
+			messages.numberFormats["decimal"].maximumFractionDigits = store.state.Settings?.User?.DecimalPlacesAmount || 4;
+			messages.numberFormats["decimal"].minimumFractionDigits = store.state.Settings?.User?.DecimalPlacesAmount || 4;
 		}
 	}
 

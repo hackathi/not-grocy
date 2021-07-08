@@ -86,7 +86,7 @@ export default defineComponent({
 			// Don't mount that on small screens.
 			// TODO: doesn't reevaluate correctly when viewportsize changes.
 			const { breakpoint } = ViewportSize();
-			return this.store.state.Settings.User?.HeaderClock && breakpoint.value != "sm" && breakpoint.value != "xs";
+			return this.store.state.Settings?.User?.HeaderClock && breakpoint.value != "sm" && breakpoint.value != "xs";
 		}
 	},
 	components: {

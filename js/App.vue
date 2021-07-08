@@ -1,5 +1,6 @@
 <template>
 	<div :class="containerClass" @click="onWrapperClick">
+		<Toast />
 		<AppTopBar @menu-toggle="onMenuToggle" @menuitem-click="onMenuItemClick" @check-nightmode="checkNightmode" />
 
         <transition name="layout-sidebar">
@@ -108,10 +109,10 @@ export default defineComponent({
 	methods: {
 		checkNightmode() 
 		{
-			if(this.store.state.Settings.User == null)
+			if(this.store.state.Settings?.User == null)
 				return false;
 	
-			if(this.store.state.Settings.User.NightMode || this.isAutoNightModeActive()) 
+			if(this.store.state.Settings?.User.NightMode || this.isAutoNightModeActive()) 
 			{
 				document.body.classList.add("theme-night");
 				document.body.classList.remove("theme-day");
@@ -147,7 +148,7 @@ export default defineComponent({
 		},
 		isAutoNightModeActive() : boolean
 		{
-			if(this.store.state.Settings.User == null)
+			if(this.store.state.Settings?.User == null)
 				return false;
 			
 

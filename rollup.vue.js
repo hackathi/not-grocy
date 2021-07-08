@@ -22,6 +22,9 @@ export default {
 		format: 'umd',
 		name: 'VueGrocy',
 		sourcemap: true,
+		globals: {
+			quill: 'Quill'
+		}
 	},
 	plugins: [
 		resolve({ browser: true, preferBuiltins: true }),

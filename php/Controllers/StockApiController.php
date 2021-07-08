@@ -437,6 +437,54 @@ class StockApiController extends BaseApiController
 		}
 	}
 
+	public function GetProducts(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
+	{
+		if (isset($request->getQueryParams()['include_disabled']))
+		{
+			$products = $this->getDatabase()->products()->orderBy('name', 'COLLATE NOCASE');
+		}
+		else
+		{
+			$products = $this->getDatabase()->products()->where('active = 1')->orderBy('name', 'COLLATE NOCASE');
+		}
+
+		// THIS SHOULD BE A JOIN.
+		// I LITERALLY CANNOT EVEN.
+		$barcodes = $this->getDatabase()->product_barcodes()->orderBy('barcode');
+		$qu_conversions = $this->getDatabase()->quantity_unit_conversions();
+
+		$ret= [];
+		foreach($products as $product)
+		{
+			$np = $this->getStockService()->cleanProduct($product);
+			$np->barcodes = [];
+			$np->qu_conversions = [];
+
+			foreach($barcodes as $barcode) 
+			{
+				$bc = $this->getStockService()->cleanBarcode($barcode);
+				if($bc->product_id == null || $bc->product_id == $np->id)
+					$np->barcodes[] = $bc;
+			}
+			foreach($qu_conversions as $qu_conversion) 
+			{
+				$quConversion = $this->getStockService()->cleanQUConversion($qu_conversion);
+				if($quConversion->product_id == $product->id || 
+				$quConversion->product_id == null && (
+					$quConversion->from_qu_id == $product->qu_id_purchase || 
+					$quConversion->from_qu_id == $product->qu_id_stock || 
+					$quConversion->to_qu_id == $product->qu_id_purchase || 
+					$quConversion->to_qu_id == $product->qu_id_stock)
+				)
+					$np->qu_conversions[] = $quConversion;
+			}
+
+			$ret[] = $np;
+		}
+
+		$this->ApiResult($response, $ret);
+	}
+
 	public function InventoryProduct(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
 	{
 		User::checkPermission($request, User::PERMISSION_STOCK_INVENTORY);

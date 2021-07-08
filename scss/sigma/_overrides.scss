@@ -201,3 +201,61 @@ body {
 	background-color: #fbc02d; // yellow 500
 	color: #212529;
 }
+
+// this needs to get its own sass file FAST.
+.recipes-list {
+	.recipe-image {
+		background-size: cover;
+		background-position: center center;
+	}
+	cursor: pointer;
+}
+.p-dataview-grid {
+	.p-dataview-content > .p-grid {
+		display: block;
+		column-count: 1;
+		@media screen and (min-width: $sm) {
+			column-count: 2;
+		}
+		column-gap: .5rem;
+		orphans: 1;
+		widows: 1;
+	}
+
+	.recipes-masonry {
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	&::before,
+	&::after {
+	content: "";
+	flex-basis: 100%;
+	width: 0;
+	order: 2;
+	}
+}
+
+.recipe-display, .recipes-fullscreen .p-dialog-header {
+	.recipe-image {
+		min-height: 20rem;
+		background-size: cover;
+		background-position: center center;
+	}
+}
+
+.ingredient-group-list, .ingredient-list {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.ingredient-list li {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 1rem;
+}
+
+.recipes-fullscreen {
+	.p-dialog-header {
+		display: block; // no icons, no flex need
+	}
+}

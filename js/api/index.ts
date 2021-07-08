@@ -2,6 +2,7 @@ import BaseApi from './BaseApi';
 import SettingsApi from './SettingsApi';
 import SystemApi from './SystemApi';
 import StockApi from './StockApi';
+import RecipesApi from './RecipesApi';
 
 class GrocyApi extends BaseApi
 {
@@ -9,6 +10,7 @@ class GrocyApi extends BaseApi
 	Settings: SettingsApi;
 	System: SystemApi;
 	Stock: StockApi;
+	Recipes: RecipesApi;
 
 	constructor(baseUrl: string)
 	{
@@ -27,6 +29,7 @@ class GrocyApi extends BaseApi
 		this.Settings = new SettingsApi(baseUrl);
 		this.System = new SystemApi(baseUrl);
 		this.Stock = new StockApi(baseUrl);
+		this.Recipes = new RecipesApi(baseUrl);
 	}
 
 	SetBase(newBase: string) : void
@@ -35,6 +38,7 @@ class GrocyApi extends BaseApi
 		this.Settings.SetBase(newBase);
 		this.System.SetBase(newBase);
 		this.Stock.SetBase(newBase);
+		this.Recipes.SetBase(newBase);
 	}
 }
 

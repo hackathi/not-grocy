@@ -40,11 +40,11 @@ export default defineComponent({
 	computed: {
 		userName() : string
 		{
-			return this.store.state.User.Username;
+			return this.store.state.User?.Username || "";
 		},
 		userImage() : string
 		{
-			return this.store.state.User.PictureFileName || '/img/not-grocy-user-white.svg';
+			return this.store.state.User?.PictureFileName || '/img/not-grocy-user-white.svg';
 		}
 	},
 	methods: {

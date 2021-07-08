@@ -97,11 +97,11 @@ export default defineComponent({
 		saveTimeout() : void
 		{ 
 			
-			if(this.store.state.Settings.User !== undefined)
+			if(this.store.state.Settings?.User !== undefined)
 			{
 				if(
-					this.store.state.Settings.User.UnsavedAutoNightModeRange[0] != this.store.state.Settings.User.AutoNightModeRange[0] ||
-					this.store.state.Settings.User.UnsavedAutoNightModeRange[1] != this.store.state.Settings.User.AutoNightModeRange[1]
+					this.store.state.Settings?.User.UnsavedAutoNightModeRange[0] != this.store.state.Settings?.User.AutoNightModeRange[0] ||
+					this.store.state.Settings?.User.UnsavedAutoNightModeRange[1] != this.store.state.Settings?.User.AutoNightModeRange[1]
 				) 
 				{
 					this.isSaving = true;
@@ -150,15 +150,15 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				let screenOn = this.store.state.Settings.User?.KeepScreenOn;
-				let fullscreen = this.store.state.Settings.User?.KeepScreenOnWhenFullscreen;
+				let screenOn = this.store.state.Settings?.User?.KeepScreenOn;
+				let fullscreen = this.store.state.Settings?.User?.KeepScreenOnWhenFullscreen;
 				
 
 				return screenOn || fullscreen;
 			},
 			set(newValue) : void
 			{
-				if(!this.store.state.Settings.User?.KeepScreenOn)
+				if(!this.store.state.Settings?.User?.KeepScreenOn)
 				{
 					this.store.dispatch(SAVE_USER_SETTING_FULLSCREENLOCK, newValue);
 				}
@@ -168,7 +168,7 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				return this.store.state.Settings.User?.KeepScreenOn || false;
+				return this.store.state.Settings?.User?.KeepScreenOn || false;
 			},
 			set(newValue) : void
 			{
@@ -180,7 +180,7 @@ export default defineComponent({
 			get() : boolean | undefined
 			{
 
-				return this.store.state.Settings.User?.NightMode || false;
+				return this.store.state.Settings?.User?.NightMode || false;
 			},
 			set(newValue) : void
 			{
@@ -191,7 +191,7 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				return this.store.state.Settings.User?.AutoReload || false;
+				return this.store.state.Settings?.User?.AutoReload || false;
 			},
 			set(newValue) : void
 			{
@@ -202,7 +202,7 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				return this.store.state.Settings.User?.HeaderClock;
+				return this.store.state.Settings?.User?.HeaderClock;
 			},
 			set(newValue) : void
 			{
@@ -213,7 +213,7 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				return this.store.state.Settings.User?.AutoNightMode;
+				return this.store.state.Settings?.User?.AutoNightMode;
 			},
 			set(newValue) : void
 			{
@@ -224,7 +224,7 @@ export default defineComponent({
 		{
 			get() : Array<number> | undefined
 			{
-				return this.store.state.Settings.User?.UnsavedAutoNightModeRange;
+				return this.store.state.Settings?.User?.UnsavedAutoNightModeRange;
 			},
 			set(newValue) : void
 			{
@@ -235,7 +235,7 @@ export default defineComponent({
 		{
 			get() : boolean | undefined
 			{
-				return this.store.state.Settings.User?.AutoNightModeInvert;
+				return this.store.state.Settings?.User?.AutoNightModeInvert;
 			},
 			set(newValue) : void
 			{

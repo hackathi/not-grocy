@@ -374,15 +374,15 @@ export default defineComponent({
 			allColumns: <Array<any>> Array(0),
 			columnVisibility: <any> {
 				product_name : true,
-				product_group_name : true,
+				product_group_name : false,
 				amount : true,
-				value : true,
+				value : false,
 				best_before_date : true,
-				product_calories : true,
-				calories : true,
-				last_pruchased : true,
-				last_price : true,
-				min_stock_amount : true,
+				product_calories : false,
+				calories : false,
+				last_pruchased : false,
+				last_price : false,
+				min_stock_amount : false,
 			},
 			changing: false,
 		};
@@ -539,17 +539,17 @@ export default defineComponent({
 		{
 			return localStorageKeys.STOCKOVERVIEW_DATATABLE_STATE;
 		},
-		locale() : string
+		locale() : string | undefined
 		{
-			return this.store.state.Settings.Locale;
+			return this.store.state.Settings?.Locale;
 		},
-		currency() : string
+		currency() : string | undefined
 		{
-			return this.store.state.Settings.Currency;
+			return this.store.state.Settings?.Currency;
 		},
 		showProductOnShoppingList() : boolean | undefined
 		{
-			return this.store.state.Settings.User?.ShowIconWhenProductOnShoppinglist;
+			return this.store.state.Settings?.User?.ShowIconWhenProductOnShoppinglist;
 		},
 		aggregateValue() : number
 		{
@@ -586,7 +586,7 @@ export default defineComponent({
 		},
 		dueSoonDays() : number
 		{
-			return this.store.state.Settings.User?.DueSoonDays || 5;
+			return this.store.state.Settings?.User?.DueSoonDays || 5;
 		},
 	},
 	components: {

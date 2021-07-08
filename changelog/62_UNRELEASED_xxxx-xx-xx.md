@@ -5,6 +5,10 @@
 In between grocy v3.0.1 and this version, we forked the project to not-grocy. This moved a lot of code around.
 
 - Made not-grocy much faster.
+- New frontend URLs: Everything is handled through vue-router. Old URLs are not neccessarily the valid anymore.
+  While this mostly applies to object editing, we can't promise that all your bookmarks work.
+- New and modern look and feel.
+- Some new API endpoints that are easier to use than the raw object API.
 
 ### New feature: (Own) Product and stock entry labels/barcodes ("grocycode")
 - Print own labels/barcodes for products and/or every stock entry and then scan that code on every place a product or stock entry can be selected

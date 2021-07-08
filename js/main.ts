@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from './locale';
 import router from './router';
 import { store, key } from './store';
-import { LOAD_CONFIG } from './store/mutations';
+import { LOAD_CONFIG, LOAD_QUANTITY_UNITS } from './store/mutations';
 import App from './App.vue';
 import api from './api';
 import * as Filters from './lib/filters';
@@ -27,6 +27,11 @@ import ContextMenu from 'primevue/contextmenu';
 import InputNumber from 'primevue/inputnumber';
 import Calendar from 'primevue/calendar';
 import MultiSelect from 'primevue/multiselect';
+import Tooltip from 'primevue/tooltip';
+import Toast from 'primevue/toast';
+import ProgressSpinner from 'primevue/progressspinner';
+import Dropdown from 'primevue/dropdown';
+import Dialog from 'primevue/dialog';
 
 const app = createApp(App);
 const i18n = setupI18n();
@@ -50,6 +55,12 @@ app.component('ContextMenu', ContextMenu);
 app.component('InputNumber', InputNumber);
 app.component('Calendar', Calendar);
 app.component('MultiSelect', MultiSelect);
+app.component('Toast', Toast);
+app.component('ProgressSpinner', ProgressSpinner);
+app.component('Dropdown', Dropdown);
+app.component('Dialog', Dialog);
+
+app.directive('tooltip', Tooltip);
 
 if (FilterService.register !== undefined)
 {
@@ -68,13 +79,20 @@ api.System.GetConfig().then((config) =>
 {
 	store.commit(LOAD_CONFIG, config);
 	const promises = [loadLocaleMessages(i18n, "en", store)];
-	if (store.state.Settings.Locale != "en")
+	let setLanguage = "en";
+	if (store.state.Settings !== undefined && store.state.Settings.Locale != "en")
 	{
 		promises.push(loadLocaleMessages(i18n, store.state.Settings.Locale, store));
+		setLanguage = store.state.Settings.Locale;
 	}
+	promises.push(api.Stock.GetQuantityUnits().then(data =>
+	{
+		store.commit(LOAD_QUANTITY_UNITS, data);
+	}));
+	
 	Promise.all(promises).then(() =>
 	{
-		setI18nLanguage(i18n, store.state.Settings.Locale);
+		setI18nLanguage(i18n, setLanguage);
 		app.mount("#app");
 	});
 });
