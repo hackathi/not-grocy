@@ -296,13 +296,25 @@ export default defineComponent({
 				this.selectedRecipe.desired_servings = newValue;
 				this.fetchedRecipe.desired_servings = newValue;
 
-				api.Recipes.UpdateRecipe(this.selectedRecipe.id, { desired_servings: newValue }).catch((fail) =>
-				{
-					this.$toast.add({severity: 'error', summary: this.$t('Server error'), detail: this.$t('Error while saving {recipeName} – see developer console for details.', { recipeName: this.selectedRecipe.name }) });
-					console.error(fail);
-					this.selectedRecipe.desired_servings = oldValue;
-					this.fetchedRecipe.desired_servings = oldValue;
-				});
+				api.Recipes.UpdateRecipe(this.selectedRecipe.id, { desired_servings: newValue })
+					.then((data) => 
+					{
+						if(data.desired_servings != this.selectedRecipe.desired_servings)
+							return;
+
+						this.selectedRecipe.need_fulfilled = data.need_filfilled;
+						this.selectedRecipe.need_fulfilled_with_shopping_list = data.need_fulfilled_with_shopping_list;
+						this.selectedRecipe.missing_products_count = data.missing_products_count;
+						this.fetchedRecipe.ingredients = data.ingredients;
+						this.fetchedRecipe.subRecipes = data.subRecipes;
+					})
+					.catch((fail) =>
+					{
+						this.$toast.add({severity: 'error', summary: this.$t('Server error'), detail: this.$t('Error while saving {recipeName} – see developer console for details.', { recipeName: this.selectedRecipe.name }) });
+						console.error(fail);
+						this.selectedRecipe.desired_servings = oldValue;
+						this.fetchedRecipe.desired_servings = oldValue;
+					});
 			}
 		}
 	},

@@ -56,7 +56,7 @@ class RecipesApi extends BaseApi
 		options.method = "PUT";
 		options.body = JSON.stringify(fields);
 
-		const endpoint = this.baseUrl + `/objects/recipes/${id}`;
+		const endpoint = this.baseUrl + `/recipes/${id}/edit`;
 
 		return this.execute(endpoint, options);
 	}

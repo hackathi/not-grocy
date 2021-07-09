@@ -5,9 +5,10 @@ export interface Recipe {
 	name: string,
 	description: string,
 	row_created_timestamp: string, // ouch
-	picture_file_name: string,
+	picture_file_name: string | null,
 	base_servings: number,
 	desired_servings: number,
+	servings?: number,
 	not_check_shoppinglist: boolean,
 	type: string,
 	product_id: number | null,
@@ -16,7 +17,7 @@ export interface Recipe {
 	missing_products_count: 0,
 	costs: number,
 	calories: number,
-	ingredients: Array<Ingredient>,
+	ingredients: { [key: string]: Array<Ingredient> },
 	subRecipes: Array<Recipe>
 }
 

@@ -7,7 +7,7 @@
 			<i class="fas fa-exclamation text-warning"></i> {{ getOnShippinglist }}
 		</span>
 		<span v-if="!data.need_fulfilled && !data.need_fulfilled_with_shopping_list">
-			<i class="fas fa-times text-warning"></i> {{ getMissingString }}
+			<i class="fas fa-times text-danger"></i> {{ getMissingString }}
 		</span>
 	</div>
 </template>

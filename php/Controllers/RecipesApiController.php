@@ -71,7 +71,15 @@ class RecipesApiController extends BaseApiController
 										->fetchAll();
 
 		$recipe->subRecipes = [];
+		// for some reason we need to set the keys explicitly, 
+		// otherwise json_encode doesn't work properly. and doesn't
+		// make a nice array.
+		$i = 0;
 
+		$recipe->servings = null; // because OF COURSE we can't just use desired_servings here.
+
+		// of COURSE this is in another view, because I can't join, for the love of god.
+		$nestings = $this->getDatabase()->recipes_nestings()->where('recipe_id', $recipe->id)->fetchAll();
 		foreach ($selectedRecipeSubRecipes as $subRecipe)
 		{
 			$id = $subRecipe->id;
@@ -85,10 +93,59 @@ class RecipesApiController extends BaseApiController
 				$pos->recipe_amount = $pos2->recipe_amount;
 				$pos->missing_amount = $pos2->missing_amount;
 			}
-			$recipe->subRecipes[] = $this->resolveIngredients($ingredients, $products);
+			// LessQL makes it impossible to use array_filter(), so a Loop it is.
+			foreach($nestings as $nesting)
+			{
+				if((int)$nesting->includes_recipe_id == (int)$subRecipe->id)
+				{
+					$subRecipe->servings = (int)$nesting->servings;
+					break;
+				}
+			}
+			$subRecipe->ingredients = $this->resolveIngredients($ingredients, $products);
+			$recipe->subRecipes[$i++] = $this->getRecipesService()->clean($subRecipe);
 		}
 		
 		return $this->ApiResponse($response, $recipe);
+	}
+
+	// Special API endpoint because we need to return the recipe we just edited to avoid another network roundtrip.
+	public function EditRecipe(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args) 
+	{
+		User::checkPermission($request, User::PERMISSION_MASTER_DATA_EDIT);
+
+		if (!isset($args['recipeId']))
+		{
+			return $this->GenericErrorResponse($response, "Recipe Not Found");
+		}
+		// TODO: Userfields!
+		/*
+				$renderArray = [
+			'userfields' => $this->getUserfieldsService()->GetFields('recipes'),
+			'userfieldValues' => $this->getUserfieldsService()->GetAllValues('recipes'),
+		];
+		*/
+
+		$recipe = $this->getDatabase()->recipes($args['recipeId']);
+		if(!$recipe)
+		{
+			return $this->GenericErrorResponse($response, "Recipe Not Found");
+		}
+
+		$requestBody = $this->GetParsedAndFilteredRequestBody($request);
+
+		try
+		{
+
+			$recipe->update($requestBody);
+			$success = $recipe->isClean();
+
+			return $this->GetRecipe($request, $response, $args);
+		}
+		catch (\Exception $ex)
+		{
+			return $this->GenericErrorResponse($response, $ex->getMessage());
+		}
 	}
 
 	// the ingredients are grouped, maybe, maybe not. who the fuck knows, really.

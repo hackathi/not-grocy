@@ -1,15 +1,15 @@
 <template>
 <div class="p-grid">
-	<div class="p-col-12 p-d-flex p-jc-between">
-		<div v-tooltip="$t('per serving')">
+	<div class="p-col-12 p-d-flex">
+		<div v-tooltip="$t('per serving')" class="p-mr-2">
 			<p>{{ $t('Energy (kcal)') }}</p>
 			<p class="h3">{{ $n(fetchedRecipe.calories, 'avoid-decimal') }}</p>
 		</div>
-		<div v-tooltip="$t(priceTooltip)">
+		<div v-tooltip="$t(priceTooltip)" class="p-mr-2">
 			<p>{{ $t('Costs') }}</p>
 			<p class="h3">{{ $n(fetchedRecipe.costs, 'currency') }}</p>
 		</div>
-		<div>
+		<div class="p-ml-auto">
 			<p v-tooltip="$t('Base: {string0}', { string0: recipeServings })">{{ $t('Desired servings') }}</p>
 			<p><InputNumber id="horizontal" v-model="recipeServings" showButtons buttonLayout="horizontal" :step="1" decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" /></p>
 		</div>
