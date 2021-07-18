@@ -59,6 +59,19 @@ class StockApi extends BaseApi
 
 		return this.execute(endpoint, options);
 	}
+
+	async GetProducts(): Promise<any>
+	{
+		// I'm sure there is a way, I just don't know it.
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const options = <any>{};
+		Object.assign(options, this.fetchOptions);
+		options.method = "GET";
+
+		const endpoint = this.baseUrl + '/stock/products';
+
+		return this.execute(endpoint, options);
+	}
 }
 
 export default StockApi;

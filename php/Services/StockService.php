@@ -57,6 +57,19 @@ class StockService extends BaseService
 		$barcode->amount = $barcode->amount != null ? (double)$barcode->amount : null;
 		$barcode->shopping_location_id = $barcode->shopping_location_id != null ? (int) $barcode->shopping_location_id : null;
 		$barcode->last_price = $barcode->last_price != null ? (double)$barcode->last_price : null;
+		return $barcode;
+	}
+
+	public function CleanQUConversion($conversion)
+	{
+		$conversion = (object)$conversion;
+		$conversion->id = (int)$conversion->id;
+		$conversion->from_qu_id = (int)$conversion->from_qu_id;
+		$conversion->to_qu_id = (int)$conversion->to_qu_id;
+		$conversion->factor = (double)$conversion->factor;
+		$conversion->product_id = $conversion->product_id != null ? (int)$conversion->product_id : null;
+
+		return $conversion;
 	}
 
 	public function AddMissingProductsToShoppingList($listId = 1)

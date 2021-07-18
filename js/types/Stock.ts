@@ -27,6 +27,7 @@ export interface Product {
 	row_created_timestamp: string, // sigh...
 	default_print_stock_label: boolean,
 	allow_label_per_unit: boolean
+	barcodes?: Array<Barcode>
 	// userfields.
 }
 
@@ -41,4 +42,25 @@ export interface Barcode {
 	row_created_timestamp: string,
 	note: string | null,
 	// userfields.
+}
+
+export interface QuantityUnit {
+	id: number;
+	name: string;
+	description: string | null;
+	name_plural: string | null,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	plural_forms: any; // wat?
+	// TODO: type userfields better.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	userfields: any;
+}
+
+export interface QuantityUnitConversion {
+	id: number;
+	from_qu_id: number;
+	to_qu_id: number;
+	factor: number;
+	product_id: number;
+	row_created_timestamp: string;
 }

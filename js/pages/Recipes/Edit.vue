@@ -1,4 +1,5 @@
 <template>
+	<!-- eslint-disable vue/no-v-model-argument -->
 	<div class="p-grid">
 		<div class="p-col-12 p-lg-7">
 			<Card>
@@ -23,6 +24,7 @@
 							<ProductPicker 
 								:tooltip="$t('When a product is selected, one unit (per serving in stock quantity unit) will be added to stock on consuming this recipe')"
 								:label="$t('Produces product')"
+								v-model:selectedProduct="producedProduct"
 							/>
 						</div>
 						<div class="p-field">
@@ -40,11 +42,10 @@
 				<template #title>
 					<div class="p-d-flex p-jc-between">
 						<span>{{ $t('Ingredients list') }}</span>
-						<Button class="p-button-outlined" :label="$t('Add')" @click="addIngredient()" />
+						<Button class="p-button-outlined" :label="$t('Add')" @click="addIngredient" />
 					</div>
 				</template>
 				<template #content>
-					<!-- eslint-disable vue/no-v-model-argument -->
 					<DataTable 
 					stripedRows 
 					:value="ingredientsList" 
@@ -131,6 +132,7 @@
 				</template>
 			</Card>
 		</div>
+		<IngredientEdit :ingredient="targetIngredient" @save="onIngredientSave" v-model:visible="ingredientDialogVisible" />
 	</div>
 </template>
 
@@ -140,12 +142,13 @@ import api from '../../api';
 
 import { Ingredient, Recipe } from '../../types/Recipe';
 import ProductPicker from '../../components/Stock/Productpicker.vue';
+import IngredientEdit from '../../components/Recipes/IngredientEdit.vue';
 
 import Editor from 'primevue/editor';
 import FileUpload from 'primevue/fileupload';
 
 import { useStore } from '../../store';
-import { QuantityUnit } from '../../store/interfaces';
+import { Product, QuantityUnit } from '../../types/Stock';
 
 export default defineComponent({
 	props: {
@@ -161,6 +164,8 @@ export default defineComponent({
 			recipe: <Recipe> {},
 			noCheckShoppinglistTooltip: "By default the amount to be added to the shopping list is \"needed amount - stock amount - shopping list amount\" - when this is enabled, it is only checked against the stock amount, not against what is already on the shopping list",
 			expandedRowsIngredients: <Array<Ingredient>> [],
+			targetIngredient: <Ingredient | null> null,
+			ingredientDialogVisible: false
 		};
 	},
 	mounted() 
@@ -187,20 +192,37 @@ export default defineComponent({
 			}
 
 			return ret;
+		},
+		producedProduct: {
+			get() : Product | null
+			{
+				return this.store.getters.getProduct(this.recipe.product_id) || null;
+			},
+			set(newValue: Product | null)
+			{
+				this.recipe.product_id = newValue?.id || null;
+			}
 		}
 	},
 	methods: {
 		addIngredient() : void
 		{
-
+			this.targetIngredient = <Ingredient> {};
+			this.targetIngredient.id = NaN;
+			this.ingredientDialogVisible = true;
 		},
 		editIngredient(ingredient: Ingredient) : void
 		{
-			
+			this.targetIngredient = ingredient;
+			this.ingredientDialogVisible = true;
 		},
 		deleteIngredient(ingredient: Ingredient) : void
 		{
-
+			
+		},
+		onIngredientSave(ingredient: Ingredient) : void
+		{
+			// ...
 		},
 		getQuantityUnitName(id: number, recipeAmount: number) : QuantityUnit
 		{
@@ -224,6 +246,7 @@ export default defineComponent({
 		'Editor' : Editor,
 		'ProductPicker' : ProductPicker,
 		'FileUpload' : FileUpload,
+		'IngredientEdit' :  IngredientEdit,
 	}
 });
 </script>

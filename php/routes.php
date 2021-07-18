@@ -184,6 +184,9 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->put('/user/settings/{settingKey}', '\Grocy\Controllers\UsersApiController:SetUserSetting');
 	$group->delete('/user/settings/{settingKey}', '\Grocy\Controllers\UsersApiController:DeleteUserSetting');
 
+	// Products
+	$group->get('/stock/products', '\Grocy\Controllers\StockApiController:GetProducts');
+
 	// Stock
 	$group->get('/stock', '\Grocy\Controllers\StockApiController:CurrentStock');
 	$group->get('/stock/overview', '\Grocy\Controllers\StockApiController:StockOverview');
@@ -226,6 +229,7 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->get('/recipes', '\Grocy\Controllers\RecipesApiController:GetAll');
 	$group->get('/recipes/{recipeId}/get', '\Grocy\Controllers\RecipesApiController:GetRecipe');
 	$group->put('/recipes/{recipeId}/edit', '\Grocy\Controllers\RecipesApiController:EditRecipe');
+
 	$group->post('/recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist', '\Grocy\Controllers\RecipesApiController:AddNotFulfilledProductsToShoppingList');
 	$group->get('/recipes/{recipeId}/fulfillment', '\Grocy\Controllers\RecipesApiController:GetRecipeFulfillment');
 	$group->post('/recipes/{recipeId}/consume', '\Grocy\Controllers\RecipesApiController:ConsumeRecipe');

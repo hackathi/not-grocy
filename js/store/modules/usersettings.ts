@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { RootState } from '../interfaces';
-import { LOAD_CONFIG, UPDATE_USER_SETTING_NIGHTMODE, UPDATE_USER_SETTING_AUTORELOAD, UPDATE_USER_SETTING_FULLSCREENLOCK, UPDATE_USER_SETTING_SCREENLOCK, UPDATE_USER_SETTING_HEADERCLOCK, UPDATE_USER_SETTING_AUTONIGHTMODE, UPDATE_USER_SETTING_AUTONIGHTMODE_RANGE, UPDATE_USER_SETTING_AUTONIGHTMODE_INVERT, UPDATE_USER_SETTING_UNSAVED_AUTONIGHTMODE_RANGE } from "../mutations";
+import { LOAD_CONFIG, UPDATE_USER_SETTING_NIGHTMODE, UPDATE_USER_SETTING_AUTORELOAD, UPDATE_USER_SETTING_FULLSCREENLOCK, UPDATE_USER_SETTING_SCREENLOCK, UPDATE_USER_SETTING_HEADERCLOCK, UPDATE_USER_SETTING_AUTONIGHTMODE, UPDATE_USER_SETTING_AUTONIGHTMODE_RANGE, UPDATE_USER_SETTING_AUTONIGHTMODE_INVERT, UPDATE_USER_SETTING_UNSAVED_AUTONIGHTMODE_RANGE, UPDATE_USER_SETTING_PREFERRED_BARCODE_CAMERA, DELETE_USER_SETTING_PREFERRED_BARCODE_CAMERA } from "../mutations";
 import { SAVE_USER_SETTING_NIGHTMODE, SAVE_USER_SETTING_AUTORELOAD, SAVE_USER_SETTING_FULLSCREENLOCK, SAVE_USER_SETTING_SCREENLOCK, SAVE_USER_SETTING_HEADERCLOCK, SAVE_USER_SETTING_AUTONIGHTMODE, SAVE_USER_SETTING_AUTONIGHTMODE_RANGE, SAVE_USER_SETTING_AUTONIGHTMODE_INVERT} from "../actions";
 import api from '../../api';
 
@@ -41,10 +41,13 @@ export interface UserSettingsState {
 	QuaggaPatchsize: string,
 	QuaggaFrequency: number,
 	QuaggaDebug: boolean,
+	AutoLightTorch: boolean,
+	PreferredBarcodeCamera: string | null,
 
 	// For throtteling
 	UnsavedAutoNightModeRange: Array<number>
 }
+const STORAGE_PREFERRED_CAMERA = 'cameraId';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ensureBool(whatever: any, fallback  = false): boolean
@@ -117,7 +120,9 @@ const UserSettings: Module<UserSettingsState, RootState> = {
 			QuaggaHalfsample: false,
 			QuaggaPatchsize: "medium",
 			QuaggaFrequency: 10,
-			QuaggaDebug: true
+			QuaggaDebug: true,
+			AutoLightTorch: false,
+			PreferredBarcodeCamera: null,
 		};
 	},
 	mutations: {
@@ -171,6 +176,32 @@ const UserSettings: Module<UserSettingsState, RootState> = {
 			state.QuaggaPatchsize = newConfig.User.Settings.quagga2_patchsize;
 			state.QuaggaFrequency = newConfig.User.Settings.quagga2_frequency;
 			state.QuaggaDebug = newConfig.User.Settings.quagga2_debug;
+
+			if (window !== undefined)
+			{
+				const storage = window.localStorage;
+				state.PreferredBarcodeCamera = storage.getItem(STORAGE_PREFERRED_CAMERA);
+			}
+		},
+		[UPDATE_USER_SETTING_PREFERRED_BARCODE_CAMERA](state, newValue: string)
+		{
+			state.PreferredBarcodeCamera = newValue;
+			
+			if (window !== undefined)
+			{
+				const storage = window.localStorage;
+				storage.setItem(STORAGE_PREFERRED_CAMERA, newValue);
+			}
+		},
+		[DELETE_USER_SETTING_PREFERRED_BARCODE_CAMERA](state)
+		{
+			state.PreferredBarcodeCamera = null;
+
+			if (window !== undefined)
+			{
+				const storage = window.localStorage;
+				storage.removeItem(STORAGE_PREFERRED_CAMERA);
+			}
 		},
 		[UPDATE_USER_SETTING_NIGHTMODE](state, newValue: boolean)
 		{

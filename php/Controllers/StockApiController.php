@@ -456,16 +456,19 @@ class StockApiController extends BaseApiController
 		$ret= [];
 		foreach($products as $product)
 		{
-			$np = $this->getStockService()->cleanProduct($product);
+			$np = $this->getStockService()->CleanProduct($product);
 			$np->barcodes = [];
 			$np->qu_conversions = [];
-
+			
+			$bcid = 0;
 			foreach($barcodes as $barcode) 
 			{
-				$bc = $this->getStockService()->cleanBarcode($barcode);
+				$bc = $this->getStockService()->CleanBarcode($barcode);
 				if($bc->product_id == null || $bc->product_id == $np->id)
-					$np->barcodes[] = $bc;
+					$np->barcodes[$bcid++] = $bc;
 			}
+
+			$qucid = 0;
 			foreach($qu_conversions as $qu_conversion) 
 			{
 				$quConversion = $this->getStockService()->cleanQUConversion($qu_conversion);
@@ -476,13 +479,13 @@ class StockApiController extends BaseApiController
 					$quConversion->to_qu_id == $product->qu_id_purchase || 
 					$quConversion->to_qu_id == $product->qu_id_stock)
 				)
-					$np->qu_conversions[] = $quConversion;
+					$np->qu_conversions[$qucid++] = $quConversion;
 			}
 
 			$ret[] = $np;
 		}
 
-		$this->ApiResult($response, $ret);
+		return $this->ApiResponse($response, $ret);
 	}
 
 	public function InventoryProduct(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)

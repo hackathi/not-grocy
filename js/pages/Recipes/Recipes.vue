@@ -144,7 +144,7 @@ import { debounce } from 'lodash';
 
 import { useStore } from '../../store';
 import { defineComponent } from 'vue';
-import { QuantityUnit } from '../../store/interfaces';
+import { QuantityUnit } from '../../types/Stock';
 import { Recipe } from '../../types/Recipe';
 import ViewportSize from '../../lib/breakpoints';
 

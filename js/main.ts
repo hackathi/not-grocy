@@ -32,6 +32,7 @@ import Toast from 'primevue/toast';
 import ProgressSpinner from 'primevue/progressspinner';
 import Dropdown from 'primevue/dropdown';
 import Dialog from 'primevue/dialog';
+import { ENSURE_PRODUCTS_LOADED } from './store/actions';
 
 const app = createApp(App);
 const i18n = setupI18n();
@@ -78,6 +79,7 @@ if (FilterService.register !== undefined)
 api.System.GetConfig().then((config) =>
 {
 	store.commit(LOAD_CONFIG, config);
+	store.dispatch(ENSURE_PRODUCTS_LOADED);
 	const promises = [loadLocaleMessages(i18n, "en", store)];
 	let setLanguage = "en";
 	if (store.state.Settings !== undefined && store.state.Settings.Locale != "en")

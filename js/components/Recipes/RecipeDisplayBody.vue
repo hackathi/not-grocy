@@ -50,7 +50,7 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 
 import { defineComponent } from 'vue';
-import { QuantityUnit } from '../../store/interfaces';
+import { QuantityUnit } from '../../types/Stock';
 import { useStore } from '../../store';
 
 export default defineComponent({
