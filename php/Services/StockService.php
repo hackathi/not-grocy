@@ -17,6 +17,61 @@ class StockService extends BaseService
 	const TRANSACTION_TYPE_TRANSFER_FROM = 'transfer_from';
 	const TRANSACTION_TYPE_TRANSFER_TO = 'transfer_to';
 
+	public function CleanProduct($product)
+	{
+		$product = (object)$product; // php go brrrr
+		$product->id = (int)$product->id;
+		$product->product_group_id = $product->product_group_id != null ? (int)$product->product_group_id : null;
+		$product->active = (int)$product->active > 0;
+		$product->location_id = (int)$product->location_id;
+		$product->shopping_location_id = $product->shopping_location_id != null ? (int)$product->shopping_location_id : null;
+		$product->qu_id_purchase = (int)$product->qu_id_purchase;
+		$product->qu_id_stock = (int)$product->qu_id_stock;
+		$product->qu_factor_purchase_to_stock = (double)$product->qu_factor_purchase_to_stock;
+		$product->min_stock_amount = (double)$product->min_stock_amount;
+		$product->default_best_before_days = (int)$product->default_best_before_days;
+		$product->default_best_before_days_after_open = (int)$product->default_best_before_days_after_open;
+		$product->default_best_before_days_after_freezing = (int)$product->default_best_before_days_after_freezing;
+		$product->default_best_before_days_after_thawing = (int)$product->default_best_before_days_after_thawing;
+		$product->enable_tare_weight_handling = (int)$product->enable_tare_weight_handling > 0;
+		$product->tare_weight = (double)$product->tare_weight;
+		$product->not_check_stock_fulfillment_for_recipes = (int)$product->not_check_stock_fulfillment_for_recipes > 0;
+		$product->parent_product_id = $product->parent_product_id != null ? (int)$product->parent_product_id : null;
+		$product->calories = (double)$product->calories;
+		$product->cumulate_min_stock_amount_of_sub_products = (int)$product->cumulate_min_stock_amount_of_sub_products > 0;
+		$product->due_type = (int)$product->due_type;
+		$product->quick_consume_amount = (double)$product->quick_consume_amount;
+		$product->hide_on_stock_overview = (int)$product->hide_on_stock_overview > 0;
+		$product->default_print_stock_label = (int)$product->default_print_stock_label > 0;
+		$product->allow_label_per_unit = (int)$product->allow_label_per_unit;
+
+		return $product;
+	}
+
+	public function CleanBarcode($barcode)
+	{
+		$barcode = (object)$barcode;
+		$barcode->id = (int)$barcode->id;
+		$barcode->product_id = $barcode->product_id != null ? (int)$barcode->product_id : null;
+		$barcode->qu_id = $barcode->qu_id != null ? (int)$barcode->qu_id : null;
+		$barcode->amount = $barcode->amount != null ? (double)$barcode->amount : null;
+		$barcode->shopping_location_id = $barcode->shopping_location_id != null ? (int) $barcode->shopping_location_id : null;
+		$barcode->last_price = $barcode->last_price != null ? (double)$barcode->last_price : null;
+		return $barcode;
+	}
+
+	public function CleanQUConversion($conversion)
+	{
+		$conversion = (object)$conversion;
+		$conversion->id = (int)$conversion->id;
+		$conversion->from_qu_id = (int)$conversion->from_qu_id;
+		$conversion->to_qu_id = (int)$conversion->to_qu_id;
+		$conversion->factor = (double)$conversion->factor;
+		$conversion->product_id = $conversion->product_id != null ? (int)$conversion->product_id : null;
+
+		return $conversion;
+	}
+
 	public function AddMissingProductsToShoppingList($listId = 1)
 	{
 		if (!$this->ShoppingListExists($listId))

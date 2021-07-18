@@ -150,6 +150,8 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->get('/system/time', '\Grocy\Controllers\SystemApiController:GetSystemTime');
 	$group->get('/system/db-changed-time', '\Grocy\Controllers\SystemApiController:GetDbChangedTime');
 	$group->get('/system/config', '\Grocy\Controllers\SystemApiController:GetConfig');
+	$group->get('/system/config/grocy', '\Grocy\Controllers\SystemApiController:GetGrocyConfig');
+	$group->get('/system/config/units', '\Grocy\Controllers\SystemApiController:GetQuantitiyUnitConfig');
 	$group->post('/system/log-missing-localization', '\Grocy\Controllers\SystemApiController:LogMissingLocalization');
 
 	// Generic entity interaction
@@ -182,8 +184,12 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->put('/user/settings/{settingKey}', '\Grocy\Controllers\UsersApiController:SetUserSetting');
 	$group->delete('/user/settings/{settingKey}', '\Grocy\Controllers\UsersApiController:DeleteUserSetting');
 
+	// Products
+	$group->get('/stock/products', '\Grocy\Controllers\StockApiController:GetProducts');
+
 	// Stock
 	$group->get('/stock', '\Grocy\Controllers\StockApiController:CurrentStock');
+	$group->get('/stock/overview', '\Grocy\Controllers\StockApiController:StockOverview');
 	$group->get('/stock/entry/{entryId}', '\Grocy\Controllers\StockApiController:StockEntry');
 	$group->put('/stock/entry/{entryId}', '\Grocy\Controllers\StockApiController:EditStockEntry');
 	$group->get('/stock/volatile', '\Grocy\Controllers\StockApiController:CurrentVolatileStock');
@@ -220,6 +226,10 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 	$group->post('/stock/shoppinglist/remove-product', '\Grocy\Controllers\StockApiController:RemoveProductFromShoppingList');
 
 	// Recipes
+	$group->get('/recipes', '\Grocy\Controllers\RecipesApiController:GetAll');
+	$group->get('/recipes/{recipeId}/get', '\Grocy\Controllers\RecipesApiController:GetRecipe');
+	$group->put('/recipes/{recipeId}/edit', '\Grocy\Controllers\RecipesApiController:EditRecipe');
+
 	$group->post('/recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist', '\Grocy\Controllers\RecipesApiController:AddNotFulfilledProductsToShoppingList');
 	$group->get('/recipes/{recipeId}/fulfillment', '\Grocy\Controllers\RecipesApiController:GetRecipeFulfillment');
 	$group->post('/recipes/{recipeId}/consume', '\Grocy\Controllers\RecipesApiController:ConsumeRecipe');

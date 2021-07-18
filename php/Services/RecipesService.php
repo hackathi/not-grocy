@@ -70,6 +70,42 @@ class RecipesService extends BaseService
 		}
 	}
 
+	public function Clean($recipe) 
+	{
+		$recipe = (object)$recipe;
+		$recipe->id = (int)$recipe->id;
+		$recipe->base_servings = (int)$recipe->base_servings;
+		$recipe->desired_servings = (int)$recipe->desired_servings;
+		$recipe->not_check_shoppinglist = (int)$recipe->not_check_shoppinglist > 0;
+		$recipe->product_id = $recipe->product_id != null ? (int)$recipe->product_id : null;
+
+		return $recipe;
+ 	}
+
+	public function CleanIngredient($ingredient)
+	{
+		$ingredient = (object)$ingredient;
+		$ingredient->recipe_id = (int)$ingredient->recipe_id;
+		$ingredient->recipe_pos_id = (int)$ingredient->recipe_pos_id;
+		$ingredient->product_id = (int)$ingredient->product_id;
+		$ingredient->recipe_amount = (double)$ingredient->recipe_amount;
+		$ingredient->stock_amount = (double)$ingredient->stock_amount;
+		$ingredient->missing_amount = (double)$ingredient->missing_amount;
+		$ingredient->amount_on_shoppinglist = (double)$ingredient->amount_on_shoppinglist;
+		$ingredient->qu_id = (int)$ingredient->qu_id;
+		$ingredient->costs = (double)$ingredient->costs; // more rounding errors woohooo!
+		$ingredient->is_nested_recipe_pos = (int)$ingredient->is_nested_recipe_pos > 0;
+		$ingredient->id = (int)$ingredient->id;
+		$ingredient->child_recipe_id = (int)$ingredient->child_recipe_id;
+		$ingredient->only_check_single_unit_in_stock = (int)$ingredient->only_check_single_unit_in_stock > 0;
+		$ingredient->calories = (double)$ingredient->calories;
+		$ingredient->product_active = (int)$ingredient->product_active > 0;
+		$ingredient->need_fulfilled = (int)$ingredient->need_fulfilled > 0;
+		$ingredient->need_fulfilled_with_shopping_list = (int)$ingredient->need_fulfilled_with_shopping_list > 0;
+
+		return $ingredient;
+	}
+
 	public function GetRecipesPosResolved()
 	{
 		$sql = 'SELECT * FROM recipes_pos_resolved';

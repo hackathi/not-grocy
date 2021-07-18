@@ -10,4 +10,12 @@
 	"php-cs-fixer.formatHtml": true,
 	"php-cs-fixer.autoFixBySemicolon": true,
 	"php-cs-fixer.onsave": true,
+	"eslint.validate": [
+		"javascript",
+		"typescript",
+		"vue"
+	],
+	"eslint.options": {
+		"useEslintrc": true,
+	}
 }

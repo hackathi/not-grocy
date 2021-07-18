@@ -1,6 +1,7 @@
 <?php
-
 namespace Grocy\Controllers;
+
+use Grocy\Controllers\Users\User;
 
 class SystemApiController extends BaseApiController
 {
@@ -29,6 +30,73 @@ class SystemApiController extends BaseApiController
 		{
 			return $this->GenericErrorResponse($response, $ex->getMessage());
 		}
+	}
+
+	public function GetGrocyConfig(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args) 
+	{
+		// locales
+		$ls = $this->getLocalizationService();
+
+		// featureflags
+		$flags = get_defined_constants();
+		foreach ($flags as $constant => $value)
+		{
+			if (substr($constant, 0, 19) !== 'GROCY_FEATURE_FLAG_')
+			{
+				unset($flags[$constant]);
+			}
+		}
+
+		$GrocyConfig = [
+			"Culture" => GROCY_LOCALE,
+			"Currency" => GROCY_CURRENCY,
+			"CalendarFirstDayOfWeek" => GROCY_CALENDAR_FIRST_DAY_OF_WEEK,
+			"CalendarShowWeekNumbers" => GROCY_CALENDAR_SHOW_WEEK_OF_YEAR,
+			"MealPlanFirstDayOfWeek" => GROCY_MEAL_PLAN_FIRST_DAY_OF_WEEK,
+			"Locale" => $ls->Culture,
+			"FeatureFlags" => $flags,
+
+			"Webhooks" => [],
+			"User" => [
+				"Settings" => [],
+				"Id" => -1,
+				"Permissions" => []
+			]
+		];
+
+		if(GROCY_FEATURE_FLAG_LABELPRINTER && !GROCY_LABEL_PRINTER_RUN_SERVER) {
+			$GrocyConfig["Webhooks"] = array_merge($GrocyConfig["Webhooks"], [
+				"labelprinter" => [
+					"hook" => GROCY_LABEL_PRINTER_WEBHOOK,
+					"extra_data" => GROCY_LABEL_PRINTER_PARAMS
+				]
+				]);
+		}
+		if(GROCY_AUTHENTICATED) {
+			$user = $this->getSessionService()->GetDefaultUser();
+			$GrocyConfig["User"]["Settings"] = array_merge($GrocyConfig["User"]["Settings"], $this->getUsersService()->GetUserSettings($user->id));
+			$perms = User::PermissionList();
+			foreach($perms as $value)
+				$GrocyConfig["User"]["Permissions"][$value->permission_name] = $value->has_permission;
+
+			
+			$GrocyConfig["User"]["Id"] = $user->id;
+
+			$GrocyConfig["User"] = array_merge($GrocyConfig["User"], [
+				"Username" => $user->username,
+				"PictureFileName" => $user->picture_file_name,
+			]);
+		}
+		return $this->ApiResponse($response, $GrocyConfig);
+	}
+
+	public function GetQuantitiyUnitConfig(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
+	{
+		// this probably doesn't align too well with vuex? but we'll see.
+		return $this->ApiResponse($response, [
+			'QuantityUnits' => $this->getDatabase()->quantity_units()->orderBy('name', 'COLLATE NOCASE'),
+			'QuantityUnitConversionsResolved' => $this->getDatabase()->quantity_unit_conversions_resolved()
+		]);
 	}
 
 	public function GetDbChangedTime(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)

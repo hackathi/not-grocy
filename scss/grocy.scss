@@ -1,14 +1,50 @@
 ﻿// This is the main not-grocy stylesheet.
 // Please do not place any CSS directly in here but import from other files.
 
-// import custom variables
+@import 'primeflex/src/_variables.scss';
+@import 'primeflex/src/_grid.scss';
+@import 'primeflex/src/_formlayout.scss';
+@import 'primeflex/src/_display.scss';
+@import 'primeflex/src/_text.scss';
+@import 'primeflex/src/flexbox/_flexbox.scss';
+@import 'primeflex/src/_spacing.scss';
+@import 'primeflex/src/_elevation.scss';
+
 @import "variables";
 
-// import bootstrap (as a whole)
-@import "bootstrap/scss/bootstrap";
-// startbootstrap
-@import "startbootstrap-sb-admin/scss/sb-admin";
+.use-bootstrap {
+	// import custom variables
+	// import bootstrap (as a whole)
+	@import "bootstrap/scss/bootstrap";
 
+	@import "customizations/bootstrap";
+	@import "customizations/sbadmin2";
+
+	// bootstrap-combobox
+	@import "@danielfarrell/bootstrap-combobox/css/bootstrap-combobox.css";
+	@import "customizations/bs-combobox";
+
+	// bootstrap-datatables
+	@import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+	@import "datatables.net-colreorder-bs4/css/colReorder.bootstrap4.css";
+	@import "datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.css";
+	@import "datatables.net-select-bs4/css/select.bootstrap4.css";
+	@import "customizations/datatables";
+
+	// bootstrap-select
+	@import "bootstrap-select/sass/bootstrap-select";
+
+	// tempusdominus
+	@import "tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
+	@import "customizations/tempusdominus";
+
+	// summernote
+	@import "summernote/src/styles/summernote-bs4";
+
+	// TODO: does it need to be at the end?
+	@import "night-mode";
+
+}
 // main grocy-style
 @import "main";
 @import "barcodes";
@@ -19,34 +55,10 @@
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "customizations/fontawesome";
 
-
-@import "customizations/bootstrap";
-@import "customizations/sbadmin2";
-
-// bootstrap-combobox
-@import "@danielfarrell/bootstrap-combobox/css/bootstrap-combobox.css";
-@import "customizations/bs-combobox";
-
-// bootstrap-datatables
-@import "datatables.net-bs4/css/dataTables.bootstrap4.css";
-@import "datatables.net-colreorder-bs4/css/colReorder.bootstrap4.css";
-@import "datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.css";
-@import "datatables.net-select-bs4/css/select.bootstrap4.css";
-@import "customizations/datatables";
-
-// bootstrap-select
-@import "bootstrap-select/sass/bootstrap-select";
-
 // toastr
 @import "toastr/toastr";
 @import "customizations/toastr";
 
-// tempusdominus
-@import "tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
-@import "customizations/tempusdominus";
-
-// summernote
-@import "summernote/src/styles/summernote-bs4";
 
 // popper.js
 @import "customizations/popperjs";
@@ -60,5 +72,16 @@
 
 // end third-party
 
-// TODO: does it need to be at the end?
-@import "night-mode";
+// now comes the fun part, because whatever is set above, primeVue will now override.
+.theme-day {
+	@import 'sigma/day';    // this will be the day theme.
+}
+.theme-night {
+	@import 'sigma/night';    // this will be the night theme.
+}
+
+@import 'primevue/resources/primevue.css';                  // core css
+@import 'primeicons/primeicons.css';                        // icons
+
+@import './sigma/layout.scss';
+@import 'primeicons/primeicons.css';

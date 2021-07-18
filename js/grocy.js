@@ -1,26 +1,27 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 // todo: axe some stuff from here for better tree-shaking. also brr, side effects.
-import './vendor';
-import { GrocyApi } from './lib/api';
-import { RefreshContextualTimeago } from './configs/timeago';
-import { setDatatableDefaults } from './configs/datatable';
-import { GrocyFrontendHelpers } from './helpers/frontend';
-import { setInitialGlobalState } from './configs/globalstate';
-import { WakeLock } from './lib/WakeLock';
-import { UISound } from './lib/UISound';
-import { Nightmode } from './lib/nightmode';
-import { HeaderClock } from './helpers/clock';
-import { BoolVal } from './helpers/extensions';
+import './legacy/vendor';
+import { GrocyApi } from './legacy/lib/api';
+import { RefreshContextualTimeago } from './legacy/configs/timeago';
+import { setDatatableDefaults } from './legacy/configs/datatable';
+import { GrocyFrontendHelpers } from './legacy/helpers/frontend';
+import { setInitialGlobalState } from './legacy/configs/globalstate';
+import { WakeLock } from './legacy/lib/WakeLock';
+import { UISound } from './legacy/lib/UISound';
+import { Nightmode } from './legacy/lib/nightmode';
+import { HeaderClock } from './legacy/helpers/clock';
+import { BoolVal } from './legacy/helpers/extensions';
 import Translator from 'gettext-translator';
 import { register as timeagoRegisterLang } from 'timeago.js';
 import * as timeagoLangs from 'timeago.js/lib/lang';
-import { WindowMessageBag } from './helpers/messagebag';
-import * as components from './components';
+import { WindowMessageBag } from './legacy/helpers/messagebag';
+import * as components from './legacy/components';
 import * as uuid from 'uuid';
-import * as views from './viewjs';
-import { GrocyProxy } from './lib/proxy'; //import { $ } from 'jquery';
+import * as views from './legacy/viewjs';
+import { GrocyProxy } from './legacy/lib/proxy'; //import { $ } from 'jquery';
 
 import moment from 'moment';
-import './helpers/string';
+import './legacy/helpers/string';
 
 class GrocyClass 
 {

@@ -329,6 +329,16 @@ class StockApiController extends BaseApiController
 		return $this->ApiResponse($response, $this->getStockService()->GetCurrentStock());
 	}
 
+	public function StockOverview(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
+	{
+		$usersService = $this->getUsersService();
+
+		return $this->ApiResponse($response, [
+			'currentStock' => $this->getStockService()->GetCurrentStockOverview(),
+			'currentStockLocations' => $this->getStockService()->GetCurrentStockLocations(),
+		]);
+	}
+
 	public function CurrentVolatileStock(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
 	{
 		$nextXDays = 5;
@@ -425,6 +435,57 @@ class StockApiController extends BaseApiController
 		{
 			return $this->GenericErrorResponse($response, $ex->getMessage());
 		}
+	}
+
+	public function GetProducts(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)
+	{
+		if (isset($request->getQueryParams()['include_disabled']))
+		{
+			$products = $this->getDatabase()->products()->orderBy('name', 'COLLATE NOCASE');
+		}
+		else
+		{
+			$products = $this->getDatabase()->products()->where('active = 1')->orderBy('name', 'COLLATE NOCASE');
+		}
+
+		// THIS SHOULD BE A JOIN.
+		// I LITERALLY CANNOT EVEN.
+		$barcodes = $this->getDatabase()->product_barcodes()->orderBy('barcode');
+		$qu_conversions = $this->getDatabase()->quantity_unit_conversions();
+
+		$ret= [];
+		foreach($products as $product)
+		{
+			$np = $this->getStockService()->CleanProduct($product);
+			$np->barcodes = [];
+			$np->qu_conversions = [];
+			
+			$bcid = 0;
+			foreach($barcodes as $barcode) 
+			{
+				$bc = $this->getStockService()->CleanBarcode($barcode);
+				if($bc->product_id == null || $bc->product_id == $np->id)
+					$np->barcodes[$bcid++] = $bc;
+			}
+
+			$qucid = 0;
+			foreach($qu_conversions as $qu_conversion) 
+			{
+				$quConversion = $this->getStockService()->cleanQUConversion($qu_conversion);
+				if($quConversion->product_id == $product->id || 
+				$quConversion->product_id == null && (
+					$quConversion->from_qu_id == $product->qu_id_purchase || 
+					$quConversion->from_qu_id == $product->qu_id_stock || 
+					$quConversion->to_qu_id == $product->qu_id_purchase || 
+					$quConversion->to_qu_id == $product->qu_id_stock)
+				)
+					$np->qu_conversions[$qucid++] = $quConversion;
+			}
+
+			$ret[] = $np;
+		}
+
+		return $this->ApiResponse($response, $ret);
 	}
 
 	public function InventoryProduct(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args)

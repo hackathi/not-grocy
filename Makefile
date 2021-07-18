@@ -43,6 +43,8 @@ YARN=yarn
 PHP=php
 COMPOSER=composer
 POSTCSS=npx postcss
+I18NEXTRACT=yarn run vue-i18n-extract
+LOCALEMAKE=php buildfiles/make-locales.php
 
 # Configure some default flags for the tooling. Set include paths.
 SASSFLAGS=-I node_modules/ --color --quiet-deps
@@ -57,8 +59,12 @@ SASS_INPUT=scss/grocy.scss
 SASS_OUTPUT=public/dist/grocy.css
 UGLIFY_INPUT=public/dist/grocy.js
 UGLIFY_OUTPUT=public/dist/grocy.min.js
-OBJDIRS := public/dist public/js public/css public/js/locales
+OBJDIRS := public/dist public/js public/css public/js/locales public/locale
 TMPSASS=public/dist/grocy.tmp.css
+ARTSOURCES := $(wildcard artwork/*.svg)
+ARTOBJS := $(addprefix public/img/, $(notdir $(ARTSOURCES)))
+LANGS := $(wildcard locale/*.json)
+LANGOBJS := $(addprefix public/locale/, $(notdir $(LANGS)))
 
 .DEFAULT_GOAL := build
 # disable default suffixes
@@ -78,7 +84,7 @@ help:
 
 # Install all dependencies, then build the public/ folder.
 .PHONY=build
-build: vendor js css public/js/locales/grocy/en.json resources
+build: vendor js css $(LANGOBJS) public/js/locales/grocy/en.json resources
 
 .PHONY=minify
 minify: build
@@ -123,7 +129,8 @@ watch:
 	touch ${TMPSASS}
 	${SASS} ${SASSFLAGS} --watch ${SASS_INPUT} ${TMPSASS} & \
 	${POSTCSS} ${TMPSASS} --config . -o ${SASS_OUTPUT} --watch & \
-	${ROLLUP} --watch --no-watch.clearScreen --config ${RFLAGS} & \
+	${ROLLUP} --watch --no-watch.clearScreen --config rollup.config.js ${RFLAGS} & \
+	${ROLLUP} --watch --no-watch.clearScreen --config rollup.vue.js ${RFLAGS} & \
 	${PHP} ${RUNFLAGS} & \
 	trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT & \
 	wait
@@ -137,9 +144,26 @@ js: yarn.lock | $(OBJDIRS)
 
 # build and bundle SASS files.
 .PHONY=css
-css: yarn.lock | $(OBJDIRS)
+css: scss/sigma/_day.scss scss/sigma/_night.scss yarn.lock | $(OBJDIRS)
 	${SASS} ${SASSFLAGS} ${SASS_INPUT} ${SASS_OUTPUT}
 	${POSTCSS} --config . ${SASS_OUTPUT} -r
+
+# Both themes need to be wrapped for now (makes changing easier...)
+# CSS is perfectly fine SCSS with a different file ending.
+# So copy files, and .gitignore them, so that scoped @use works.
+scss/sigma/_day.scss: node_modules/primevue/resources/themes/saga-green/theme.css
+	cp node_modules/primevue/resources/themes/saga-green/theme.css scss/sigma/_day.scss
+
+scss/sigma/_night.scss: node_modules/primevue/resources/themes/arya-green/theme.css
+	cp node_modules/primevue/resources/themes/arya-green/theme.css scss/sigma/_night.scss
+
+node_modules/primevue/resources/themes/saga-green/theme.css: yarn.lock
+
+node_modules/primevue/resources/themes/arya-green/theme.css: yarn.lock
+
+.PHONY=frontend
+frontend:
+	${ROLLUP} --config rollup.vue.js ${RFLAGS}
 
 
 # To bundle all resources, there are a few prerequisites:
@@ -149,8 +173,9 @@ css: yarn.lock | $(OBJDIRS)
 #
 # The resources target depends on all i18n copy targets
 # defined below, which do the actual magic.
+# TODO: better dependency expression.
 .PHONY=resources
-resources: public/webfonts public/dist/font public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js
+resources: public/webfonts public/dist/font public/dist/fonts public/js/locales/summernote public/js/locales/bootstrap-select public/js/locales/fullcalendar public/js/locales/fullcalendar-core public/js/swagger-ui.js $(ARTOBJS) $(LANGOBJS)
 
 public/dist:
 	mkdir -p public/dist
@@ -160,12 +185,17 @@ public/css:
 	mkdir -p public/css
 public/js/locales:
 	mkdir -p public/js/locales
+public/locale:
+	mkdir -p public/locale
 
 public/webfonts: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/@fortawesome/fontawesome-free/webfonts public/webfonts
 
 public/dist/font: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/font public/dist/font
+
+public/dist/fonts: | yarn.lock $(OBJDIRS)
+	cp -r node_modules/primeicons/fonts public/dist/fonts
 
 public/js/locales/summernote: | yarn.lock $(OBJDIRS)
 	cp -r node_modules/summernote/dist/lang public/js/locales/summernote
@@ -183,6 +213,12 @@ public/js/swagger-ui.js: node_modules/swagger-ui-dist/swagger-ui.js | yarn.lock 
 	cp -r node_modules/swagger-ui-dist/*.js node_modules/swagger-ui-dist/*.js.map public/js
 	cp -r node_modules/swagger-ui-dist/*.css node_modules/swagger-ui-dist/*.css.map public/css
 
+public/img/%.svg: artwork/%.svg
+	cp $< $@
+
+public/locale/%.json: locale/%.json | $(OBJDIRS)
+	$(LOCALEMAKE) $< $@
+
 node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 
 # This doesn't just generate en.json, but all locale files.
@@ -192,6 +228,10 @@ node_modules/swagger-ui-dist/swagger-ui.js: yarn.lock
 # This is not ideal, but works for now.
 public/js/locales/grocy/en.json: vendor localization/strings.pot | $(OBJDIRS)
 	${PHP} buildfiles/generate-locales.php
+
+.PHONY=extract
+extract:
+	${I18NEXTRACT} report -v './js/**/*.?(js|vue|ts)' --languageFiles './locale/*.json' -a
 
 .PHONY=run
 run: build
@@ -240,6 +280,7 @@ clean:
 	-rm -rf public/js
 	-rm -rf public/css
 	-rm -rf public/js/locales
+	-rm -rf public/locale
 	-rm -rf release/
 	-rm -rf vendor/
 	-rm -rf node_modules

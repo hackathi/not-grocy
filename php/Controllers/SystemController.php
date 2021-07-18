@@ -4,6 +4,7 @@ namespace Grocy\Controllers;
 
 use Grocy\Services\DatabaseMigrationService;
 use Grocy\Services\DemoDataGeneratorService;
+use Grocy\Services\SessionService;
 
 class SystemController extends BaseController
 {
@@ -32,7 +33,19 @@ class SystemController extends BaseController
 			$demoDataGeneratorService->PopulateDemoData();
 		}
 
-		return $response->withRedirect($this->AppContainer->get('UrlManager')->ConstructUrl($this->GetEntryPageRelative()));
+		if (GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease' || GROCY_IS_EMBEDDED_INSTALL || GROCY_DISABLE_AUTH)
+		{
+			$sessionService = SessionService::getInstance();
+			$user = $sessionService->GetDefaultUser();
+
+			define('GROCY_AUTHENTICATED', true);
+			define('GROCY_USER_USERNAME', $user->username);
+			define('GROCY_USER_PICTURE_FILE_NAME', $user->picture_file_name);
+		}
+
+		// yolo, this is a SPA now.
+		return $this->render($request, $response, 'vue');
+		//return $response->withRedirect($this->AppContainer->get('UrlManager')->ConstructUrl($this->GetEntryPageRelative()));
 	}
 
 	public function __construct(\DI\Container $container)
